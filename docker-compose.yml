@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - docker.env
+    volumes:
+      - ./data/mongo:/etc/mongo
+      - ./data/mongodata:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks: 
+      - mongo
+    
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    env_file:
+      - docker.env
+    networks: 
+      - mongo
+    
+
+  tutlid-api:
+    image: tutlid-api
+    build:
+        context: ./server
+    links:
+     - mongo:mongo
+    ports:
+      - 8000:8000
+      - 9229:9229
+    env_file:
+      - docker.env
+    environment:
+      - PORT=8000
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    networks:
+     - mongo
+  client:
+    image: tutlid-react-app
+    build: 
+      context: ./client
+    command: sh -c "chokidar_usepolling=1 yarn start"
+    links:
+      - mongo:mongo
+    #  - tutlid-api # to enable proxy
+    ports:
+      - 3000:3000
+    networks: 
+      - mongo
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+
+networks:
+  mongo:
+    driver: bridge
