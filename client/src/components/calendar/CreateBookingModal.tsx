@@ -14,9 +14,9 @@ type CreateBookingModalProps = {
 }
 export function CreateBookingModal({ onClose }: CreateBookingModalProps) {
     const classes = useStyles();
-    
+
     return (<Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={true}>
         <DialogTitle id="create-booking">Create booking</DialogTitle>
-        <CreateBooking />
+        <CreateBooking onComplete={onClose} />
     </Dialog>);
 }
