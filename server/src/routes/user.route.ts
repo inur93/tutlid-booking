@@ -17,7 +17,7 @@ export default class UserRoute implements IRoute {
     }
 
     private initializeRoutes() {
-        this.router.all(`${this.path}/self`, authMiddleware([UserRole.basic]))
+        this.router.all(`${this.path}/self`, authMiddleware([UserRole.read]))
             .get(`${this.path}/self`, this.self)
             .put(`${this.path}/self`, validationMiddleware(UpdateSelfDto),  this.updateSelf);
     }

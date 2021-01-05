@@ -3,17 +3,22 @@ import { useEffect, useState } from 'react';
 import api, { Booking } from '../api';
 
 type Range = { start: Date, end: Date };
-type UseBookingsType = [Booking[], (range: Range) => void]
+type UseBookingsType = [Booking[], (range: Range) => void, string]
 
 export function useBookings(): UseBookingsType {
     const [start, setStart] = useState(startOfMonth(new Date()));
     const [end, setEnd] = useState(endOfMonth(new Date()));
     const [bookings, setBookings] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const load = async () => {
-            const response = await api.BookingApi.getBookings(start, end)
-            setBookings(response.body);
+            try {
+                const response = await api.BookingApi.getBookings(start, end)
+                setBookings(response.body);
+            } catch (e) {
+                setError(e.message);
+            }
         };
         load();
     }, [start, end]);
@@ -22,5 +27,5 @@ export function useBookings(): UseBookingsType {
         setStart(range.start);
         setEnd(range.end);
     }
-    return [bookings, setRange];
+    return [bookings, setRange, error];
 }

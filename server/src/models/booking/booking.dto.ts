@@ -1,4 +1,4 @@
-import { IsDate, IsDateString, IsPositive, IsString } from 'class-validator';
+import { IsDateString, IsInt, IsString, Min } from 'class-validator';
 import { BookingStatus } from './booking.entity';
 export class CreateBookingDto {
     @IsDateString()
@@ -7,10 +7,12 @@ export class CreateBookingDto {
     @IsDateString()
     public to: Date;
 
-    @IsPositive()
+    @IsInt()
+    @Min(0)
     public pplCount: number;
 
-    @IsPositive()
+    @IsInt()
+    @Min(0)
     public tubCount: number;
 
     @IsString()

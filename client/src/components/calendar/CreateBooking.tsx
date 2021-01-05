@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, createStyles, FormGroup, Grid, makeStyles, TextField, Theme } from '@material-ui/core';
 import { useState } from 'react';
 import api, { CreateBooking as Booking } from '../../api';
-import { getFormdataById } from '../../utils/formFunctions';
+import { getFormdataById, formatDate, str2isoDate } from '../../utils/formFunctions';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import { startOfToday } from 'date-fns';
@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             '& .MuiTextField-root': {
-                margin: theme.spacing(1)
+                marginBottom: theme.spacing(1)
             }
         },
         form: {
@@ -22,8 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-type CreateBookingProps = {
-    onComplete?: () => void
+export type CreateBookingProps = {
+    onComplete?: () => void,
+    from?: Date,
+    to?: Date
 }
 
 let schema = yup.object().shape({
@@ -55,12 +57,15 @@ let schema = yup.object().shape({
         .notRequired()
         .default('')
 })
-export function CreateBooking({ onComplete }: CreateBookingProps) {
+export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
     const classes = useStyles();
     const handleCreate = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
-        const data = getFormdataById<Booking>('create-booking-form');
+
         try {
-            await api.BookingApi.create(data);
+            debugger;
+            values.from = str2isoDate(values.from);
+            values.to = str2isoDate(values.to);
+            await api.BookingApi.create(values);
         } catch (e) {
 
         }
@@ -72,8 +77,8 @@ export function CreateBooking({ onComplete }: CreateBookingProps) {
         <CardContent className={classes.content}>
             <Formik
                 initialValues={{
-                    from: new Date(),
-                    to: new Date(),
+                    from: formatDate(from || new Date()),
+                    to: formatDate(to || new Date()),
                     pplCount: 0,
                     tubCount: 0,
                     comment: ""
@@ -136,7 +141,7 @@ export function CreateBooking({ onComplete }: CreateBookingProps) {
                                 rows={5}
                                 error={Boolean(errors.comment)}
                                 onChange={handleChange}
-                                value={pplCount}
+                                value={comment}
                                 helperText={errors.comment ? errors.comment : ''} />
                         </FormGroup>
                         <FormGroup>

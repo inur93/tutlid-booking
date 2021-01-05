@@ -1,16 +1,17 @@
-import { Button, Card, CardContent, CardMedia, createStyles, FormGroup, FormHelperText, makeStyles, TextField, Theme, Typography } from "@material-ui/core";
-import { useState } from "react";
-import { LoginData } from "../../api";
+import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from "@material-ui/core";
+import { Alert } from '@material-ui/lab';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { Link } from "react-router-dom";
+import * as yup from 'yup';
 import { useAuthUser } from "../../hooks/useAuthUser";
-import { getFormdataById } from "../../utils/formFunctions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             display: 'flex',
             minHeight: '20rem',
-            '& .MuiTextField-root': {
-                margin: theme.spacing(1)
+            '& .MuiTextField-root,& .MuiButtonBase-root': {
+                marginBottom: theme.spacing(2)
             }
         },
         form: {
@@ -30,29 +31,63 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+let schema = yup.object().shape({
+    email: yup
+        .string()
+        .email()
+        .required(),
+    password: yup
+        .string()
+        .required()
+})
+
 export function Login() {
     const classes = useStyles();
-    const [isLoading, setLoading] = useState(false);
-    const [, login] = useAuthUser();
+    const [, login, error] = useAuthUser();
 
-    const handleLogin = (e: React.FormEvent) => {
-        const data = getFormdataById<LoginData>('login-form');
-        e.preventDefault();
-        login(data);
+    const handleLogin = async (values: any, helpers: FormikHelpers<any>) => {
+        await login(values);
+        helpers.setSubmitting(false);
     }
     return (<Card className={classes.root}>
         <CardContent className={classes.content}>
-            <form id='login-form' className={classes.form} onSubmit={handleLogin}>
-                <FormGroup>
-                    <TextField type="email" name="email" label='Email' placeholder="Email" variant='outlined' required />
-                    <TextField type="password" name="password" label='Kodeord' placeholder="Kodeord" variant='outlined' required />
-                </FormGroup>
-                <FormGroup>
-                    <Button variant='contained' color='primary' type='submit' disabled={isLoading}>
-                        Login
+            <Formik initialValues={{
+                email: '',
+                password: ''
+            }}
+                validationSchema={schema}
+                onSubmit={handleLogin}>
+                {({ isSubmitting, errors, touched, handleChange, values: { email, password } }) => (
+                    <Form>
+                        <FormGroup>
+                            <TextField type="email"
+                                name="email"
+                                label='Email'
+                                placeholder="Email"
+                                variant='outlined'
+                                value={email}
+                                onChange={handleChange} />
+
+                            <TextField type="password"
+                                name="password"
+                                label='Kodeord'
+                                placeholder="Kodeord"
+                                variant='outlined'
+                                value={password}
+                                onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
+                                Login
                         </Button>
-                </FormGroup>
-            </form>
+                            <Button component={Link} to='/register' variant='outlined' color='secondary'>
+                                Register
+                            </Button>
+                                {error && <Alert severity='error'>{error}</Alert>}
+                        </FormGroup>
+                    </Form>)
+                }
+            </Formik>
         </CardContent>
     </Card>)
 }

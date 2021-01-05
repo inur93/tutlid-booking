@@ -19,10 +19,10 @@ const localizer = dateFnsLocalizer({
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            height: '100vh'
+            height: '100%'
         },
         invalidDate: {
-            backgroundColor: 'red'
+            background: `repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #DDD 10px, #DDD 20px)`
         },
         event: {
             backgroundColor: '#1ece44'

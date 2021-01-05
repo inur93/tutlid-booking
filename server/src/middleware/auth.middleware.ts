@@ -7,21 +7,22 @@ import DataStoredInToken from '../interfaces/dataStoredInToken.interface';
 import RequestWithUser from '../interfaces/requestWithUser.interface';
 import { User, UserModel, UserRole } from '../models/user/user.entity';
 
-function authMiddleware(requiredRoles?: UserRole[]) {
+function authMiddleware(requiredRoles: UserRole[] = []) {
     return async function (request: RequestWithUser, response: Response, next: NextFunction) {
         const cookies = request.cookies;
         console.log('cookies', cookies);
         if (cookies && cookies.Authorization) {
             const secret = process.env.JWT_SECRET;
             try {
-                console.log('auth', secret, cookies.Authorization);
+                console.log('auth', requiredRoles, secret, cookies.Authorization);
                 const verificationResponse = jwt.verify(cookies.Authorization, secret) as DataStoredInToken;
                 console.log('response', verificationResponse);
                 const id = verificationResponse.id;
                 const user = await UserModel.findOne({ _id: id }).exec();
+                console.log('user', user);
+
                 if (user) {
-                    if (requiredRoles?.length
-                        && requiredRoles.find(x => !(user.roles || []).includes(x))) {
+                    if (null != requiredRoles.find(x => !(user.roles || []).includes(x))) {
                         next(new MissingPermissionsException());
                     } else {
                         request.user = user;

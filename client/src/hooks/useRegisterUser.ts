@@ -1,26 +1,27 @@
 import { useCallback, useContext, useState } from "react";
-import api, { LoginData, User } from "../api";
+import api, { User } from "../api";
+import { RegisterData } from '../api/index';
 import UserContext from "../contexts/UserContext";
 
 
-type UseAuthUserType = [
+type UseRegisterUserType = [
     User | undefined,
-    (info: LoginData) => Promise<void>,
+    (info: RegisterData) => Promise<void>,
     string | undefined //error
 ]
-export function useAuthUser(): UseAuthUserType {
+export function useRegisterUser(): UseRegisterUserType {
     const [user, setUser] = useContext(UserContext);
     const [error, setError] = useState('');
 
-    const login = useCallback(async function login(loginInfo: LoginData) {
+    const register = useCallback(async function login(userData: RegisterData) {
         try {
             setError('');
-            const response = await api.AuthApi.login(loginInfo);
+            const response = await api.AuthApi.register(userData);
             setUser(response.body);
         } catch (e) {
             setError(e.message);
         }
     }, [user]);
 
-    return [user, login, error];
+    return [user, register, error];
 }

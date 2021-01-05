@@ -16,8 +16,18 @@ export type LoginData = {
     password: string
 }
 
+export type RegisterData = LoginData & {
+    fullName: string
+}
+
+export enum Role  {
+    read, basic, admin
+}
 export type User = {
     _id: string,
+    approvedByAdmin: boolean,
+    email: string,
+    roles: Role[],
     fullName: string
 }
 
