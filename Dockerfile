@@ -15,7 +15,7 @@ FROM node:14.9.0-alpine as server
 WORKDIR /server
 
 COPY ./server/package.json ./
-COPY ./server/yarn.lock ./
+#COPY ./server/yarn.lock ./
 RUN yarn install
 
 COPY ./server .
@@ -31,13 +31,16 @@ WORKDIR /home/node
 
 # Copy package.json and package-lock.json
 COPY ./server/package.json ./
-COPY ./server/yarn.lock ./
+#COPY ./server/yarn.lock ./
 
 # Switch to user node
 USER node
 
 # Install libraries as user node. If NODE_ENV=production dev_dependencies will not be installed.
 RUN yarn install
+
+# Update the system
+RUN apk --no-cache -U upgrade
 
 # Copy js files and change ownership to user node
 COPY --chown=node:node --from=server /server/build ./server
