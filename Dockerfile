@@ -3,7 +3,7 @@ FROM node:14.9.0-alpine as client
 WORKDIR /client
 
 COPY ./client/package.json ./
-COPY ./client/yarn.lock ./
+#COPY ./client/yarn.lock ./
 RUN yarn install
 
 COPY ./client .
