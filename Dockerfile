@@ -40,7 +40,7 @@ USER node
 RUN yarn install
 
 # Update the system
-RUN apk --no-cache -U upgrade
+#RUN apk --no-cache -U upgrade
 
 # Copy js files and change ownership to user node
 COPY --chown=node:node --from=server /server/build ./server
