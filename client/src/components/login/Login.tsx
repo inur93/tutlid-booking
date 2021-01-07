@@ -41,13 +41,17 @@ let schema = yup.object().shape({
         .required()
 })
 
-export function Login() {
+type LoginProps = {
+    onComplete?: () => void
+}
+export function Login({ onComplete }: LoginProps) {
     const classes = useStyles();
-    const [, login, error] = useAuthUser();
+    const [, { login }, error] = useAuthUser();
 
     const handleLogin = async (values: any, helpers: FormikHelpers<any>) => {
-        await login(values);
+        const success = await login(values);
         helpers.setSubmitting(false);
+        if (success && onComplete) onComplete();
     }
     return (<Card className={classes.root}>
         <CardContent className={classes.content}>
@@ -83,7 +87,7 @@ export function Login() {
                             <Button component={Link} to='/register' variant='outlined' color='secondary'>
                                 Register
                             </Button>
-                                {error && <Alert severity='error'>{error}</Alert>}
+                            {error && <Alert severity='error'>{error}</Alert>}
                         </FormGroup>
                     </Form>)
                 }

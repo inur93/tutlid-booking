@@ -19,8 +19,12 @@ export type LoginData = {
 export type RegisterData = LoginData & {
     fullName: string
 }
-
-export enum Role  {
+export enum BookingStatus {
+    reserved = "reserved",
+    accepted = "accepted",
+    declined = "declined"
+}
+export enum Role {
     read, basic, admin
 }
 export type User = {
@@ -37,6 +41,16 @@ export type CreateBooking = {
     from: Date,
     to: Date,
     comment: string
+}
+
+export type UpdateBooking = {
+    _id: string,
+    pplCount: number,
+    tubCount: number,
+    from: Date,
+    to: Date,
+    comment: string,
+    status: BookingStatus
 }
 
 

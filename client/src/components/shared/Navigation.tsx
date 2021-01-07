@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export function Navigation() {
     const classes = useStyles();
     const [show, setShow] = useState(false);
-    const [user] = useAuthUser();
+    const [user, { logout }] = useAuthUser();
     return (<AppBar position="static" className={classes.root}>
         <Toolbar>
             <Typography variant="h6" className={classes.title}>
@@ -30,7 +30,11 @@ export function Navigation() {
             {user &&
                 <Typography>
                     Welcome {user.fullName}
-                </Typography>}
+                </Typography>
+            }
+            {user &&
+                <Button color="inherit" onClick={logout}>Logout</Button>
+            }
             {!user && <Button color="inherit" onClick={() => setShow(true)}>Login</Button>}
             {show && <LoginModal onClose={() => setShow(false)} />}
         </Toolbar>

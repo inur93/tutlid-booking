@@ -22,11 +22,23 @@ export class AuthApi extends BaseApi {
         }
     }
 
+    async logout() {
+        try {
+            return await super.get('/auth/logout');
+        } catch (e) {
+            const { message, status } = e.response.body;
+            switch (status) {
+                default:
+                    throw new Error(`An error occurred when logging out: ${message}`);
+            }
+        }
+    }
+
     async register(userData: RegisterData) {
         try {
             return await super.post('/auth/register', userData);
         } catch (e) {
-            if(!e.response.body) throw new Error(e.message);
+            if (!e.response.body) throw new Error(e.message);
             const { message, status } = e.response.body;
             throw new Error(message);
         }

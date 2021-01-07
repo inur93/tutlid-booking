@@ -1,7 +1,10 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useState } from 'react';
+import { Booking } from '../../api';
 import { useBookings } from '../../hooks/useBookings';
+import BookingInfo from './BookingInfo';
+import { BookingInfoModal } from './BookingInfoModal';
 import { Calendar, Range } from './Calendar';
 import { CreateBookingModal } from './CreateBookingModal';
 
@@ -18,30 +21,37 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function BookingCalendar() {
     const classes = useStyles();
-    const [bookings, setRange, error] = useBookings();
-    const [show, setShow] = useState(false);
+    const [bookings, { setRange, load }, error] = useBookings();
+    const [current, setCurrent] = useState<Booking>();
+    const [showCreate, setShowCreate] = useState(false);
     const [defaultFrom, setDefaultFrom] = useState(new Date());
     const [defaultTo, setDefaultTo] = useState(new Date());
 
     const handleSelectSlot = ({ start, end }: Range) => {
         setDefaultFrom(start);
         setDefaultTo(end);
-        setShow(true);
+        setShowCreate(true);
     }
 
+    const handleSelectEvent = (booking: Booking) => {
+        setCurrent(booking);
+    }
     const handleCloseModal = () => {
-        setShow(false);
-        
+        setShowCreate(false);
+        setCurrent(undefined);
+        load();
     }
     return (
         <div className={classes.root}>
-            {show && <CreateBookingModal from={defaultFrom} to={defaultTo} onClose={handleCloseModal} />}
-            {!error && 
+            {showCreate && <CreateBookingModal from={defaultFrom} to={defaultTo} onClose={handleCloseModal} />}
+            {current && <BookingInfoModal booking={current} onClose={handleCloseModal} />}
+
             <Calendar
                 events={bookings}
+                onSelectEvent={handleSelectEvent}
                 onRangeChange={setRange}
                 onSelectSlot={handleSelectSlot} />
-            }
+
             {error && <Alert severity='error'>{error}</Alert>}
         </div>)
 }

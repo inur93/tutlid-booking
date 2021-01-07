@@ -53,7 +53,6 @@ export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }:
     }
 
     const handleSelectSlot = (range: any) => {
-        console.log('slots', range);
         if (onSelectSlot) {
             onSelectSlot({
                 start: range.start as Date,

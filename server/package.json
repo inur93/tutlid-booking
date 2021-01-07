@@ -1,17 +1,19 @@
 {
   "dependencies": {
+    "@sendgrid/mail": "^7.4.0",
     "@typegoose/typegoose": "^7.4.5",
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "envalid": "^6.0.2",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
-    "mongoose": "^5.11.8",
+    "mongoose": "^5.10.18",
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "superagent-prefix": "^0.0.2"
@@ -29,12 +31,7 @@
     "typescript": "^4.1.2"
   },
   "scripts": {
-    "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",
-    "migration:generate": "yarn run typeorm migration:generate --config src/config/ormconfig.ts --connection --name",
-    "migration:run": "yarn run typeorm -- migration:run",
-    "start": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
-    "build": "tsc",
-    "docker": "docker run --rm --env-file ../docker.env --network tutlid-booking_mongo --name tutlid-db-migrations tutlid-api",
-    "docker:migration:generate": "yarn run docker yarn run migration:generate"
+    "start:debug": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
+    "build": "tsc"
   }
 }

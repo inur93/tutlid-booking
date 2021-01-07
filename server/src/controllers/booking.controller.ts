@@ -21,28 +21,43 @@ class BookingController {
         return bookings;
     }
 
+    public async getById(id: string): Promise<DocumentType<Booking>> {
+        const booking = await BookingModel
+            .findOne({
+                _id: id
+            }).exec();
+        return booking;
+    }
+
     public async create(dto: CreateBookingDto, user: User) {
         const booking = await BookingModel.create({
+            _id: undefined,
             ...dto,
             bookedBy: user._id,
             paid: false,
             pricePpl: 0,
             priceTub: 0,
-            status: BookingStatus.reserved
+            status: BookingStatus.reserved,
+            adminComment: ''
         })
 
-        //TODO send email to admin and booker
         return booking;
     }
 
-    public async changeStatus(dto: ChangeBookingStatusDto) {
-        const { id, ...data } = dto;
+    public async changeStatus({ id, ...data }: ChangeBookingStatusDto) {
+
         await BookingModel.updateOne({
             _id: id
         }, data);
 
         //TODO send email to booker if booking has been approved or declined
         return await BookingModel.findOne({ _id: id });
+    }
+
+    public async delete(id: string) {
+        await BookingModel.deleteOne({
+            _id: id
+        });
     }
 }
 

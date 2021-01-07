@@ -1,19 +1,20 @@
+import { connect } from 'mongoose';
 import App from "./app";
-import config from "./config/ormconfig";
 import AuthRoute from './routes/auth.route';
+import BookingRoute from "./routes/booking.route";
 import UserRoute from "./routes/user.route";
 import validateEnv from "./utils/validateEnv";
-import { connect } from 'mongoose';
-import BookingRoute from "./routes/booking.route";
 
 validateEnv();
 
 (async () => {
     try {
-        console.log('connecting to database...', process.env.MONGO_URI);
-        await connect(process.env.MONGO_URI, { 
-            useNewUrlParser: true, 
+        await connect(process.env.MONGO_URI, {
+            ssl: true,
+            dbName: 'tutlid',
+            useNewUrlParser: true,
             useUnifiedTopology: true,
+            useFindAndModify: false,
             useCreateIndex: true
         })
     } catch (error) {

@@ -7,9 +7,7 @@ import { User, UserModel, UserRole } from '../models/user/user.entity';
 class AuthenticationController {
 
     public async register(userData: CreateUserDto): Promise<User> {
-        console.log('finding existing...');
         const existing = await UserModel.findOne({ email: userData.email }).exec();
-        console.log('existing', existing);
         if (existing) {
             throw new UserWithThatEmailAlreadyExistsException(userData.email);
         }

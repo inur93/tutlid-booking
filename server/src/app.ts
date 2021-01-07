@@ -1,15 +1,16 @@
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express, { Application } from 'express';
 import { IRoute } from './interfaces/route.interface';
 import errorMiddleware from './middleware/error.middleware';
-import cors from 'cors';
 
 class App {
     private app: Application;
 
     constructor(routes: IRoute[]) {
         this.app = express();
-
+        console.log('environment', process.env.NODE_ENV);
+        if (process.env.NODE_ENV === 'production') this.initializeStaticFolder();
         this.initializeMiddlewares();
         this.initializeRoutes(routes);
         this.initializeErrorHandling();
@@ -25,11 +26,16 @@ class App {
         return this.app;
     }
 
+    private initializeStaticFolder() {
+        console.log('setting up public folder');
+        this.app.use(express.static("public"));
+    }
+
     private initializeMiddlewares() {
         this.app.use(express.json());
         this.app.use(cookieParser());
         this.app.use(cors({
-            origin: 'http://localhost:3000' //process.env.ALLOWED_ORIGIN || '*',
+            origin: process.env.ALLOWED_ORIGIN || 'http://localhost:3000'
         }))
     }
 

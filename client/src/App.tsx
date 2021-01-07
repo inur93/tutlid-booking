@@ -1,5 +1,5 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import api, { User } from './api';
 import { Navigation } from './components/shared/Navigation';
@@ -13,14 +13,19 @@ const theme = createMuiTheme({
 
 function App() {
   const [user, setUser] = useState<User>();
+  const handle = useRef<NodeJS.Timeout>();
   useEffect(() => {
     const loadUser = async () => {
       try {
         const response = await api.UserApi.self();
         setUser(response.body);
-      } catch (e) { }
+      } catch (e) {
+        setUser(undefined);
+      }
     }
     loadUser();
+    handle.current = setInterval(loadUser, 1000 * 60 * 5);
+    return () => handle.current && clearInterval(handle.current);
   }, [])
   return (
     <HashRouter>

@@ -1,10 +1,9 @@
-import { Button, Card, CardContent, createStyles, FormGroup, Grid, makeStyles, TextField, Theme } from '@material-ui/core';
-import { useState } from 'react';
-import api, { CreateBooking as Booking } from '../../api';
-import { getFormdataById, formatDate, str2isoDate } from '../../utils/formFunctions';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
-import * as yup from 'yup';
+import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from '@material-ui/core';
 import { startOfToday } from 'date-fns';
+import { Form, Formik, FormikHelpers } from 'formik';
+import * as yup from 'yup';
+import api, { Booking } from '../../api';
+import { formatDate, str2isoDate } from '../../utils/formFunctions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export type CreateBookingProps = {
-    onComplete?: () => void,
+    onComplete?: (booking: Booking) => void,
     from?: Date,
     to?: Date
 }
@@ -62,16 +61,16 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
     const handleCreate = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
 
         try {
-            debugger;
             values.from = str2isoDate(values.from);
             values.to = str2isoDate(values.to);
-            await api.BookingApi.create(values);
+            const response = await api.BookingApi.create(values);
+            if (onComplete) onComplete(response.body);
         } catch (e) {
 
         }
 
         setSubmitting(false);
-        if (onComplete) onComplete();
+
     }
     return (<Card className={classes.root}>
         <CardContent className={classes.content}>

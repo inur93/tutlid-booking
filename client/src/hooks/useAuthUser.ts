@@ -5,7 +5,10 @@ import UserContext from "../contexts/UserContext";
 
 type UseAuthUserType = [
     User | undefined,
-    (info: LoginData) => Promise<void>,
+    {
+        login: (info: LoginData) => Promise<boolean>,
+        logout: () => Promise<void>,
+    },
     string | undefined //error
 ]
 export function useAuthUser(): UseAuthUserType {
@@ -17,10 +20,17 @@ export function useAuthUser(): UseAuthUserType {
             setError('');
             const response = await api.AuthApi.login(loginInfo);
             setUser(response.body);
+            return true;
         } catch (e) {
             setError(e.message);
+            return false;
         }
     }, [user]);
 
-    return [user, login, error];
+    const logout = useCallback(async function logout() {
+        await api.AuthApi.logout();
+        setUser(undefined);
+    }, [])
+
+    return [user, { login, logout }, error];
 }
