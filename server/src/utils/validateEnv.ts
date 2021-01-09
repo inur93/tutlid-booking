@@ -10,12 +10,12 @@ function validateEnv() {
         SENDGRID_ENABLED: bool(),
         SENDGRID_API_KEY: str(),
         SG_SENDER: email(),
-        // MONGO_HOST: str(),
-        // MONGO_PORT: port(),
-        // MONGO_USER: str(),
-        // MONGO_PASSWORD: str(),
-        // MONGO_DB: str(),
+        SG_TEMPLATE_RECEIPT: str(),
         PORT: port(),
+        DEFAULT_ADMIN_EMAIL: email(),
+        DEFAULT_ADMIN_NAME: str(),
+        DEFAULT_ADMIN_PASSWORD: str(),
+
     });
 }
 

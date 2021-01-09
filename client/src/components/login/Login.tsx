@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
+import {Alert} from '../shared/Alert';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
@@ -84,7 +84,7 @@ export function Login({ onComplete }: LoginProps) {
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                                 Login
                         </Button>
-                            <Button component={Link} to='/register' variant='outlined' color='secondary'>
+                            <Button component={Link} to='/register' variant='outlined' color='secondary' onClick={onComplete}>
                                 Register
                             </Button>
                             {error && <Alert severity='error'>{error}</Alert>}

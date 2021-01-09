@@ -5,6 +5,7 @@
   "proxy": "http://tutlid-api:8000",
   "dependencies": {
     "@material-ui/core": "^4.11.1",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@types/react-big-calendar": "^0.24.8",
     "@types/superagent-prefix": "^0.0.3",

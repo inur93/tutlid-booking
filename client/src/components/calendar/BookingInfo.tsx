@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, makeStyles, Theme } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import {Alert} from '../shared/Alert';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
 import api, { Booking } from '../../api';

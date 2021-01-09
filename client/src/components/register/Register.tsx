@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, CardHeader, createStyles, Fade, FormGroup, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import {Alert} from '../shared/Alert';
 import { Form, Formik, FormikHelpers } from 'formik';
 import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
@@ -71,7 +71,7 @@ export default function RegisterUser({ header }: RegisterUserProps) {
                 validationSchema={schema}
                 onSubmit={handleSubmit}>
                 {({ isSubmitting, errors, touched, handleChange, values: { fullName, email, password } }) => (
-                    <Fade in={!user} >
+                    <Fade in={!user.isLoggedIn} >
                         <Form>
 
                             <FormGroup>
@@ -117,11 +117,11 @@ export default function RegisterUser({ header }: RegisterUserProps) {
             </Formik>
 
             {error && <Alert severity='error'>{error}</Alert>}
-            {!!user &&
+            {user.isLoggedIn &&
                 <Alert severity='success'>
                     Du er nu logget ind som {user && user.fullName}.
                     
-                    {!user?.approvedByAdmin ? <p>Før du kan booke Tutlið skal en administrator have godkendt din bruger.</p> : ' '}
+                    {!user.approvedByAdmin ? <p>Før du kan booke Tutlið skal en administrator have godkendt din bruger.</p> : ' '}
                     <Link to='/'>Gå til forside</Link>
                 </Alert>
             }

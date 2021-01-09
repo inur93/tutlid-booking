@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import api, { User } from './api';
 import { Navigation } from './components/shared/Navigation';
-import UserContext from './contexts/UserContext';
+import UserContext, { AuthUser } from './contexts/UserContext';
 import { Routes } from './pages/Routes';
 
 const theme = createMuiTheme({
@@ -12,15 +12,15 @@ const theme = createMuiTheme({
 
 
 function App() {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<AuthUser>(new AuthUser());
   const handle = useRef<NodeJS.Timeout>();
   useEffect(() => {
     const loadUser = async () => {
       try {
         const response = await api.UserApi.self();
-        setUser(response.body);
+        setUser(new AuthUser(response.body));
       } catch (e) {
-        setUser(undefined);
+        setUser(new AuthUser());
       }
     }
     loadUser();

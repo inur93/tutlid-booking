@@ -1,8 +1,11 @@
-import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Button, Toolbar as MuiToolbar, Typography } from "@material-ui/core";
 import React, { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { LoginModal } from "../login/LoginModal";
 import { useAuthUser } from "../../hooks/useAuthUser";
+import { Role } from "../../api";
+import ProfileMenu from "./navigation/ProfileMenu";
+import Toolbar from "./navigation/Toolbar";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,23 +23,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function Navigation() {
     const classes = useStyles();
-    const [show, setShow] = useState(false);
     const [user, { logout }] = useAuthUser();
+    const isLoggedIn = user.isLoggedIn;
+    const isAdmin = user.hasRole(Role.admin);
+
     return (<AppBar position="static" className={classes.root}>
-        <Toolbar>
+        <MuiToolbar>
             <Typography variant="h6" className={classes.title}>
                 Tutlið
             </Typography>
-            {user &&
-                <Typography>
-                    Welcome {user.fullName}
-                </Typography>
-            }
-            {user &&
-                <Button color="inherit" onClick={logout}>Logout</Button>
-            }
-            {!user && <Button color="inherit" onClick={() => setShow(true)}>Login</Button>}
-            {show && <LoginModal onClose={() => setShow(false)} />}
-        </Toolbar>
+            <ProfileMenu />
+        </MuiToolbar>
     </AppBar>)
 }

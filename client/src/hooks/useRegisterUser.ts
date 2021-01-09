@@ -2,10 +2,11 @@ import { useCallback, useContext, useState } from "react";
 import api, { User } from "../api";
 import { RegisterData } from '../api/index';
 import UserContext from "../contexts/UserContext";
+import { AuthUser } from '../contexts/UserContext';
 
 
 type UseRegisterUserType = [
-    User | undefined,
+    AuthUser,
     (info: RegisterData) => Promise<void>,
     string | undefined //error
 ]
@@ -17,7 +18,7 @@ export function useRegisterUser(): UseRegisterUserType {
         try {
             setError('');
             const response = await api.AuthApi.register(userData);
-            setUser(response.body);
+            setUser(new AuthUser(response.body));
         } catch (e) {
             setError(e.message);
         }

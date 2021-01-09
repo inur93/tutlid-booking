@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import {Alert} from '../shared/Alert';
 import { useState } from 'react';
 import { Booking } from '../../api';
 import { useBookings } from '../../hooks/useBookings';
