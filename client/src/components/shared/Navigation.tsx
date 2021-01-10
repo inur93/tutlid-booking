@@ -1,10 +1,8 @@
-import { AppBar, Button, Toolbar as MuiToolbar, Typography } from "@material-ui/core";
-import React, { useState } from 'react';
+import { AppBar, Toolbar as MuiToolbar, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { LoginModal } from "../login/LoginModal";
-import { useAuthUser } from "../../hooks/useAuthUser";
+import React from 'react';
 import { Role } from "../../api";
-import ProfileMenu from "./navigation/ProfileMenu";
+import { useAuthUser } from "../../hooks/useAuthUser";
 import Toolbar from "./navigation/Toolbar";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,7 +30,7 @@ export function Navigation() {
             <Typography variant="h6" className={classes.title}>
                 Tutlið
             </Typography>
-            <ProfileMenu />
+            <Toolbar />
         </MuiToolbar>
     </AppBar>)
 }

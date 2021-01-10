@@ -4,6 +4,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import api, { Booking } from '../../api';
 import { formatDate, str2isoDate } from '../../utils/formFunctions';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,37 +28,40 @@ export type CreateBookingProps = {
     to?: Date
 }
 
-let schema = yup.object().shape({
-    from: yup
-        .date()
-        .min(startOfToday(), "'From' should be today or later")
-        .max(yup.ref('to'), "'From' cannot be after 'To' date")
-        .required()
-        .default(() => new Date()),
-    to: yup.date()
-        .min(yup.ref('from'), "'To' should be after 'from' date")
-        .required()
-        .default(() => new Date()),
-    pplCount: yup.number()
-        .integer()
-        // .when(['pplCount', 'tubCount'], {
-        //     is: (pplCount: number, tubCount: number) => !pplCount && !tubCount,
-        //     then: (s) => s.positive()
-        // })
-        .min(0, "The number should be positive")
-        .required()
-        .default(() => 0),
-    tubCount: yup.number()
-        .integer()
-        .min(0, "The number should be positive")
-        .required()
-        .default(() => 0),
-    comment: yup.string()
-        .notRequired()
-        .default('')
-})
+
+
 export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
     const classes = useStyles();
+    const { t } = useTranslation();
+    let schema = yup.object().shape({
+        from: yup
+            .date()
+            .min(startOfToday(), t('validation.fromMin'))
+            .max(yup.ref('to'), t('validation.fromMax'))
+            .required()
+            .default(() => new Date()),
+        to: yup.date()
+            .min(yup.ref('from'), t('validation.toMin'))
+            .required()
+            .default(() => new Date()),
+        pplCount: yup.number()
+            .integer()
+            // .when(['pplCount', 'tubCount'], {
+            //     is: (pplCount: number, tubCount: number) => !pplCount && !tubCount,
+            //     then: (s) => s.positive()
+            // })
+            .min(0, t('validation.positiveNumber'))
+            .required()
+            .default(() => 0),
+        tubCount: yup.number()
+            .integer()
+            .min(0, t('validation.positiveNumber'))
+            .required()
+            .default(() => 0),
+        comment: yup.string()
+            .notRequired()
+            .default('')
+    })
     const handleCreate = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
 
         try {
@@ -89,7 +93,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
                         <FormGroup>
                             <TextField type="date"
                                 name="from"
-                                label="From"
+                                label={t('shared.from')}
                                 variant="outlined"
                                 required
                                 error={Boolean(errors.from)}
@@ -99,7 +103,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="date"
                                 name="to"
-                                label="To"
+                                label={t('shared.to')}
                                 variant='outlined'
                                 required
                                 error={Boolean(errors.to)}
@@ -109,8 +113,8 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="number"
                                 name="pplCount"
-                                label='Number of people'
-                                placeholder="Number of people"
+                                label={t('shared.numPeople')}
+                                placeholder={t('shared.numPeople')}
                                 variant='outlined'
                                 required
                                 defaultValue={0}
@@ -121,8 +125,8 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="number"
                                 name="tubCount"
-                                label='Number of people using tub'
-                                placeholder="Number of people using tub"
+                                label={t('shared.numTubPeople')}
+                                placeholder={t('shared.numTubPeople')}
                                 variant='outlined'
                                 required
                                 error={Boolean(errors.tubCount)}
@@ -133,8 +137,8 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="text"
                                 name="comment"
-                                label="Comment"
-                                placeholder="Comment"
+                                label={t('shared.comment')}
+                                placeholder={t('shared.comment')}
                                 variant='outlined'
                                 multiline
                                 rows={5}
@@ -145,7 +149,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
                         </FormGroup>
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                Create booking
+                                {t('calendar.createBooking')}
                     </Button>
                         </FormGroup>
                     </Form>

@@ -1,9 +1,9 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import {Alert} from '../shared/Alert';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Booking } from '../../api';
 import { useBookings } from '../../hooks/useBookings';
-import BookingInfo from './BookingInfo';
+import { Alert } from '../shared/Alert';
 import { BookingInfoModal } from './BookingInfoModal';
 import { Calendar, Range } from './Calendar';
 import { CreateBookingModal } from './CreateBookingModal';
@@ -26,6 +26,7 @@ export function BookingCalendar() {
     const [showCreate, setShowCreate] = useState(false);
     const [defaultFrom, setDefaultFrom] = useState(new Date());
     const [defaultTo, setDefaultTo] = useState(new Date());
+    const { t } = useTranslation();
 
     const handleSelectSlot = ({ start, end }: Range) => {
         setDefaultFrom(start);
@@ -52,7 +53,7 @@ export function BookingCalendar() {
                 onRangeChange={setRange}
                 onSelectSlot={handleSelectSlot} />
 
-            {error && <Alert severity='error'>{error}</Alert>}
+            {error && <Alert severity='error'>{t(error)}</Alert>}
         </div>)
 }
 

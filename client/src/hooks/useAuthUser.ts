@@ -1,7 +1,6 @@
 import { useCallback, useContext, useState } from "react";
-import api, { LoginData, Role, User } from "../api";
-import UserContext from "../contexts/UserContext";
-import { AuthUser } from '../contexts/UserContext';
+import api, { LoginData } from "../api";
+import UserContext, { AuthUser } from "../contexts/UserContext";
 
 
 type UseAuthUserType = [

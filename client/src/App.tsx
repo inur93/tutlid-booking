@@ -1,13 +1,19 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import React, { createContext, useEffect, useRef, useState } from 'react';
+import { green } from '@material-ui/core/colors';
+import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
-import api, { User } from './api';
+import api from './api';
 import { Navigation } from './components/shared/Navigation';
 import UserContext, { AuthUser } from './contexts/UserContext';
 import { Routes } from './pages/Routes';
 
 const theme = createMuiTheme({
-
+  palette: {
+    primary: {
+      main: green[500],
+      contrastText: "#fff"
+    }
+  }
 });
 
 

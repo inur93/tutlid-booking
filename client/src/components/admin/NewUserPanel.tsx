@@ -1,12 +1,13 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, createStyles, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography } from '@material-ui/core';
-import clsx from 'clsx';
-import { useUsersPendingApproval } from '../../hooks/useUsersPendingApproval';
-import { User } from '../../api';
-import RejectIcon from '@material-ui/icons/HighlightOffRounded';
-import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import { Card, CardContent, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography } from '@material-ui/core';
 import { green, red } from '@material-ui/core/colors';
+import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import RejectIcon from '@material-ui/icons/HighlightOffRounded';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { User } from '../../api';
 import { UserStatus } from '../../api/index';
+import { useUsersPendingApproval } from '../../hooks/useUsersPendingApproval';
+
 const useStyles = makeStyles((theme: Theme) =>
 ({
     'root': {
@@ -47,10 +48,11 @@ function UserRequest({ user, onClick }: UserRequestProps) {
 export default function NewUserPanel({ }: NewUserPanelProps) {
     const classes = useStyles();
     const [{ users }, reply] = useUsersPendingApproval();
-    if(!users.length) return null;
+    const { t } = useTranslation();
+    if (!users.length) return null;
     return (<Card>
         <CardContent>
-            <Typography variant='h6'>Users pending admin approval</Typography>
+            <Typography variant='h6'>{t('admin.users_pending_admin_approval')}</Typography>
             <List dense>
                 {users.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
             </List>

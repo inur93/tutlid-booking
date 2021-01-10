@@ -1,0 +1,49 @@
+{
+    "admin": {
+        "users_pending_admin_approval": "Users awaiting your approval",
+        "bookings_pending_admin_approval": "Bookings awaiting your approval"
+    },
+    "calendar": {
+        "overnight_guests": "Overnight guests: {{pplCount}}",
+        "tub_guests": "Number using tub: {{tubCount}}",
+        "booking": "Booking",
+        "receipt_info": "Your booking for {{pplCount}} overnight guests and {{tubCount}} spots for the hot tub in the period {from} to {to} has been registered.\n You have received a receipt by email.When the booking is confirmed you will get another mail.",
+        "today": "Today",
+        "next": "Next",
+        "previous": "Previous",
+        "receipt": "Receipt",
+        "createBooking": "Create Booking"
+    },
+    "home": {
+        "greeting": "Welcome to Tutlið booking. If you havent registered already, do so below. Otherwise click the button below to login"
+    },
+    "register": {
+        "loggedinMsg": "You are now logged in as {{name}}.",
+        "gotoHomePage": "Go to home page",
+        "missingAdminApproval": "Before you can make any bookings an admin needs to approve your user."
+    },
+    "shared": {
+        "close": "Close",
+        "delete": "Delete",
+        "here": "here",
+        "login": "Login",
+        "from": "From",
+        "to": "To",
+        "numPeople": "Number of people",
+        "numTubPeople": "Number of people using tub",
+        "comment": "Comment",
+        "email": "Email",
+        "password": "Password",
+        "register": "Register",
+        "fullName": "Full Name",
+        "logout": "Logout",
+        "missingAccess": "You do not have access to this page",
+        "registerNew": "Register new user"
+    },
+    "validation": {
+        "fromMin": "'From' should be today or later",
+        "fromMax": "'From' cannot be after 'To' date",
+        "toMin": "'To' should be after 'from' date",
+        "positiveNumber": "The number should be positive"
+    }
+}

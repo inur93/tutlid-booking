@@ -1,10 +1,10 @@
+import { Grid, makeStyles, Theme } from '@material-ui/core';
 import React from 'react';
-import { createStyles, makeStyles, Theme, Grid } from '@material-ui/core';
-import clsx from 'clsx';
-import { useAuthUser } from '../hooks/useAuthUser';
 import { Role } from '../api';
 import NewUserPanel from '../components/admin/NewUserPanel';
 import PendingBookingsPanel from '../components/admin/PendingBookingsPanel';
+import { useAuthUser } from '../hooks/useAuthUser';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -17,7 +17,8 @@ type AdminPageProps = {}
 export default function AdminPage({ }: AdminPageProps) {
     const classes = useStyles();
     const [user] = useAuthUser();
-    if(!user.hasRole(Role.admin)) return <div>You do not have access to this page</div>
+    const {t} = useTranslation();
+    if(!user.hasRole(Role.admin)) return <div>{t('shared.missingAccess')}</div>
     return (<Grid className={classes.root} container justify='center'>
         <Grid item xs={12} md={8} lg={6}>
             <NewUserPanel />

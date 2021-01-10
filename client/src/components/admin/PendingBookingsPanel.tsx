@@ -1,15 +1,13 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, createStyles, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography } from '@material-ui/core';
-import clsx from 'clsx';
-import { useUsersPendingApproval } from '../../hooks/useUsersPendingApproval';
-import { Booking, BookingStatus, User } from '../../api';
-import RejectIcon from '@material-ui/icons/HighlightOffRounded';
-import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import { Card, CardContent, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography } from '@material-ui/core';
 import { green, red } from '@material-ui/core/colors';
-import { UserStatus } from '../../api/index';
+import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import RejectIcon from '@material-ui/icons/HighlightOffRounded';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Booking, BookingStatus } from '../../api';
 import { usePendingBookings } from '../../hooks/usePendingBookings';
-import { format } from 'date-fns';
 import { formatDate } from '../../utils/dateFunctions';
+
 const useStyles = makeStyles((theme: Theme) =>
 ({
     'root': {
@@ -35,9 +33,9 @@ type BookingRequestProps = {
 function BookingRequest({ booking, onClick }: BookingRequestProps) {
     const classes = useRequestStyles();
     const handleAction = (status: BookingStatus) => () => onClick(booking._id, status);
-    
-    const from = formatDate(booking.from);
-    const to = formatDate(booking.to);
+    const { t, i18n } = useTranslation();
+    const from = formatDate(booking.from, i18n.language);
+    const to = formatDate(booking.to, i18n.language);
     
     const primary = `${booking.bookedBy.fullName} (${booking.pplCount || booking.tubCount} people)`;
     const secondary = `${from} - ${to}`;
@@ -58,10 +56,12 @@ function BookingRequest({ booking, onClick }: BookingRequestProps) {
 export default function PendingBookingsPanel({ }: PendingBookingsPanelProps) {
     const classes = useStyles();
     const [{ bookings }, reply] = usePendingBookings();
+    const { t } = useTranslation();
     if (!bookings.length) return null;
+
     return (<Card>
         <CardContent>
-            <Typography variant='h6'>Bookings pending admin approval</Typography>
+            <Typography variant='h6'>{t('admin.bookings_pending_admin_approval')}</Typography>
             <List dense>
                 {bookings.map(x => <BookingRequest key={x._id} booking={x} onClick={reply} />)}
             </List>

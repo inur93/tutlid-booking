@@ -1,8 +1,7 @@
 import { useCallback, useContext, useState } from "react";
-import api, { User } from "../api";
+import api from "../api";
 import { RegisterData } from '../api/index';
-import UserContext from "../contexts/UserContext";
-import { AuthUser } from '../contexts/UserContext';
+import UserContext, { AuthUser } from "../contexts/UserContext";
 
 
 type UseRegisterUserType = [
