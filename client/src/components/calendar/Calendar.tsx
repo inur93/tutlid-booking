@@ -3,17 +3,20 @@ import { Calendar as BaseCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, endOfYesterday, add } from 'date-fns';
 import classNames from 'classnames';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import daLocale from 'date-fns/locale/da';
+import {da, enGB} from 'date-fns/locale';
 import { Booking } from '../../api';
+import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 const locales = {
-    'da-DK': daLocale
+    'da': da,
+    'en': enGB
 }
 const localizer = dateFnsLocalizer({
     format,
     parse,
     startOfWeek,
     getDay,
-    locales,
+    locales
 });
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,7 +45,7 @@ type CalendarProps = {
 }
 export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }: CalendarProps) {
     const classes = useStyles();
-
+    const {t, i18n} = useTranslation();
     const handleRangeChange = (range: any) => {
         if (onRangeChange) {
             onRangeChange({
@@ -62,6 +65,12 @@ export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }:
     }
     return (<BaseCalendar
         localizer={localizer}
+        culture={i18n.language}
+        messages={{
+            today: t('calendar.today'),
+            next: t('calendar.next'),
+            previous: t('calendar.previous')
+        }}
         className={classes.root}
         views={['month']}
         selectable={'ignoreEvents'}

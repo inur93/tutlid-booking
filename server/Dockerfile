@@ -11,4 +11,4 @@ COPY . .
 EXPOSE 8000
 EXPOSE 9229
 
-CMD ["yarn", "start"]
+CMD ["yarn", "run", "start:debug"]

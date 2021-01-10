@@ -1,3 +1,4 @@
+import { AdminApi } from "./adminApi";
 import { AuthApi, DummyAuthApi } from "./authApi"
 import { BookingApi } from "./bookingApi";
 import { UserApi } from "./userApi";
@@ -6,7 +7,8 @@ const isDummy = process.env.DUMMY === 'true';
 export default {
     AuthApi: new AuthApi(),
     BookingApi: new BookingApi(),
-    UserApi: new UserApi()
+    UserApi: new UserApi(),
+    AdminApi: new AdminApi()
 }
 
 
@@ -25,11 +27,19 @@ export enum BookingStatus {
     declined = "declined"
 }
 export enum Role {
-    read, basic, admin
+    read = 'read',
+    basic = 'basic',
+    admin = 'admin'
+}
+
+export enum UserStatus {
+    pendingApproval = 'pendingApproval',
+    approved = 'approved',
+    rejected = 'rejected'
 }
 export type User = {
     _id: string,
-    approvedByAdmin: boolean,
+    status: UserStatus,
     email: string,
     roles: Role[],
     fullName: string

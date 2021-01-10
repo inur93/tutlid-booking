@@ -28,7 +28,6 @@ export default class UserRoute implements IRoute {
                 ...request.body,
                 id: request.user._id
             })
-            user.password = undefined;
             response.send(user);
         } catch (e) {
             next(e);
@@ -38,7 +37,6 @@ export default class UserRoute implements IRoute {
     private self = async (request: RequestWithUser, response: Response, next: NextFunction) => {
         try {
             const user = await this.userController.getById(request.user._id);
-            user.password = undefined;
             response.send(user);
         } catch (e) {
             next(e);

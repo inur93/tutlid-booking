@@ -1,9 +1,10 @@
-import * as bcrypt from 'bcrypt';
+
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
 import LogInDto from '../models/auth/login.dto';
 import { CreateUserDto } from '../models/user/user.dto';
 import { User, UserModel, UserRole } from '../models/user/user.entity';
+import { comparePassword, hashPassword } from '../utils/security';
 class AuthenticationController {
 
     public async register(userData: CreateUserDto): Promise<User> {
@@ -11,10 +12,9 @@ class AuthenticationController {
         if (existing) {
             throw new UserWithThatEmailAlreadyExistsException(userData.email);
         }
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = await UserModel.create({
             ...userData,
-            password: hashedPassword,
+            password: await hashPassword(userData.password),
             approvedByAdmin: false,
             roles: [UserRole.read]
         });
@@ -26,7 +26,7 @@ class AuthenticationController {
         const user = await UserModel.findOne({ email: loginData.email });
         if (!user) throw new InvalidCredentialsException();
 
-        if (!bcrypt.compareSync(loginData.password, user.password)) throw new InvalidCredentialsException();
+        if (!comparePassword(loginData.password, user.password)) throw new InvalidCredentialsException();
         user.password = undefined;
         return user;
     }

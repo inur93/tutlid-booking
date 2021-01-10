@@ -1,0 +1,49 @@
+{
+    "admin": {
+        "users_pending_admin_approval": "Brugere som afventer din godkendelse",
+        "bookings_pending_admin_approval": "Bookinger som afventer din godkendelse"
+    },
+    "calendar": {
+        "overnight_guests": "Overnættende gæster: {{pplCount}}",
+        "tub_guests": "Antal som skal bruge den varme pot: {{tubCount}}",
+        "booking": "Booking",
+        "receipt_info": "<p>Din booking for <b>{{pplCount}}</b> overnættende gæster og <b>{{tubCount}}</b> pladser til den varme pot i perioden <b>{from}</b> til <b>{to}</b> er registreret.</p><p>Du har modtaget en kvitteringsemail med de samme oplysninger som står her.</p><p>Når booking er bekræftet vil du modtage en bekræftelses email.</p>",
+        "today": "I dag",
+        "next": "Næste",
+        "previous": "Forrige",
+        "receipt": "Kvittering",
+        "createBooking": "Opret booking"
+    },
+    "home": {
+        "greeting": "Velkommen til Tutlið booking. Hvis du endnu ikke har oprettet en bruger, kan du gøre det nedenfor. Ellers klik her for at logge ind."
+    },
+    "register": {
+        "loggedinMsg": "Du er nu logget ind som {{name}}.",
+        "gotoHomePage": "Gå til forsiden",
+        "missingAdminApproval": "Inden du kan booke sommerhuset skal en administrator have godkendt din bruger."
+    },
+    "shared": {
+        "close": "Luk",
+        "delete": "Slet",
+        "here": "her",
+        "login": "Login",
+        "from": "Fra",
+        "to": "Til",
+        "numPeople": "Antal personer",
+        "numTubPeople": "Antal personer til varm pot",
+        "comment": "Kommentar",
+        "email": "Email",
+        "password": "Kodeord",
+        "register": "Tilmeld",
+        "fullName": "Fuldt navn",
+        "logout": "Log ud",
+        "missingAccess": "Du har ikke adgang til denne side.",
+        "registerNew": "Tilmeld ny bruger"
+    },
+    "validation": {
+        "fromMin": "'Fra' skal være tidligst i dag",
+        "fromMax": "'Fra' kan ikke være efter 'Til'",
+        "toMin": "'Til' dato skal være efter 'Fra' dato",
+        "positiveNumber": "Tallet skal være positivt"
+    }
+}

@@ -1,9 +1,6 @@
-import { createStyles, Dialog, DialogTitle, Grid, makeStyles, Theme } from '@material-ui/core';
-import { useState } from 'react';
-import { Booking } from '../../api';
+import { createStyles, Dialog, DialogTitle, makeStyles, Theme } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import BookingInfo, { BookingInfoProps } from './BookingInfo';
-import BookingReceipt from './BookingReceipt';
-import { CreateBooking, CreateBookingProps } from './CreateBooking';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,9 +14,10 @@ type BookingInfoModalProps = BookingInfoProps & {
 }
 export function BookingInfoModal({ onClose, ...otherProps }: BookingInfoModalProps) {
     const classes = useStyles();
+    const { t } = useTranslation();
 
     return (<Dialog onClose={onClose} aria-labelledby="booking-info" open={true}>
-        <DialogTitle id="booking-info">Booking</DialogTitle>
+        <DialogTitle id="booking-info">{t('calendar.booking')}</DialogTitle>
         <BookingInfo onClose={onClose} {...otherProps} />
     </Dialog>);
 }

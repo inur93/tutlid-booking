@@ -2,6 +2,7 @@ import { DocumentType, getModelForClass, prop, Ref } from '@typegoose/typegoose'
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { Model } from 'mongoose';
 import { User } from '../user/user.entity';
+
 export enum BookingStatus {
     reserved = "reserved",
     accepted = "accepted",

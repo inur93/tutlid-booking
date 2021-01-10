@@ -1,8 +1,8 @@
+import { Button, Card, CardContent, makeStyles, Theme, Typography } from '@material-ui/core';
 import React from 'react';
-import { Card, createStyles, makeStyles, Theme, CardContent, Button } from '@material-ui/core';
-import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { Booking } from '../../api';
-import { format } from 'date-fns';
+import { formatDate } from '../../utils/dateFunctions';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -14,18 +14,22 @@ type BookingReceiptProps = {
     onClose: () => void,
     booking: Booking
 }
-const dateFormat = 'dd. MMM yyyy';
+
 export default function BookingReceipt({ onClose, booking }: BookingReceiptProps) {
     const classes = useStyles();
-
-    const from = format(new Date(booking.from), dateFormat);
-    const to = format(new Date(booking.to), dateFormat);
+    const { t, i18n } = useTranslation();
+    const from = formatDate(booking.from, i18n.language);
+    const to = formatDate(booking.to, i18n.language);
     return (<Card>
         <CardContent>
-            <p>Din booking for <b>{booking.pplCount}</b> overnættende gæster og <b>{booking.tubCount}</b> pladser til den varme pot i perioden <b>{from}</b> til <b>{to}</b> er registreret.</p>
-            <p>Du har modtaget en kvitteringsemail med de samme oplysninger som står her.</p>
-            <p>Når booking er bekræftet vil du modtage en bekræftelses email.</p>
-            <Button variant='contained' color='primary' onClick={onClose}>Luk</Button>
+            <Typography variant='body1'>
+                {t('calendar.receipt_info', {
+                    pplCount: booking.pplCount,
+                    tubCount: booking.tubCount
+                })}
+            </Typography>
+
+            <Button variant='contained' color='primary' onClick={onClose}>{t('shared.close')}</Button>
         </CardContent>
     </Card>);
 }

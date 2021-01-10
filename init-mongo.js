@@ -1,7 +1,7 @@
 db.createUser(
     {
-        user: 'su_tutlid',
-        pwd: 'superstrong-password',
+        user: 'tutlid_api_user',
+        pwd: 'mQmxL1hlh8NnqmrcqVnFsFjzQLdiUVbd',
         roles: [
             {
                 role: "readWrite",

@@ -1,26 +1,32 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import React, { createContext, useEffect, useRef, useState } from 'react';
+import { green } from '@material-ui/core/colors';
+import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
-import api, { User } from './api';
+import api from './api';
 import { Navigation } from './components/shared/Navigation';
-import UserContext from './contexts/UserContext';
+import UserContext, { AuthUser } from './contexts/UserContext';
 import { Routes } from './pages/Routes';
 
 const theme = createMuiTheme({
-
+  palette: {
+    primary: {
+      main: green[500],
+      contrastText: "#fff"
+    }
+  }
 });
 
 
 function App() {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<AuthUser>(new AuthUser());
   const handle = useRef<NodeJS.Timeout>();
   useEffect(() => {
     const loadUser = async () => {
       try {
         const response = await api.UserApi.self();
-        setUser(response.body);
+        setUser(new AuthUser(response.body));
       } catch (e) {
-        setUser(undefined);
+        setUser(new AuthUser());
       }
     }
     loadUser();

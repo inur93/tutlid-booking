@@ -1,9 +1,10 @@
 import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
+import {Alert} from '../shared/Alert';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useAuthUser } from "../../hooks/useAuthUser";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -47,7 +48,7 @@ type LoginProps = {
 export function Login({ onComplete }: LoginProps) {
     const classes = useStyles();
     const [, { login }, error] = useAuthUser();
-
+    const {t} = useTranslation();
     const handleLogin = async (values: any, helpers: FormikHelpers<any>) => {
         const success = await login(values);
         helpers.setSubmitting(false);
@@ -66,26 +67,26 @@ export function Login({ onComplete }: LoginProps) {
                         <FormGroup>
                             <TextField type="email"
                                 name="email"
-                                label='Email'
-                                placeholder="Email"
+                                label={t('shared.email')}
+                                placeholder={t('shared.email')}
                                 variant='outlined'
                                 value={email}
                                 onChange={handleChange} />
 
                             <TextField type="password"
                                 name="password"
-                                label='Kodeord'
-                                placeholder="Kodeord"
+                                label={t('shared.password')}
+                                placeholder={t('shared.password')}
                                 variant='outlined'
                                 value={password}
                                 onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                Login
+                                {t('shared.login')}
                         </Button>
-                            <Button component={Link} to='/register' variant='outlined' color='secondary'>
-                                Register
+                            <Button component={Link} to='/register' variant='outlined' color='secondary' onClick={onComplete}>
+                                {t('shared.register')}
                             </Button>
                             {error && <Alert severity='error'>{error}</Alert>}
                         </FormGroup>

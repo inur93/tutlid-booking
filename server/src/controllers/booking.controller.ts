@@ -1,4 +1,5 @@
 import { DocumentType } from '@typegoose/typegoose';
+import { Document } from 'mongoose';
 import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/booking.dto';
 import { Booking, BookingModel, BookingStatus } from '../models/booking/booking.entity';
 import { User } from '../models/user/user.entity';
@@ -19,6 +20,14 @@ class BookingController {
             })
             .exec();
         return bookings;
+    }
+
+    public async getPendingApproval(): Promise<DocumentType<Booking>[]> {
+        return await BookingModel.find({
+            status: BookingStatus.reserved
+        })
+            .populate('bookedBy', { fullName: true })
+            .exec();
     }
 
     public async getById(id: string): Promise<DocumentType<Booking>> {

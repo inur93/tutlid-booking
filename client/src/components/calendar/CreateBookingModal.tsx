@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Booking } from '../../api';
 import BookingReceipt from './BookingReceipt';
 import { CreateBooking, CreateBookingProps } from './CreateBooking';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,6 +18,7 @@ type CreateBookingModalProps = CreateBookingProps & {
 export function CreateBookingModal({ onClose, ...otherProps }: CreateBookingModalProps) {
     const classes = useStyles();
     const [booking, setBooking] = useState<Booking>();
+    const {t} = useTranslation();
     const onComplete = (booking: Booking) => {
         setBooking(booking);
     }
@@ -26,7 +28,7 @@ export function CreateBookingModal({ onClose, ...otherProps }: CreateBookingModa
         onClose();
     }
     return (<Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={true}>
-        <DialogTitle id="create-booking">{booking ? 'Kvittering' : 'Opret booking'}</DialogTitle>
+        <DialogTitle id="create-booking">{booking ? t('calendar.receipt') : t('calendar.createBooking')}</DialogTitle>
         {!booking && <CreateBooking onComplete={onComplete} {...otherProps} />}
         {booking && <BookingReceipt onClose={handleClose} booking={booking} />}
     </Dialog>);

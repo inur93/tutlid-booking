@@ -1,5 +1,6 @@
-import { IsString } from 'class-validator';
-import { ObjectId } from 'mongoose';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { Types } from 'mongoose';
+import { UserStatus } from './user.entity';
 
 export class CreateUserDto {
     @IsString()
@@ -13,10 +14,12 @@ export class CreateUserDto {
 
 }
 export class UpdateSelfDto {
-    @IsString()
-    public fullName: string;
+    @IsString() @IsOptional()
+    public fullName?: string;
 }
 export class UpdateUserDto extends UpdateSelfDto {
     
-    public id: ObjectId;
+    public id: Types.ObjectId;
+    @IsEnum(UserStatus) @IsOptional()
+    public status: UserStatus;
 }

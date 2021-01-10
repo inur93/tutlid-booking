@@ -1,11 +1,12 @@
 import { Button, Card, CardContent, CardHeader, createStyles, Fade, FormGroup, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '../shared/Alert';
 import { Form, Formik, FormikHelpers } from 'formik';
 import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import * as yup from 'yup';
 import api from '../../api';
 import { useRegisterUser } from '../../hooks/useRegisterUser';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -52,7 +53,7 @@ type RegisterUserProps = {
 export default function RegisterUser({ header }: RegisterUserProps) {
     const classes = useStyles();
     const [user, register, error] = useRegisterUser();
-
+    const { t } = useTranslation();
     const handleSubmit = async function (values: any, helpers: FormikHelpers<any>) {
         await register(values);
         helpers.setSubmitting(false);
@@ -62,22 +63,22 @@ export default function RegisterUser({ header }: RegisterUserProps) {
             <Typography variant='h2'>{header}</Typography>
         </CardHeader>
         <CardContent className={classes.content}>
+            <Fade in={!user.isLoggedIn} >
+                <Formik initialValues={{
+                    fullName: '',
+                    email: '',
+                    password: ''
+                }}
+                    validationSchema={schema}
+                    onSubmit={handleSubmit}>
+                    {({ isSubmitting, errors, touched, handleChange, values: { fullName, email, password } }) => (
 
-            <Formik initialValues={{
-                fullName: '',
-                email: '',
-                password: ''
-            }}
-                validationSchema={schema}
-                onSubmit={handleSubmit}>
-                {({ isSubmitting, errors, touched, handleChange, values: { fullName, email, password } }) => (
-                    <Fade in={!user} >
                         <Form>
 
                             <FormGroup>
                                 <TextField name='fullName'
-                                    label='Full Name'
-                                    placeholder='Full Name'
+                                    label={t('shared.fullName')}
+                                    placeholder={t('shared.fullName')}
                                     variant='outlined'
                                     value={fullName}
                                     error={Boolean(errors.fullName)}
@@ -86,8 +87,8 @@ export default function RegisterUser({ header }: RegisterUserProps) {
 
                                 <TextField type="email"
                                     name="email"
-                                    label='Email'
-                                    placeholder="Email"
+                                    label={t('shared.email')}
+                                    placeholder={t('shared.email')}
                                     variant='outlined'
                                     value={email}
                                     error={Boolean(errors.email)}
@@ -96,8 +97,8 @@ export default function RegisterUser({ header }: RegisterUserProps) {
 
                                 <TextField type="password"
                                     name="password"
-                                    label='Kodeord'
-                                    placeholder="Kodeord"
+                                    label={t('shared.password')}
+                                    placeholder={t('shared.password')}
                                     variant='outlined'
                                     value={password}
                                     error={Boolean(errors.password)}
@@ -106,23 +107,24 @@ export default function RegisterUser({ header }: RegisterUserProps) {
                             </FormGroup>
                             <FormGroup>
                                 <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                    Register
-                        </Button>
+                                    {t('shared.register')}
+                                </Button>
                             </FormGroup>
 
 
                         </Form>
-                    </Fade>)
-                }
-            </Formik>
+                    )
+                    }
+                </Formik>
+            </Fade>
 
             {error && <Alert severity='error'>{error}</Alert>}
-            {!!user &&
+            {user.isLoggedIn &&
                 <Alert severity='success'>
-                    Du er nu logget ind som {user && user.fullName}.
-                    
-                    {!user?.approvedByAdmin ? <p>Før du kan booke Tutlið skal en administrator have godkendt din bruger.</p> : ' '}
-                    <Link to='/'>Gå til forside</Link>
+                   {t('register.loggedinMsg', {name: user.fullName})}
+
+                    {!user.approvedByAdmin ? <p>{t('register.missingAdminApproval')}</p> : ' '}
+                    <Link to='/'>{t('register.gotoHomePage')}</Link>
                 </Alert>
             }
         </CardContent>
