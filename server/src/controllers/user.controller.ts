@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import NotFoundException from '../exceptions/NotFoundException';
 import { UpdateUserDto } from '../models/user/user.dto';
-import { UserModel, UserStatus } from '../models/user/user.entity';
+import { UserModel, UserRole, UserStatus } from '../models/user/user.entity';
 class UserController {
 
     public async getById(id: Types.ObjectId) {
@@ -18,6 +18,21 @@ class UserController {
         } else {
             throw new NotFoundException(`user id ${id} was not found`);
         }
+    }
+
+    public async changeStatus(update: UpdateUserDto) {
+        const { id, status } = update;
+        if (status === UserStatus.approved) {
+            await UserModel.updateOne({ _id: id }, {
+                status,
+                $push: { roles: UserRole.basic }
+            })
+        } else {
+            await UserModel.updateOne({ _id: id }, {
+                status
+            })
+        }
+        return await UserModel.findOne(id, { password: false });
     }
 
     public async getPendingApproval() {

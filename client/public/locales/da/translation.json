@@ -7,7 +7,7 @@
         "overnight_guests": "Overnættende gæster: {{pplCount}}",
         "tub_guests": "Antal som skal bruge den varme pot: {{tubCount}}",
         "booking": "Booking",
-        "receipt_info": "<p>Din booking for <b>{{pplCount}}</b> overnættende gæster og <b>{{tubCount}}</b> pladser til den varme pot i perioden <b>{from}</b> til <b>{to}</b> er registreret.</p><p>Du har modtaget en kvitteringsemail med de samme oplysninger som står her.</p><p>Når booking er bekræftet vil du modtage en bekræftelses email.</p>",
+        "receipt_info": "Din booking for {{pplCount}} overnættende gæster og {{tubCount}} pladser til den varme pot i perioden {{from}} til {{to}} er registreret.Du har modtaget en kvitteringsemail med de samme oplysninger som står her. Når booking er bekræftet vil du modtage en bekræftelses email.",
         "today": "I dag",
         "next": "Næste",
         "previous": "Forrige",

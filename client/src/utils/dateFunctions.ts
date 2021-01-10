@@ -24,5 +24,5 @@ export function getLocale(language: string) {
 
 export function formatDate(date: Date | number | string, language: string) {
     const d = new Date(date);
-    return format(d, 'dd. MMMM yyyy', { locale: getLocale(language) });
+    return format(d, 'do MMMM yyyy', { locale: getLocale(language) });
 }

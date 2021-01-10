@@ -46,9 +46,9 @@ export default class AdminRoute implements IRoute {
     private respondPendingUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
 
         try {
-            const user = await this.userController.update({
+            const user = await this.userController.changeStatus({
                 id: Types.ObjectId(request.params.id),
-                status: request.body.status
+                status: request.body.status,
             })
             response.send(user);
         } catch (e) {

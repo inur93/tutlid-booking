@@ -25,7 +25,8 @@ export default function BookingReceipt({ onClose, booking }: BookingReceiptProps
             <Typography variant='body1'>
                 {t('calendar.receipt_info', {
                     pplCount: booking.pplCount,
-                    tubCount: booking.tubCount
+                    tubCount: booking.tubCount,
+                    from, to,
                 })}
             </Typography>
 

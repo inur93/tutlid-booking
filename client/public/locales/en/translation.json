@@ -7,7 +7,7 @@
         "overnight_guests": "Overnight guests: {{pplCount}}",
         "tub_guests": "Number using tub: {{tubCount}}",
         "booking": "Booking",
-        "receipt_info": "Your booking for {{pplCount}} overnight guests and {{tubCount}} spots for the hot tub in the period {from} to {to} has been registered.\n You have received a receipt by email.When the booking is confirmed you will get another mail.",
+        "receipt_info": "Your booking for {{pplCount}} overnight guests and {{tubCount}} spots for the hot tub in the period {{from}} to {{to}} has been registered.\n You have received a receipt by email.When the booking is confirmed you will get another mail.",
         "today": "Today",
         "next": "Next",
         "previous": "Previous",
