@@ -1,12 +1,11 @@
 import { Card, CardContent, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography } from '@material-ui/core';
-import { green, red } from '@material-ui/core/colors';
 import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import RejectIcon from '@material-ui/icons/HighlightOffRounded';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { User } from '../../api';
-import { UserStatus } from '../../api/index';
+import { User, UserStatus } from '../../api/index';
 import { useUsers } from '../../hooks/useUsers';
+import { green, red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -23,10 +22,6 @@ const useRequestStyles = makeStyles((theme: Theme) =>
         color: red[500]
     }
 }));
-type NewUserPanelProps = {
-    users: User[],
-    changeStatus: (id: string, status: UserStatus) => Promise<void>
-}
 
 type UserRequestProps = {
     user: User,
@@ -48,15 +43,17 @@ function UserRequest({ user, onClick }: UserRequestProps) {
     </ListItem>
 }
 
-export default function NewUserPanel({ users, changeStatus }: NewUserPanelProps) {
+type AdminUsersPanelProps = {}
+export default function AdminUsersPanel({ }: AdminUsersPanelProps) {
     const classes = useStyles();
+    const [{ users }, reply] = useUsers(UserStatus.pendingApproval);
     const { t } = useTranslation();
     if (!users.length) return null;
     return (<Card>
         <CardContent>
-            <Typography variant='h6'>{t('components.admin.newuserpanel.header')}</Typography>
+            <Typography variant='h6'>{t('components.admin.adminuserspanel.header')}</Typography>
             <List dense>
-                {users.map(x => <UserRequest key={x._id} user={x} onClick={changeStatus} />)}
+                {users.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
             </List>
         </CardContent>
 

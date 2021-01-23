@@ -18,7 +18,7 @@ type CreateBookingModalProps = CreateBookingProps & {
 export function CreateBookingModal({ onClose, ...otherProps }: CreateBookingModalProps) {
     const classes = useStyles();
     const [booking, setBooking] = useState<Booking>();
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const onComplete = (booking: Booking) => {
         setBooking(booking);
     }
@@ -28,7 +28,12 @@ export function CreateBookingModal({ onClose, ...otherProps }: CreateBookingModa
         onClose();
     }
     return (<Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={true}>
-        <DialogTitle id="create-booking">{booking ? t('calendar.receipt') : t('calendar.createBooking')}</DialogTitle>
+        <DialogTitle id="create-booking">
+            {booking ?
+                t('components.calendar.createbookingmodal.receiptHeader') :
+                t('components.calendar.createbookingmodal.createHeader')
+            }
+        </DialogTitle>
         {!booking && <CreateBooking onComplete={onComplete} {...otherProps} />}
         {booking && <BookingReceipt onClose={handleClose} booking={booking} />}
     </Dialog>);

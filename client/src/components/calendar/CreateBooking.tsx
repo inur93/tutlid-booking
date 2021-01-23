@@ -93,7 +93,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
                         <FormGroup>
                             <TextField type="date"
                                 name="from"
-                                label={t('shared.from')}
+                                label={t('components.calendar.createbooking.from')}
                                 variant="outlined"
                                 required
                                 error={Boolean(errors.from)}
@@ -103,7 +103,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="date"
                                 name="to"
-                                label={t('shared.to')}
+                                label={t('components.calendar.createbooking.to')}
                                 variant='outlined'
                                 required
                                 error={Boolean(errors.to)}
@@ -113,8 +113,8 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="number"
                                 name="pplCount"
-                                label={t('shared.numPeople')}
-                                placeholder={t('shared.numPeople')}
+                                label={t('components.calendar.createbooking.pplCount')}
+                                placeholder={t('components.calendar.createbooking.pplCount')}
                                 variant='outlined'
                                 required
                                 defaultValue={0}
@@ -125,8 +125,8 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="number"
                                 name="tubCount"
-                                label={t('shared.numTubPeople')}
-                                placeholder={t('shared.numTubPeople')}
+                                label={t('components.calendar.createbooking.tubCount')}
+                                placeholder={t('components.calendar.createbooking.tubCount')}
                                 variant='outlined'
                                 required
                                 error={Boolean(errors.tubCount)}
@@ -137,8 +137,8 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="text"
                                 name="comment"
-                                label={t('shared.comment')}
-                                placeholder={t('shared.comment')}
+                                label={t('components.calendar.createbooking.comment')}
+                                placeholder={t('components.calendar.createbooking.comment')}
                                 variant='outlined'
                                 multiline
                                 rows={5}
@@ -149,7 +149,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
                         </FormGroup>
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                {t('calendar.createBooking')}
+                                {t('components.calendar.createbooking.submit')}
                     </Button>
                         </FormGroup>
                     </Form>

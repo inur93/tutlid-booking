@@ -33,7 +33,7 @@ export function Home() {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant='h1'>Tutlið booking</Typography>
-                    <Typography variant='body1'>{t('home.greeting')}</Typography>
+                    <Typography variant='body1'>{t('components.home.greeting')}</Typography>
                     <Button variant='contained' color='primary' component={Link} to='/login'>{t('shared.login')}</Button>
                 </CardContent>
             </Card>

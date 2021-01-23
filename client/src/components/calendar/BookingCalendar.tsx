@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function BookingCalendar() {
     const classes = useStyles();
-    const [bookings, { setRange, load }, error] = useBookings();
+    const [{ bookings }, { setRange, load }, error] = useBookings();
     const [current, setCurrent] = useState<Booking>();
     const [showCreate, setShowCreate] = useState(false);
     const [defaultFrom, setDefaultFrom] = useState(new Date());

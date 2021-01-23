@@ -1,17 +1,23 @@
 import { Types } from 'mongoose';
 import NotFoundException from '../exceptions/NotFoundException';
-import { UpdateUserDto } from '../models/user/user.dto';
+import { UpdateSelfDto } from '../models/user/user.dto';
 import { UserModel, UserRole, UserStatus } from '../models/user/user.entity';
 class UserController {
+
+    public async get(status?: UserStatus) {
+        let query: any = {};
+        if (status) query.status = status;
+
+        return await UserModel.find(query, { password: false });
+    }
 
     public async getById(id: Types.ObjectId) {
         const user = await UserModel.findOne(id, { password: false });
         return user;
     }
 
-    public async update(update: UpdateUserDto) {
-        const { id, ...data } = update;
-        await UserModel.updateOne({ _id: id }, data);
+    public async update(id: Types.ObjectId, update: UpdateSelfDto) {
+        await UserModel.updateOne({ _id: id }, update);
         const user = await UserModel.findOne(id, { password: false });
         if (user) {
             return user;
@@ -20,12 +26,11 @@ class UserController {
         }
     }
 
-    public async changeStatus(update: UpdateUserDto) {
-        const { id, status } = update;
+    public async changeStatus(id: Types.ObjectId, status: UserStatus) {
         if (status === UserStatus.approved) {
             await UserModel.updateOne({ _id: id }, {
                 status,
-                $push: { roles: UserRole.basic }
+                $addToSet: { roles: UserRole.basic }
             })
         } else {
             await UserModel.updateOne({ _id: id }, {
@@ -35,10 +40,20 @@ class UserController {
         return await UserModel.findOne(id, { password: false });
     }
 
-    public async getPendingApproval() {
-        return await UserModel.find({
-            status: UserStatus.pendingApproval
-        }, { password: false });
+    public async addRole(id: Types.ObjectId, role: UserRole) {
+        await UserModel.updateOne({ _id: id }, {
+            $addToSet: { roles: role }
+        })
+
+        return await UserModel.findOne(id, { password: false });
+    }
+
+    public async removeRole(id: Types.ObjectId, role: UserRole) {
+        await UserModel.updateOne({ _id: id }, {
+            $pull: { roles: role }
+        })
+
+        return await UserModel.findOne(id, { password: false });
     }
 }
 

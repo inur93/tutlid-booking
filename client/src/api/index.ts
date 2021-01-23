@@ -68,3 +68,15 @@ export type Booking = CreateBooking & {
     _id: string,
     bookedBy: User
 }
+
+export type CreatePriceMatrix = {
+    validFrom: Date,
+    price: number,
+    tubPrice: number
+}
+
+export type BankInformation = {
+    _id: string,
+    regNo: string,
+    accountNo: string
+}

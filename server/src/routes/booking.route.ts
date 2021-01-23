@@ -6,8 +6,9 @@ import RequestWithUser from '../interfaces/requestWithUser.interface';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import validationMiddleware from '../middleware/validation.middleware';
-import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/booking.dto';
-import { User, UserRole } from '../models/user/user.entity';
+import { CreateBookingDto } from '../models/booking/booking.dto';
+import { BookingStatus } from '../models/booking/booking.entity';
+import { UserRole } from '../models/user/user.entity';
 
 export default class BookingRoute implements IRoute {
     public path = '/bookings';
@@ -19,17 +20,19 @@ export default class BookingRoute implements IRoute {
     }
 
     private initializeRoutes() {
-        this.router.get(this.path, authMiddleware(), this.get);
-        this.router.post(this.path, authMiddleware([UserRole.basic]), validationMiddleware(CreateBookingDto), this.create);
-        this.router.put(`${this.path}/:id/changestatus`, validationMiddleware(ChangeBookingStatusDto), authMiddleware([UserRole.admin]), this.changeStatus);
-        this.router.delete(`${this.path}/:id`, authMiddleware([UserRole.basic]), this.delete)
+        this.router.all(this.path, authMiddleware([UserRole.read]))
+            .get(this.path, this.get)
+            .post(this.path, authMiddleware([UserRole.basic]), validationMiddleware(CreateBookingDto), this.create)
+            .delete(`${this.path}/:id`, authMiddleware([UserRole.basic]), this.delete)
     }
 
     private get = async (request: RequestWithUser, response: Response, next: NextFunction) => {
         try {
-            var from = new Date(Date.parse(request.query.from as string));
-            var to = new Date(Date.parse(request.query.to as string));
-            response.send(await this.bookingController.getByRange(from, to));
+            const { from, to, status } = request.query;
+            const qFrom = from ? new Date(Date.parse(request.query.from as string)) : undefined;
+            const qTo = to ? new Date(Date.parse(request.query.to as string)) : undefined;
+            const qStatus = status ? status as BookingStatus : undefined;
+            response.send(await this.bookingController.get(qFrom, qTo, qStatus));
         } catch (e) {
             next(e);
         }
@@ -37,18 +40,11 @@ export default class BookingRoute implements IRoute {
 
     private create = async (request: RequestWithUser, response: Response, next: NextFunction) => {
         try {
+            const user = request.user;
             const booking = await this.bookingController.create(request.body, request.user);
-
-            await mailController.sendReceipt(booking, request.user);
-            response.send(booking);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    private changeStatus = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-        try {
-            const booking = await this.bookingController.changeStatus(request.body);
+            if (!user.roles.includes(UserRole.admin)) {
+                await mailController.sendReceipt(booking, request.user);
+            }
             response.send(booking);
         } catch (e) {
             next(e);
