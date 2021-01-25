@@ -1,0 +1,14 @@
+{
+  "button": {
+    "save": "Gem",
+    "cancel": "Annuller",
+    "create": "Opret",
+    "confirm": "Bekræft",
+    "delete": "Slet",
+    "add": "Tilføj",
+    "close": "Luk",
+    "login": "Login",
+    "register": "Tilmeld",
+    "logout": "Logud"
+  }
+}

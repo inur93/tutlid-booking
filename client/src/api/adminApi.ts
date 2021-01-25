@@ -1,30 +1,44 @@
-import { BookingStatus, UserStatus } from ".";
+import { BookingStatus, CreatePriceMatrix, Role, UserStatus } from ".";
 import { BaseApi } from "./baseApi";
-
+import { BankInformation } from './index';
 export class AdminApi extends BaseApi {
 
     constructor() {
         super(true);
     }
-
-    async getUsersPendingApproval() {
-        return await super.get('/admin/users/pending');
+    async getUsers(status?: UserStatus) {
+        return await super.get(`/admin/users`).query({ status })
     }
 
-    async getBookingsPendingApproval() {
-        return await super.get('/admin/bookings/pending');
+    async changeUserStatus(id: string, status: UserStatus) {
+        return await super.put(`/admin/users/${id}/status`, { status });
     }
 
-    async respondPendingUser(id: string, response: UserStatus) {
-        return await super.put(`/admin/users/${id}/respond`, {
-            status: response
-        })
+    async addUserRole(id: string, role: Role) {
+        return await super.post(`/admin/users/${id}/roles`, { role });
     }
 
-    async respondPendingBooking(id: string, response: BookingStatus) {
-        return await super.put(`/admin/bookings/${id}/respond`, {
-            status: response
-        })
+    async removeUserRole(id: string, role: Role) {
+        return await super.del(`/admin/users/${id}/roles/${role}`);
     }
 
+    async changeBookingStatus(id: string, update: {status: BookingStatus, messageFromAdmin?: string}) {
+        return await super.put(`/admin/bookings/${id}/status`, update);
+    }
+
+    async createPriceMatrix(priceMatrix: CreatePriceMatrix) {
+        return await super.post(`/admin/pricematrix`, priceMatrix);
+    }
+
+    async deletePriceMatrix(id: string) {
+        return await super.del(`/admin/pricematrix/${id}`);
+    }
+
+    async getBankInformation() {
+        return await super.get(`/admin/bankinformation`);
+    }
+
+    async updateBankInformation(id: string, update: BankInformation) {
+        return await super.put(`/admin/bankinformation/${id}`, update);
+    }
 }

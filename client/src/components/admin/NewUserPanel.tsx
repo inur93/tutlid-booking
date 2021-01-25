@@ -6,7 +6,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { User } from '../../api';
 import { UserStatus } from '../../api/index';
-import { useUsersPendingApproval } from '../../hooks/useUsersPendingApproval';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -23,7 +22,10 @@ const useRequestStyles = makeStyles((theme: Theme) =>
         color: red[500]
     }
 }));
-type NewUserPanelProps = {}
+type NewUserPanelProps = {
+    users: User[],
+    changeStatus: (id: string, status: UserStatus) => Promise<void>
+}
 
 type UserRequestProps = {
     user: User,
@@ -45,16 +47,15 @@ function UserRequest({ user, onClick }: UserRequestProps) {
     </ListItem>
 }
 
-export default function NewUserPanel({ }: NewUserPanelProps) {
+export default function NewUserPanel({ users, changeStatus }: NewUserPanelProps) {
     const classes = useStyles();
-    const [{ users }, reply] = useUsersPendingApproval();
-    const { t } = useTranslation();
+    const { t } = useTranslation('app');
     if (!users.length) return null;
     return (<Card>
         <CardContent>
-            <Typography variant='h6'>{t('admin.users_pending_admin_approval')}</Typography>
+            <Typography variant='h6'>{t('app:newUserPanel.header')}</Typography>
             <List dense>
-                {users.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
+                {users.map(x => <UserRequest key={x._id} user={x} onClick={changeStatus} />)}
             </List>
         </CardContent>
 

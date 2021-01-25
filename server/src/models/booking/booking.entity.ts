@@ -42,7 +42,7 @@ class Booking extends Base {
     public comment: string;
 
     @prop()
-    public adminComment: string;
+    public messageFromAdmin: string;
 }
 
 const BookingModel = getModelForClass(Booking) as Model<DocumentType<Booking>>;

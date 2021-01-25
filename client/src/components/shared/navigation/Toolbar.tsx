@@ -28,7 +28,7 @@ export default function Toolbar({ }: ToolbarProps) {
     const [showLogin, setShowLogin] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-    const { t } = useTranslation();
+    const { t } = useTranslation('common');
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -61,7 +61,7 @@ export default function Toolbar({ }: ToolbarProps) {
                 <AccountCircle />
             </IconButton>}
         {!user.isLoggedIn && <Button color="inherit" onClick={() => setShowLogin(true)}>
-            {t('shared.login')}
+            {t('common:button.login')}
         </Button>}
         <Menu
             id="menu-appbar"
@@ -79,7 +79,7 @@ export default function Toolbar({ }: ToolbarProps) {
             onClose={handleClose}
         >
             <MenuItem divider disabled >{user.fullName}</MenuItem>
-            <MenuItem onClick={handleLogout}>{t('shared.logout')}</MenuItem>
+            <MenuItem onClick={handleLogout}>{t('common:button.logout')}</MenuItem>
         </Menu>
         {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
         <LanguageSelector />

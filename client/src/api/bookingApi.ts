@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { CreateBooking, UpdateBooking } from ".";
+import { BookingStatus, CreateBooking, UpdateBooking } from ".";
 import { BaseApi } from "./baseApi";
 
 
@@ -9,11 +9,12 @@ export class BookingApi extends BaseApi {
         super(true);
     }
 
-    async getBookings(fromDate: Date, toDate: Date) {
+    async getBookings({ fromDate, toDate, status }: { fromDate?: Date, toDate?: Date, status?: BookingStatus }) {
         try {
-            const from = format(fromDate, 'yyyy-MM-dd');
-            const to = format(toDate, 'yyyy-MM-dd');
-            return await super.get('/bookings').query({ from, to });
+            const from = fromDate ? format(fromDate, 'yyyy-MM-dd') : undefined;
+            const to = toDate ? format(toDate, 'yyyy-MM-dd') : undefined;
+
+            return await super.get('/bookings').query({ from, to, status });
         } catch (e) {
             if (!e.response.body) throw e;
             const { message, status } = e.response.body;

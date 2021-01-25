@@ -19,15 +19,12 @@ export default class UserRoute implements IRoute {
     private initializeRoutes() {
         this.router.all(`${this.path}/self`, authMiddleware([UserRole.read]))
             .get(`${this.path}/self`, this.self)
-            .put(`${this.path}/self`, validationMiddleware(UpdateSelfDto),  this.updateSelf);
+            .put(`${this.path}/self`, validationMiddleware(UpdateSelfDto), this.updateSelf);
     }
 
     private updateSelf = async (request: RequestWithUser, response: Response, next: NextFunction) => {
         try {
-            const user = await this.userController.update({
-                ...request.body,
-                id: request.user._id
-            })
+            const user = await this.userController.update(request.user._id, request.body);
             response.send(user);
         } catch (e) {
             next(e);

@@ -1,6 +1,7 @@
 import { AdminApi } from "./adminApi";
-import { AuthApi, DummyAuthApi } from "./authApi"
+import { AuthApi } from "./authApi";
 import { BookingApi } from "./bookingApi";
+import { PriceMatrixApi } from './priceMatrixApi';
 import { UserApi } from "./userApi";
 
 const isDummy = process.env.DUMMY === 'true';
@@ -8,7 +9,8 @@ export default {
     AuthApi: new AuthApi(),
     BookingApi: new BookingApi(),
     UserApi: new UserApi(),
-    AdminApi: new AdminApi()
+    AdminApi: new AdminApi(),
+    PriceMatrixApi: new PriceMatrixApi()
 }
 
 
@@ -53,6 +55,14 @@ export type CreateBooking = {
     comment: string
 }
 
+export type BookingPriceInfo = CreateBooking & {
+    days: number,
+    price: number,
+    priceTotal: number,
+    tubPrice: number,
+    tubPriceTotal: number
+}
+
 export type UpdateBooking = {
     _id: string,
     pplCount: number,
@@ -67,4 +77,24 @@ export type UpdateBooking = {
 export type Booking = CreateBooking & {
     _id: string,
     bookedBy: User
+}
+
+export type CreatePriceMatrix = {
+    validFrom: Date,
+    price: number,
+    tubPrice: number
+}
+
+export type PriceMatrix = {
+    _id: string,
+    validFrom: string,
+    validTo?: string,
+    price: number,
+    tubPrice: number
+}
+
+export type BankInformation = {
+    _id: string,
+    regNo: string,
+    accountNo: string
 }

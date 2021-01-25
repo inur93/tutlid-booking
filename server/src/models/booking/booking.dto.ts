@@ -1,12 +1,12 @@
 import { IsDateString, IsInt, IsString, Min } from 'class-validator';
+import { Types } from 'mongoose';
 import { BookingStatus } from './booking.entity';
-import {Types} from 'mongoose';
 export class CreateBookingDto {
     @IsDateString()
-    public from: Date;
+    public from: string;
 
     @IsDateString()
-    public to: Date;
+    public to: string;
 
     @IsInt()
     @Min(0)
@@ -18,10 +18,18 @@ export class CreateBookingDto {
 
     @IsString()
     public comment: string;
+}
 
+export class BookingWithPrice extends CreateBookingDto {
+    public days: number;
+    public price: number;
+    public priceTotal: number;
+    public tubPrice: number;
+    public tubPriceTotal: number;
 }
 
 export class ChangeBookingStatusDto {
     public id: Types.ObjectId;
     public status: BookingStatus;
+    public messageFromAdmin: string;
 }

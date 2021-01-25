@@ -22,7 +22,7 @@ export default function BookingInfo({ onClose, booking }: BookingInfoProps) {
     const [user] = useAuthUser();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation(['app', 'common']);
 
     const from = formatDate(booking.from, i18n.language);
     const to = formatDate(booking.to, i18n.language);
@@ -44,15 +44,15 @@ export default function BookingInfo({ onClose, booking }: BookingInfoProps) {
         <CardContent>
             <p>{booking.bookedBy.fullName}</p>
             <p>{from} - {to}</p>
-            <p>{t('calendar.overnight_guests', { pplCount: booking.pplCount })}</p>
-            <p>{t('calendar.tub_guests', { tubCount: booking.tubCount })}</p>
+            <p>{t('app:bookingInfo.description1', { pplCount: booking.pplCount })}</p>
+            <p>{t('app:bookingInfo.description2', { tubCount: booking.tubCount })}</p>
             <Button variant='outlined'
                 color='primary'
-                onClick={onClose}>{t('shared.close')}</Button>{' '}
+                onClick={onClose}>{t('common:button.close')}</Button>{' '}
             {isOwner && <Button variant='contained'
                 color='primary'
                 onClick={handleDelete}
-                disabled={loading}>{t('shared.delete')}</Button>}
+                disabled={loading}>{t('common:button.delete')}</Button>}
             {error && <Alert severity='error' >{error}</Alert>}
         </CardContent>
     </Card>);
