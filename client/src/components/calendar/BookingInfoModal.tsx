@@ -14,10 +14,10 @@ type BookingInfoModalProps = BookingInfoProps & {
 }
 export function BookingInfoModal({ onClose, ...otherProps }: BookingInfoModalProps) {
     const classes = useStyles();
-    const { t } = useTranslation();
+    const { t } = useTranslation('app');
 
     return (<Dialog onClose={onClose} aria-labelledby="booking-info" open={true}>
-        <DialogTitle id="booking-info">{t('calendar.booking')}</DialogTitle>
+        <DialogTitle id="booking-info">{t('app:bookingInfoModal.header')}</DialogTitle>
         <BookingInfo onClose={onClose} {...otherProps} />
     </Dialog>);
 }

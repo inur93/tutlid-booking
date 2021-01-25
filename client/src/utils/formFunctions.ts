@@ -1,4 +1,4 @@
-import { format, formatRFC3339 } from "date-fns";
+import { formatRFC3339 } from "date-fns";
 
 
 export function getFormdataById<T>(id: string): T {
@@ -23,10 +23,6 @@ export function getFormdataById<T>(id: string): T {
         }
         return data;
     }, {}) as unknown as T;
-}
-
-export function formatDate(date: Date): string  {
-    return format(date, 'yyyy-MM-dd');
 }
 
 export function str2isoDate(date: string): string {

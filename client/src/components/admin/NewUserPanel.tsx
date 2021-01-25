@@ -2,11 +2,10 @@ import { Card, CardContent, IconButton, List, ListItem, ListItemSecondaryAction,
 import { green, red } from '@material-ui/core/colors';
 import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import RejectIcon from '@material-ui/icons/HighlightOffRounded';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { User } from '../../api';
 import { UserStatus } from '../../api/index';
-import { useUsers } from '../../hooks/useUsers';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -50,11 +49,11 @@ function UserRequest({ user, onClick }: UserRequestProps) {
 
 export default function NewUserPanel({ users, changeStatus }: NewUserPanelProps) {
     const classes = useStyles();
-    const { t } = useTranslation();
+    const { t } = useTranslation('app');
     if (!users.length) return null;
     return (<Card>
         <CardContent>
-            <Typography variant='h6'>{t('components.admin.newuserpanel.header')}</Typography>
+            <Typography variant='h6'>{t('app:newUserPanel.header')}</Typography>
             <List dense>
                 {users.map(x => <UserRequest key={x._id} user={x} onClick={changeStatus} />)}
             </List>

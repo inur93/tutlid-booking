@@ -1,12 +1,11 @@
-import { createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
-import { Calendar as BaseCalendar, dateFnsLocalizer } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay, endOfYesterday, add } from 'date-fns';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import classNames from 'classnames';
+import { endOfYesterday, format, getDay, parse, startOfWeek } from 'date-fns';
+import { da, enGB } from 'date-fns/locale';
+import { Calendar as BaseCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import {da, enGB} from 'date-fns/locale';
-import { Booking } from '../../api';
-import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { Booking } from '../../api';
 const locales = {
     'da': da,
     'en': enGB
@@ -45,7 +44,7 @@ type CalendarProps = {
 }
 export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }: CalendarProps) {
     const classes = useStyles();
-    const {t, i18n} = useTranslation();
+    const {t, i18n} = useTranslation('app');
     const handleRangeChange = (range: any) => {
         if (onRangeChange) {
             onRangeChange({
@@ -67,9 +66,9 @@ export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }:
         localizer={localizer}
         culture={i18n.language}
         messages={{
-            today: t('calendar.today'),
-            next: t('calendar.next'),
-            previous: t('calendar.previous')
+            today: t('app:calendar.todayLabel'),
+            next: t('app:calendar.nextLabel'),
+            previous: t('app:calendar.previousLabel')
         }}
         className={classes.root}
         views={['month']}

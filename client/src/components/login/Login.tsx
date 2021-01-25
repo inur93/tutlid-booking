@@ -1,10 +1,10 @@
 import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from "@material-ui/core";
-import {Alert} from '../shared/Alert';
 import { Form, Formik, FormikHelpers } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useAuthUser } from "../../hooks/useAuthUser";
-import { useTranslation } from 'react-i18next';
+import { Alert } from '../shared/Alert';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,7 +48,7 @@ type LoginProps = {
 export function Login({ onComplete }: LoginProps) {
     const classes = useStyles();
     const [, { login }, error] = useAuthUser();
-    const {t} = useTranslation();
+    const {t} = useTranslation(['app', 'common']);
     const handleLogin = async (values: any, helpers: FormikHelpers<any>) => {
         const success = await login(values);
         helpers.setSubmitting(false);
@@ -67,26 +67,26 @@ export function Login({ onComplete }: LoginProps) {
                         <FormGroup>
                             <TextField type="email"
                                 name="email"
-                                label={t('shared.email')}
-                                placeholder={t('shared.email')}
+                                label={t('app:login.emailLabel')}
+                                placeholder={t('app:login.emailPlaceholder')}
                                 variant='outlined'
                                 value={email}
                                 onChange={handleChange} />
 
                             <TextField type="password"
                                 name="password"
-                                label={t('shared.password')}
-                                placeholder={t('shared.password')}
+                                label={t('app:login.passwordLabel')}
+                                placeholder={t('app:login.passwordPlaceholder')}
                                 variant='outlined'
                                 value={password}
                                 onChange={handleChange} />
                         </FormGroup>
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                {t('shared.login')}
+                                {t('common:button.login')}
                         </Button>
                             <Button component={Link} to='/register' variant='outlined' color='secondary' onClick={onComplete}>
-                                {t('shared.register')}
+                                {t('common:button.register')}
                             </Button>
                             {error && <Alert severity='error'>{error}</Alert>}
                         </FormGroup>

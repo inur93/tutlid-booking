@@ -1,7 +1,7 @@
 
 
 
-import { Card, CardContent, createStyles, Grid, makeStyles, Theme, Typography, Button } from '@material-ui/core';
+import { Button, Card, CardContent, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { BookingCalendar } from '../components/calendar/BookingCalendar';
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export function Home() {
     const classes = useStyles();
     const [user] = useAuthUser();
-    const {t, i18n} = useTranslation();
+    const {t, i18n} = useTranslation(['app', 'common']);
 
     if (user.isLoggedIn) return (<div>
         <BookingCalendar />
@@ -33,12 +33,12 @@ export function Home() {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant='h1'>Tutlið booking</Typography>
-                    <Typography variant='body1'>{t('components.home.greeting')}</Typography>
-                    <Button variant='contained' color='primary' component={Link} to='/login'>{t('shared.login')}</Button>
+                    <Typography variant='body1'>{t('app:homePage.greeting')}</Typography>
+                    <Button variant='contained' color='primary' component={Link} to='/login'>{t('common:button.login')}</Button>
                 </CardContent>
             </Card>
 
-            <RegisterUser header={t('shared.registerNew')} />
+            <RegisterUser header={t('app:homePage.registerHeader')} />
         </Grid>
     </Grid>
 

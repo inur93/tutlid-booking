@@ -1,0 +1,14 @@
+{
+  "regNo": "The registraion number should be 4 digits",
+  "required": "This field is required",
+  "accountNo": "The account number should be 10 digits. Remember to include preceding zeros",
+  "date": {
+    "afterToday": "The date should be today or later",
+    "notAfter": "The date should be before the '{{field}}' date",
+    "notBefore": "The date should not be before the '{{field}}' date"
+  },
+  "number": {
+    "positive": "The value should be a positive number"
+  },
+  "email": "You have to enter a valid email"
+}

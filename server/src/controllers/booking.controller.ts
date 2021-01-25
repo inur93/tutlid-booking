@@ -1,10 +1,10 @@
 import { DocumentType } from '@typegoose/typegoose';
-import { Document } from 'mongoose';
 import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/booking.dto';
 import { Booking, BookingModel, BookingStatus } from '../models/booking/booking.entity';
 import { User, UserRole } from '../models/user/user.entity';
+import PriceMatrixController from './pricematrix.controller';
 class BookingController {
-
+    private priceMatrixController = new PriceMatrixController();
     public async get(from?: Date, to?: Date, status?: BookingStatus): Promise<DocumentType<Booking>[]> {
 
         let query: any = {};
@@ -19,7 +19,7 @@ class BookingController {
             .exec();
         return bookings;
     }
-    
+
     public async getById(id: string): Promise<DocumentType<Booking>> {
         const booking = await BookingModel
             .findOne({
@@ -29,28 +29,28 @@ class BookingController {
     }
 
     public async create(dto: CreateBookingDto, user: User) {
+        const priceDetails = await this.priceMatrixController.calculatePrice(dto);
         const booking = await BookingModel.create({
             _id: undefined,
             ...dto,
             bookedBy: user._id,
             paid: false,
-            pricePpl: 0,
-            priceTub: 0,
+            pricePpl: priceDetails.priceTotal,
+            priceTub: priceDetails.tubPriceTotal,
             status: user.roles.includes(UserRole.admin) ? BookingStatus.accepted : BookingStatus.reserved,
-            adminComment: ''
+            messageFromAdmin: ''
         })
 
         return booking;
     }
 
-    public async changeStatus({ id, ...data }: ChangeBookingStatusDto) {
+    public async changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<DocumentType<Booking>> {
 
         await BookingModel.updateOne({
             _id: id
         }, data);
 
-        //TODO send email to booker if booking has been approved or declined
-        return await BookingModel.findOne({ _id: id });
+        return await BookingModel.findOne({ _id: id }, undefined, { populate: 'bookedBy' });
     }
 
     public async delete(id: string) {

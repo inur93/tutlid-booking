@@ -22,21 +22,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type BankInformationProps = {}
 
-function getSchema(t: TFunction<string>) {
+function getSchema(t: TFunction<string[]>) {
     return yup.object().shape({
         regNo: yup
             .string()
-            .matches(/^\d{4}$/, t('validation.bankinformation.regno'))
-            .required(t('validation.required')),
+            .matches(/^\d{4}$/, t('validation:regNo'))
+            .required(t('validation:required')),
         accountNo: yup
             .string()
-            .matches(/^\d{10}$/, t('validation.bankinformation.accountno'))
-            .required(t('validation.required'))
+            .matches(/^\d{10}$/, t('validation:accountNo'))
+            .required(t('validation:required'))
     })
 }
 export default function BankInformation({ }: BankInformationProps) {
     const classes = useStyles();
-    const { t } = useTranslation();
+    const { t } = useTranslation(['app', 'common']);
     const [{ error, loading, bankInformation }, update] = useBankInformation();
     const schema = getSchema(t);
     const handleUpdate = async (values: any, helpers: FormikHelpers<any>) => {
@@ -50,7 +50,7 @@ export default function BankInformation({ }: BankInformationProps) {
 
     return (<Card>
         <CardContent className={classes.root}>
-        <Typography variant='h6'>{t('components.admin.bankinformation.header')}</Typography>
+        <Typography variant='h6'>{t('app:bankInformation.header')}</Typography>
             <Formik initialValues={{
                 regNo: bankInformation?.regNo,
                 accountNo: bankInformation?.accountNo
@@ -62,8 +62,8 @@ export default function BankInformation({ }: BankInformationProps) {
                         <FormGroup>
                             <TextField type="text"
                                 name="regNo"
-                                label={t('components.admin.bankinformation.regno')}
-                                placeholder={t('components.admin.bankinformation.regno')}
+                                label={t('app:bankInformation.regNoLabel')}
+                                placeholder={t('app:bankInformation.regNoPlaceholder')}
                                 variant='outlined'
                                 error={Boolean(errors.regNo)}
                                 value={regNo}
@@ -72,8 +72,8 @@ export default function BankInformation({ }: BankInformationProps) {
 
                             <TextField type="text"
                                 name="accountNo"
-                                label={t('components.admin.bankinformation.accountno')}
-                                placeholder={t('components.admin.bankinformation.accountno')}
+                                label={t('app:bankInformation.accountNoLabel')}
+                                placeholder={t('app:bankInformation.accountNoPlaceholder')}
                                 variant='outlined'
                                 error={Boolean(errors.accountNo)}
                                 value={accountNo}
@@ -82,7 +82,7 @@ export default function BankInformation({ }: BankInformationProps) {
                         </FormGroup>
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                {t('components.admin.bankinformation.save')}
+                                {t('common:button.save')}
                             </Button>
                             {error && <Alert severity='error'>{error}</Alert>}
                         </FormGroup>

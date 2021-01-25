@@ -2,7 +2,6 @@
 
 .idea/
 *.iml
-*.lock
 
 # dependencies
 /node_modules
@@ -22,7 +21,6 @@
 *.env
 
 *.log
-package-lock.json
 src/main/webapp/
 target/
 out/

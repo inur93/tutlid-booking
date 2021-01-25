@@ -1,11 +1,11 @@
 import { Card, CardContent, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, Typography } from '@material-ui/core';
+import { green, red } from '@material-ui/core/colors';
 import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import RejectIcon from '@material-ui/icons/HighlightOffRounded';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, UserStatus } from '../../api/index';
 import { useUsers } from '../../hooks/useUsers';
-import { green, red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -47,11 +47,11 @@ type AdminUsersPanelProps = {}
 export default function AdminUsersPanel({ }: AdminUsersPanelProps) {
     const classes = useStyles();
     const [{ users }, reply] = useUsers(UserStatus.pendingApproval);
-    const { t } = useTranslation();
+    const { t } = useTranslation('app');
     if (!users.length) return null;
     return (<Card>
         <CardContent>
-            <Typography variant='h6'>{t('components.admin.adminuserspanel.header')}</Typography>
+            <Typography variant='h6'>{t('AdminUserPanel.header')}</Typography>
             <List dense>
                 {users.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
             </List>

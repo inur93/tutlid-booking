@@ -1,4 +1,4 @@
-import { BookingStatus, UserStatus, Role, CreatePriceMatrix } from ".";
+import { BookingStatus, CreatePriceMatrix, Role, UserStatus } from ".";
 import { BaseApi } from "./baseApi";
 import { BankInformation } from './index';
 export class AdminApi extends BaseApi {
@@ -22,12 +22,16 @@ export class AdminApi extends BaseApi {
         return await super.del(`/admin/users/${id}/roles/${role}`);
     }
 
-    async changeBookingStatus(id: string, status: BookingStatus) {
-        return await super.put(`/admin/bookings/${id}/status`, { status });
+    async changeBookingStatus(id: string, update: {status: BookingStatus, messageFromAdmin?: string}) {
+        return await super.put(`/admin/bookings/${id}/status`, update);
     }
 
     async createPriceMatrix(priceMatrix: CreatePriceMatrix) {
         return await super.post(`/admin/pricematrix`, priceMatrix);
+    }
+
+    async deletePriceMatrix(id: string) {
+        return await super.del(`/admin/pricematrix/${id}`);
     }
 
     async getBankInformation() {

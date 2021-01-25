@@ -1,10 +1,14 @@
 import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from '@material-ui/core';
 import { startOfToday } from 'date-fns';
 import { Form, Formik, FormikHelpers } from 'formik';
+import { FocusEvent } from 'react';
+import { TFunction, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import api, { Booking } from '../../api';
-import { formatDate, str2isoDate } from '../../utils/formFunctions';
-import { useTranslation } from 'react-i18next';
+import { usePrice } from '../../hooks/usePrice';
+import { formatFormDate } from '../../utils/dateFunctions';
+import { getFormdataById, str2isoDate } from '../../utils/formFunctions';
+import PriceTable from './PriceTable';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,36 +36,9 @@ export type CreateBookingProps = {
 
 export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
     const classes = useStyles();
-    const { t } = useTranslation();
-    let schema = yup.object().shape({
-        from: yup
-            .date()
-            .min(startOfToday(), t('validation.fromMin'))
-            .max(yup.ref('to'), t('validation.fromMax'))
-            .required()
-            .default(() => new Date()),
-        to: yup.date()
-            .min(yup.ref('from'), t('validation.toMin'))
-            .required()
-            .default(() => new Date()),
-        pplCount: yup.number()
-            .integer()
-            // .when(['pplCount', 'tubCount'], {
-            //     is: (pplCount: number, tubCount: number) => !pplCount && !tubCount,
-            //     then: (s) => s.positive()
-            // })
-            .min(0, t('validation.positiveNumber'))
-            .required()
-            .default(() => 0),
-        tubCount: yup.number()
-            .integer()
-            .min(0, t('validation.positiveNumber'))
-            .required()
-            .default(() => 0),
-        comment: yup.string()
-            .notRequired()
-            .default('')
-    })
+    const { t } = useTranslation(['app', 'validation', 'common']);
+    let schema = getSchema(t);
+    const [price, calcPrice] = usePrice();
     const handleCreate = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
 
         try {
@@ -74,26 +51,32 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
         }
 
         setSubmitting(false);
-
     }
+
+    const calculatePrice = async (evt: FocusEvent<HTMLFormElement>) => {
+        const data = getFormdataById('create-booking') as any;
+        await calcPrice(data);
+    }
+
     return (<Card className={classes.root}>
         <CardContent className={classes.content}>
             <Formik
                 initialValues={{
-                    from: formatDate(from || new Date()),
-                    to: formatDate(to || new Date()),
+                    from: formatFormDate(from || new Date()),
+                    to: formatFormDate(to || new Date()),
                     pplCount: 0,
                     tubCount: 0,
                     comment: ""
                 }}
                 validationSchema={schema}
+
                 onSubmit={handleCreate}>
                 {({ isSubmitting, errors, touched, handleChange, values: { from, to, pplCount, tubCount, comment } }) => (
-                    <Form>
+                    <Form onBlur={calculatePrice} id='create-booking'>
                         <FormGroup>
                             <TextField type="date"
                                 name="from"
-                                label={t('components.calendar.createbooking.from')}
+                                label={t('app:createBooking.fromLabel')}
                                 variant="outlined"
                                 required
                                 error={Boolean(errors.from)}
@@ -103,7 +86,7 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="date"
                                 name="to"
-                                label={t('components.calendar.createbooking.to')}
+                                label={t('app:createBooking.toLabel')}
                                 variant='outlined'
                                 required
                                 error={Boolean(errors.to)}
@@ -113,11 +96,10 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="number"
                                 name="pplCount"
-                                label={t('components.calendar.createbooking.pplCount')}
-                                placeholder={t('components.calendar.createbooking.pplCount')}
+                                label={t('app:createBooking.pplCountLabel')}
+                                placeholder={t('app:createBooking.pplCountPlaceholder')}
                                 variant='outlined'
                                 required
-                                defaultValue={0}
                                 error={Boolean(errors.pplCount)}
                                 onChange={handleChange}
                                 value={pplCount}
@@ -125,20 +107,19 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
 
                             <TextField type="number"
                                 name="tubCount"
-                                label={t('components.calendar.createbooking.tubCount')}
-                                placeholder={t('components.calendar.createbooking.tubCount')}
+                                label={t('app:createBooking.tubCountLabel')}
+                                placeholder={t('app:createBooking.tubCountPlaceholder')}
                                 variant='outlined'
                                 required
                                 error={Boolean(errors.tubCount)}
                                 onChange={handleChange}
                                 value={tubCount}
-                                helperText={errors.tubCount ? errors.tubCount : ''}
-                                defaultValue={0} />
+                                helperText={errors.tubCount ? errors.tubCount : ''} />
 
                             <TextField type="text"
                                 name="comment"
-                                label={t('components.calendar.createbooking.comment')}
-                                placeholder={t('components.calendar.createbooking.comment')}
+                                label={t('app:createBooking.commentLabel')}
+                                placeholder={t('app:createBooking.commentPlaceholder')}
                                 variant='outlined'
                                 multiline
                                 rows={5}
@@ -149,12 +130,45 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
                         </FormGroup>
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                {t('components.calendar.createbooking.submit')}
-                    </Button>
+                                {t('common:button.create')}
+                            </Button>
                         </FormGroup>
                     </Form>
                 )}
             </Formik>
+            <PriceTable priceInfo={price.priceMatrix} />
         </CardContent>
     </Card>)
+}
+
+function getSchema(t: TFunction<string[]>) {
+    return yup.object().shape({
+        from: yup
+            .date()
+            .min(startOfToday(), t('validation:date.afterToday'))
+            .max(yup.ref('to'), t('validation:date.notAfter', {field: t('app:createBooking.toLabel')}))
+            .required()
+            .default(() => new Date()),
+        to: yup.date()
+            .min(yup.ref('from'), t('validation:date.notBefore', {field: t('app:createBooking.fromLabel')}))
+            .required()
+            .default(() => new Date()),
+        pplCount: yup.number()
+            .integer()
+            // .when(['pplCount', 'tubCount'], {
+            //     is: (pplCount: number, tubCount: number) => !pplCount && !tubCount,
+            //     then: (s) => s.positive()
+            // })
+            .min(0, t('validation:number.positive'))
+            .required()
+            .default(() => 0),
+        tubCount: yup.number()
+            .integer()
+            .min(0, t('validation:number.positive'))
+            .required()
+            .default(() => 0),
+        comment: yup.string()
+            .notRequired()
+            .default('')
+    })
 }

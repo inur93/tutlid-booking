@@ -1,7 +1,8 @@
-import { Card, CardContent, List, makeStyles, Theme, Typography } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import BankInformation from './BankInformation';
+import PriceMatrix from './PriceMatrix';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -15,5 +16,6 @@ export default function AccountPanel({ }: AccountPanelProps) {
     const { t } = useTranslation();
     return (<div>
         <BankInformation />
+        <PriceMatrix />
     </div>);
 }

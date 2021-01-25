@@ -17,20 +17,20 @@ type BookingReceiptProps = {
 
 export default function BookingReceipt({ onClose, booking }: BookingReceiptProps) {
     const classes = useStyles();
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation(['app', 'common']);
     const from = formatDate(booking.from, i18n.language);
     const to = formatDate(booking.to, i18n.language);
     return (<Card>
         <CardContent>
             <Typography variant='body1'>
-                {t('calendar.receipt_info', {
+                {t('app:bookingReceipt.details', {
                     pplCount: booking.pplCount,
                     tubCount: booking.tubCount,
                     from, to,
                 })}
             </Typography>
 
-            <Button variant='contained' color='primary' onClick={onClose}>{t('shared.close')}</Button>
+            <Button variant='contained' color='primary' onClick={onClose}>{t('common:button.close')}</Button>
         </CardContent>
     </Card>);
 }

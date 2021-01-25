@@ -1,0 +1,109 @@
+{
+  "AdminUserPanel": {
+    "header": "New Users awaiting confirmation"
+  },
+  "bankInformation": {
+    "header": "Bank information",
+    "regNoLabel": "reg. no.",
+    "regNoPlaceholder": "4 digit registration number",
+    "accountNoLabel": "account no.",
+    "accountNoPlaceholder": "10 digit bank account number"
+  },
+  "createPriceMatrix": {
+    "validFromLabel": "Valid From",
+    "priceLabel": "Price / person / night",
+    "tubPriceLabel": "Hot tub price / person"
+  },
+  "newUserPanel": {
+    "header": "New Users awaiting confirmation"
+  },
+  "pendingBookingsPanel": {
+    "header": "Reserved bookings awaiting confirmation",
+    "confirmationMsgHeader": "Confirm booking",
+    "declineMsgHeader": "Reject booking",
+    "confirmationMsgLabel": "Send a message along with the confirmation",
+    "declineMsgLabel": "Send a reason for the rejection"
+  },
+  "priceMatrix": {
+    "currentPriceMatrixTabLabel": "Current",
+    "tablePriceLabel": "Price / Person / Night",
+    "tablePriceTubLabel": "Hot Tub Price / Person",
+    "tableValidFromLabel": "Valid From",
+    "tableValidToLabel": "Expires at"
+  },
+  "bookingInfo": {
+    "description1": "Overnight guests: {{pplCount}}",
+    "description2": "Hot tub spots: {{tubCount}}"
+  },
+  "bookingInfoModal": {
+    "header": "Booking Information"
+  },
+  "bookingReceipt": {
+    "details": "Your booking for {{pplCount}} overnight guests and {{tubCount}} spots for the hot tub in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
+  },
+  "calendar": {
+    "todayLabel": "Today",
+    "nextLabel": "Next",
+    "previousLabel": "Previos"
+  },
+  "createBooking": {
+    "fromLabel": "From",
+    "toLabel": "To",
+    "pplCountLabel": "Number of people",
+    "pplCountPlaceholder": "Number of people",
+    "tubCountLabel": "Number of people using hot tub",
+    "tubCountPlaceholder": "Number of people using hot tub",
+    "commentLabel": "Message for the owners",
+    "commentPlaceholder": "Message for the owners"
+  },
+  "createBookingModal": {
+    "receiptHeader": "Receipt",
+    "createHeader": "New Booking"
+  },
+  "priceTable": {
+    "descriptionLabel": "Description",
+    "quantityLabel": "Qty.",
+    "unitLabel": "Unit",
+    "amountLabel": "Amount",
+    "priceLabel": "Nights",
+    "tubPriceLabel": "Hot tub",
+    "totalLabel": "Total"
+  },
+  "login": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Password"
+  },
+  "loginModal": {
+    "header": "Login"
+  },
+  "register": {
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "Full Name",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Password",
+    "loggedinMsg": "Welcome {{name}} to Tutlið booking. Before you can book Tutlið an admin will have to verify your account. You will get an email when you are good to go.",
+    "missingAdminApproval": "Before you can book Tutlið an admin will have to verify your account. You will get an email when the account has been verified.",
+    "gotoHomePage": "Go to front page"
+  },
+  "AccessDenied": {
+    "header": "You dont have permission to access this page"
+  },
+  "accessDenied": {
+    "requireLoginMsg": "You need to login to access this page"
+  },
+  "adminPage": {
+    "usersTabLabel": "Users",
+    "bookingsTabLabel": "Bookings",
+    "accountTabLabel": "Bank"
+  },
+  "homePage": {
+    "greeting": "Welcome to Tutlið booking! Create an account to book the sommer house for your next holiday!",
+    "registerHeader": "Register"
+  },
+  "registerPage": {
+    "header": "Register"
+  }
+}

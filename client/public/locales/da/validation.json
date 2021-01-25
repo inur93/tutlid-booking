@@ -1,0 +1,14 @@
+{
+  "regNo": "Registrerings nummeret skal være 4 tal",
+  "required": "Feltet er påkrævet",
+  "accountNo": "Kontonummeret skal være 10 tal. Husk de foregående 0'er",
+  "date": {
+    "afterToday": "Datoen skal være i dag eller senere",
+    "notAfter": "Datoen skal være efter '{{field}}'",
+    "notBefore": "Datoen skal ikke være før '{{field}}'"
+  },
+  "number": {
+    "positive": "Feltet skal indeholde et positivt tal"
+  },
+  "email": "Du skal indtaste en gyldig email adresse"
+}

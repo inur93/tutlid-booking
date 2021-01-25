@@ -1,18 +1,20 @@
 import { NextFunction, Response, Router } from 'express';
 import { Types } from 'mongoose';
+import BankInformationController from '../controllers/bankinformation.controller';
 import BookingController from '../controllers/booking.controller';
+import mailController from '../controllers/mail.controller';
 import PriceMatrixController from '../controllers/pricematrix.controller';
 import UserController from '../controllers/user.controller';
 import RequestWithUser from '../interfaces/requestWithUser.interface';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import validationMiddleware from '../middleware/validation.middleware';
+import { BankInformation } from '../models/bankinformation/bankinformation.entity';
 import { ChangeBookingStatusDto } from '../models/booking/booking.dto';
+import { BookingStatus } from '../models/booking/booking.entity';
 import { CreatePriceMatrix } from '../models/pricematrix/pricematrix.dto';
 import { UpdateUserRoleDto, UpdateUserStatusDto } from '../models/user/user.dto';
-import { UserRole, UserStatus } from '../models/user/user.entity';
-import BankInformationController from '../controllers/bankinformation.controller';
-import { BankInformation } from '../models/bankinformation/bankinformation.entity';
+import { User, UserRole, UserStatus } from '../models/user/user.entity';
 
 export default class AdminRoute implements IRoute {
     public path = '/admin';
@@ -21,6 +23,7 @@ export default class AdminRoute implements IRoute {
     private bookingController = new BookingController();
     private priceMatrixController = new PriceMatrixController();
     private bankInformationController = new BankInformationController();
+
 
     constructor() {
         this.initializeRoutes();
@@ -34,6 +37,7 @@ export default class AdminRoute implements IRoute {
             .delete(`${this.path}/users/:id/role/:role`, this.removeUserRole)
             .put(`${this.path}/bookings/:id/status`, validationMiddleware(ChangeBookingStatusDto), this.changeBookingStatus)
             .post(`${this.path}/pricematrix`, validationMiddleware(CreatePriceMatrix), this.createPriceMatrix)
+            .delete(`${this.path}/pricematrix/:id`, this.deletePriceMatrix)
             .get(`${this.path}/bankinformation`, this.getBankInformation)
             .put(`${this.path}/bankinformation/:id`, validationMiddleware(BankInformation), this.updateBankInformation);
     }
@@ -73,16 +77,24 @@ export default class AdminRoute implements IRoute {
         } catch (e) {
             next(e);
         }
-
     }
 
     private changeBookingStatus = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-
         try {
             const booking = await this.bookingController.changeStatus({
                 id: Types.ObjectId(request.params.id),
-                status: request.body.status
+                status: request.body.status,
+                messageFromAdmin: request.body.messageFromAdmin
             })
+
+            if (!(booking.bookedBy as User).roles.includes(UserRole.admin)) {
+                if (booking.status === BookingStatus.accepted) {
+                    const bankInfo = await this.bankInformationController.current();
+                    mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
+                } else {
+                    mailController.sendRejection(booking, booking.bookedBy as User);
+                }
+            }
             response.send(booking);
         } catch (e) {
             next(e);
@@ -93,6 +105,14 @@ export default class AdminRoute implements IRoute {
     private createPriceMatrix = async (request: RequestWithUser, response: Response, next: NextFunction) => {
         try {
             response.send(await this.priceMatrixController.create(request.body));
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    private deletePriceMatrix = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+        try {
+            response.send(await this.priceMatrixController.delete(Types.ObjectId(request.params.id)));
         } catch (e) {
             next(e);
         }

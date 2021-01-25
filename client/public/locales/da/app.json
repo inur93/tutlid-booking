@@ -1,0 +1,109 @@
+{
+  "AdminUserPanel": {
+    "header": "Nye brugere som afventer bekræftelse"
+  },
+  "bankInformation": {
+    "header": "Bank information",
+    "regNoLabel": "reg. nr.",
+    "regNoPlaceholder": "4 cifret registrerings nummer",
+    "accountNoLabel": "konto nr.",
+    "accountNoPlaceholder": "10 cifret konto nummer"
+  },
+  "createPriceMatrix": {
+    "validFromLabel": "Gyldig fra",
+    "priceLabel": "Pris / person / overnatning",
+    "tubPriceLabel": "Varm pot pris / person"
+  },
+  "newUserPanel": {
+    "header": "Nye brugere som afventer bekræftelse"
+  },
+  "pendingBookingsPanel": {
+    "header": "Reserverede booking som afventer bekræftelse",
+    "confirmationMsgHeader": "Bekræft booking",
+    "declineMsgHeader": "Afvis booking",
+    "confirmationMsgLabel": "Send en hilsen med bekræftelsen",
+    "declineMsgLabel": "Giv en årsag til afvisningen"
+  },
+  "priceMatrix": {
+    "currentPriceMatrixTabLabel": "Nuværende",
+    "tablePriceLabel": "Pris / Person / Nat",
+    "tablePriceTubLabel": "Pris for varm pot / Person",
+    "tableValidFromLabel": "Gyldig fra",
+    "tableValidToLabel": "Udløber den"
+  },
+  "bookingInfo": {
+    "description1": "Overnattende gæster: {{pplCount}}",
+    "description2": "Pladser til varm pot: {{tubCount}}"
+  },
+  "bookingInfoModal": {
+    "header": "Booking information"
+  },
+  "bookingReceipt": {
+    "details": "Din booking for {{pplCount}} gæster og {{tubCount}} til den varme pot i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
+  },
+  "calendar": {
+    "todayLabel": "I dag",
+    "nextLabel": "Næste",
+    "previousLabel": "Forrige"
+  },
+  "createBooking": {
+    "fromLabel": "Fra",
+    "toLabel": "Til",
+    "pplCountLabel": "Antal personer",
+    "pplCountPlaceholder": "Antal personer",
+    "tubCountLabel": "Pladser til den varme pot",
+    "tubCountPlaceholder": "Pladser til den varme pot",
+    "commentLabel": "Besked til ejerne",
+    "commentPlaceholder": "Besked til ejerne"
+  },
+  "createBookingModal": {
+    "receiptHeader": "Kvittering",
+    "createHeader": "Ny booking"
+  },
+  "priceTable": {
+    "descriptionLabel": "Beskrivelse",
+    "quantityLabel": "Antal",
+    "unitLabel": "Enhedspris",
+    "amountLabel": "Beløb",
+    "priceLabel": "Overnatninger",
+    "tubPriceLabel": "Varm pot",
+    "totalLabel": "Total"
+  },
+  "login": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "passwordLabel": "Adgangskode",
+    "passwordPlaceholder": "Adgangskode"
+  },
+  "loginModal": {
+    "header": "Login"
+  },
+  "register": {
+    "fullNameLabel": "Fuldt Navn",
+    "fullNamePlaceholder": "Fuldt Navn",
+    "emailLabel": "Email",
+    "passwordLabel": "Adgangskode",
+    "passwordPlaceholder": "Adgangskode",
+    "loggedinMsg": "Hej {{name}}, velkommen til Tutlið booking. Inden du kan lave nogen bookinger skal din konto bekræftes af en administrator. Du vil modtage en mail når du kan booke sommerhuset.",
+    "missingAdminApproval": "Inden du kan booke Tultið skal din konto bekræftes af en administrator. Du vil modtage en mail når din konto er klar.",
+    "gotoHomePage": "Gå til forsiden"
+  },
+  "AccessDenied": {
+    "header": "Du har ikke adgang til denne side"
+  },
+  "accessDenied": {
+    "requireLoginMsg": "Du skal logge ind for at tilgå denne side"
+  },
+  "adminPage": {
+    "usersTabLabel": "Brugere",
+    "bookingsTabLabel": "Bookinger",
+    "accountTabLabel": "Bank"
+  },
+  "homePage": {
+    "greeting": "Velkommen til Tutlið Booking! Opret en konto nedenfor, og book sommerhuset til den næste ferie!",
+    "registerHeader": "Opret bruger"
+  },
+  "registerPage": {
+    "header": "Opret bruger"
+  }
+}
