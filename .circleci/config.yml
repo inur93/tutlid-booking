@@ -9,4 +9,4 @@ jobs:
 workflows:
   node-tests:
     jobs:
-      - node/test
+      - run-server-tests
