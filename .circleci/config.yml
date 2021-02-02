@@ -2,11 +2,15 @@ version: 2.1
 orbs:
   node: circleci/node@3.0.0
 jobs:
-  run-server-tests:
+  test-server:
+    executor: node/default
     working_directory: ~/server/
     steps:
-      - node/test
+      - checkout
+      - node/install-packages:
+          cache-path: node_modules
+      - run: yarn test
 workflows:
   node-tests:
     jobs:
-      - run-server-tests
+      - test-server
