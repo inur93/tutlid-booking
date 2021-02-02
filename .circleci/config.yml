@@ -5,6 +5,7 @@ jobs:
   test-server:
     executor: node/default
     working_directory: ~/project/server
+    
     steps:
       - checkout
       - node/install-packages:
@@ -13,4 +14,6 @@ jobs:
 workflows:
   node-tests:
     jobs:
+      - node/test:
+          app-dir: ~/project/server
       - test-server
