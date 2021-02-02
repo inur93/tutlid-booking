@@ -3,6 +3,8 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import { IRoute } from './interfaces/route.interface';
 import errorMiddleware from './middleware/error.middleware';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 
 class App {
     private app: Application;
@@ -14,6 +16,7 @@ class App {
         this.initializeMiddlewares();
         this.initializeRoutes(routes);
         this.initializeErrorHandling();
+        this.initializeSwagger();
     }
 
     public listen() {
@@ -47,6 +50,20 @@ class App {
         routes.forEach((route) => {
             this.app.use('/', route.router);
         });
+    }
+
+    private initializeSwagger() {
+        const spec = swaggerJsDoc({
+            swaggerDefinition: {
+                info: {
+                    title: "Tutlið booking API",
+                    version: "1.0.0"
+                }
+            },
+            apis: ['.routes/*.route.ts']
+
+        })
+        this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec))
     }
 }
 

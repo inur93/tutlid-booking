@@ -12,37 +12,37 @@ export enum BookingStatus {
 class Booking extends Base {
 
     @prop({ reuqired: true })
-    public from: Date;
+    public from!: Date;
 
     @prop({ required: true })
-    public to: Date;
+    public to!: Date;
 
     @prop({ default: 0 })
-    public pplCount: number;
+    public pplCount!: number;
 
     @prop({ default: 0 })
-    public tubCount: number;
+    public tubCount!: number;
 
     @prop({ default: 0 })
-    public pricePpl: number;
+    public pricePpl!: number;
 
     @prop({ default: 0 })
-    public priceTub: number;
+    public priceTub!: number;
 
     @prop({ default: false })
-    public paid: boolean;
+    public paid!: boolean;
 
     @prop({ enum: BookingStatus, default: () => BookingStatus.reserved, type: String })
-    public status: string;
+    public status!: string;
 
     @prop({ required: true, ref: () => User })
-    public bookedBy: Ref<User> | User;
+    public bookedBy!: Ref<User> | User;
 
     @prop()
-    public comment: string;
+    public comment?: string;
 
     @prop()
-    public messageFromAdmin: string;
+    public messageFromAdmin?: string;
 }
 
 const BookingModel = getModelForClass(Booking) as Model<DocumentType<Booking>>;

@@ -1,15 +1,14 @@
-import { DocumentType, getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { DocumentType, getModelForClass, prop } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { Model } from 'mongoose';
-
 
 class BankInformation extends Base {
 
     @prop({ required: true })
-    public regNo: string;
+    public regNo!: string;
 
     @prop({ required: true })
-    public accountNo: string;
+    public accountNo!: string;
 
 
 }

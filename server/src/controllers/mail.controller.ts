@@ -5,15 +5,21 @@ import { BankInformation } from '../models/bankinformation/bankinformation.entit
 import { Booking } from '../models/booking/booking.entity';
 import { User } from '../models/user/user.entity';
 
-class MailController {
+export default class MailController {
     private mailsEnabled: boolean;
     constructor() {
-        sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
-        this.mailsEnabled = process.env.SENDGRID_ENABLED === 'true'
+        const apiKey = process.env.SENDGRID_API_KEY
+        if (apiKey) {
+            sendgrid.setApiKey(apiKey);
+            this.mailsEnabled = process.env.SENDGRID_ENABLED === 'true'
+        } else {
+            this.mailsEnabled = false;
+            console.log('mail is disabled');
+        }
     }
 
     private booking2templateData(booking?: Booking) {
-        if(!booking) return {};
+        if (!booking) return {};
         const dateFormat = 'dd. MMM yyyy';
         const from = format(booking.from, dateFormat, { locale: daLocale });
         const to = format(booking.to, dateFormat, { locale: daLocale });
@@ -24,13 +30,13 @@ class MailController {
             pplCount: `${booking.pplCount}`,
             tubCount: `${booking.tubCount}`,
             comment: `${booking.comment}`,
-            price: `${(booking.pricePpl || 0)+(booking.priceTub || 0)}`,
+            price: `${(booking.pricePpl || 0) + (booking.priceTub || 0)}`,
             messageFromAdmin: `${booking.messageFromAdmin ? 'Besked fra udlåner:' : ''} ${booking.messageFromAdmin}`
         }
     }
 
     private user2templateData(user?: User) {
-        if(!user) return {};
+        if (!user) return {};
         return {
             fullName: `${user.fullName}`,
             email: user.email
@@ -38,7 +44,7 @@ class MailController {
     }
 
     private bank2tempalteData(bankInfo?: BankInformation) {
-        if(!bankInfo) return {};
+        if (!bankInfo) return {};
         return {
             regNo: `${bankInfo.regNo}`,
             accountNo: `${bankInfo.accountNo}`
@@ -46,28 +52,48 @@ class MailController {
     }
 
     async sendReceipt(booking: Booking, user: User) {
-        await this.send(process.env.SG_TEMPLATE_RECEIPT, booking, user)
+        const template = process.env.SG_TEMPLATE_RECEIPT;
+        if (!template) {
+            console.log('template id for receipt email is not specified');
+            return;
+        }
+        await this.send(template, user, booking)
     }
 
     async sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation) {
-        this.send(process.env.SG_TEMPLATE_CONFIRMED, booking, user, bankInfo);
+        const template = process.env.SG_TEMPLATE_CONFIRMED;
+        if (!template) {
+            console.log('template id for confirmation email is not specified');
+            return;
+        }
+        this.send(template, user, booking, bankInfo);
     }
 
     async sendRejection(booking: Booking, user: User) {
-        this.send(process.env.SG_TEMPLATE_REJECTED, booking, user);
+        const template = process.env.SG_TEMPLATE_REJECTED;
+        if (!template) {
+            console.log('template id for rejection email is not specified');
+            return;
+        }
+        this.send(template, user, booking);
     }
 
-    private async send(templateId: string, booking?: Booking, user?: User, bankInfo?: BankInformation) {
+    private async send(templateId: string, user: User, booking?: Booking, bankInfo?: BankInformation) {
         if (!this.mailsEnabled) {
             console.log('mails has been disabled');
+            return;
+        }
+        const sender = process.env.SG_SENDER
+        if (!sender) {
+            console.log('sender not specified. Cannot send email');
             return;
         }
 
         console.log('sending email', templateId, booking, user, bankInfo);
         try {
-            const result = await sendgrid.send({
+            await sendgrid.send({
                 to: user.email,
-                from: process.env.SG_SENDER,
+                from: sender,
                 templateId: templateId,
                 dynamicTemplateData: {
                     ...this.booking2templateData(booking),
@@ -81,5 +107,3 @@ class MailController {
     }
 
 }
-
-export default new MailController();

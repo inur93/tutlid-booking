@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import jwt from 'jsonwebtoken';
-import AuthenticationController from '../controllers/authentication.controller';
+import { IContainer } from '../container';
+import { IAuthenticationController } from '../controllers/authentication.controller';
 import { IRoute } from '../interfaces/route.interface';
 import TokenData from '../interfaces/tokenData.interface';
 import validationMiddleware from '../middleware/validation.middleware';
@@ -11,9 +12,9 @@ import { User } from '../models/user/user.entity';
 export default class AuthRoute implements IRoute {
     public path = '/auth';
     public router = Router();
-    private authController = new AuthenticationController();
-
-    constructor() {
+    private authenticationController: IAuthenticationController;
+    constructor({ authenticationController }: IContainer) {
+        this.authenticationController = authenticationController;
         this.initializeRoutes();
     }
 
@@ -24,7 +25,7 @@ export default class AuthRoute implements IRoute {
     }
     private register = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.authController.register(request.body);
+            const user = await this.authenticationController.register(request.body);
             this.attachTokenAndCookie(response, user);
             response.send(user);
         } catch (e) {
@@ -33,7 +34,7 @@ export default class AuthRoute implements IRoute {
     }
     private login = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.authController.login(request.body);
+            const user = await this.authenticationController.login(request.body);
             this.attachTokenAndCookie(response, user);
             response.send(user);
         } catch (e) {
@@ -41,7 +42,7 @@ export default class AuthRoute implements IRoute {
         }
     }
 
-    private logout = async (request: Request, response: Response, next: NextFunction) => {
+    private logout = async (_: Request, response: Response) => {
         response.setHeader('Set-Cookie', this.createCookie({ token: '', expiresIn: 0 }));
         response.send();
     }
@@ -56,7 +57,7 @@ export default class AuthRoute implements IRoute {
     }
     public createToken(user: User): TokenData {
         const expiresIn = 60 * 60 * 12; // 12 hours
-        const secret = process.env.JWT_SECRET;
+        const secret = process.env.JWT_SECRET || '';
         const dataStoredInToken = {
             id: user._id,
         };

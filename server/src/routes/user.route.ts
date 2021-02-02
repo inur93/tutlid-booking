@@ -1,6 +1,6 @@
-import { NextFunction, Response, Router } from 'express';
-import UserController from '../controllers/user.controller';
-import RequestWithUser from '../interfaces/requestWithUser.interface';
+import { NextFunction, Response, Router, Request } from 'express';
+import { IContainer } from '../container';
+import { IUserController } from '../controllers/user.controller';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import validationMiddleware from '../middleware/validation.middleware';
@@ -10,9 +10,10 @@ import { UserRole } from '../models/user/user.entity';
 export default class UserRoute implements IRoute {
     public path = '/users';
     public router = Router();
-    private userController = new UserController();
+    private userController: IUserController;
 
-    constructor() {
+    constructor({ userController }: IContainer) {
+        this.userController = userController;
         this.initializeRoutes();
     }
 
@@ -22,18 +23,18 @@ export default class UserRoute implements IRoute {
             .put(`${this.path}/self`, validationMiddleware(UpdateSelfDto), this.updateSelf);
     }
 
-    private updateSelf = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private updateSelf = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.userController.update(request.user._id, request.body);
+            const user = await this.userController.update(request.user!._id, request.body);
             response.send(user);
         } catch (e) {
             next(e);
         }
     }
 
-    private self = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private self = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.userController.getById(request.user._id);
+            const user = await this.userController.getById(request.user!._id);
             response.send(user);
         } catch (e) {
             next(e);

@@ -1,22 +1,30 @@
-import { DocumentType } from '@typegoose/typegoose';
 import { Types } from 'mongoose';
-import { BankInformation, BankInformationModel } from '../models/bankinformation/bankinformation.entity';
+import { IContainer } from '../container';
+import { UpdateBankInformation } from '../models/bankinformation/bankinformation.dto';
+import { BankInformation } from '../models/bankinformation/bankinformation.entity';
+import { IBankInformationRepository } from '../repositories/bankinformation.repo';
 
-class BankInformationController {
+export interface IBankInformationController {
+    current(): Promise<BankInformation>
+    update(id: Types.ObjectId, update: BankInformation): Promise<BankInformation>
+    // create(bankInfo: BankInformation): Promise<BankInformation>
+}
+class BankInformationController implements IBankInformationController {
 
-    public async current(): Promise<DocumentType<BankInformation>> {
-        return await BankInformationModel.findOne({})
-            .exec();
+    bankInformationRepository: IBankInformationRepository;
+    constructor({ bankInformationRepository }: IContainer) {
+        this.bankInformationRepository = bankInformationRepository;
     }
 
-    public async update(id: Types.ObjectId, update: BankInformation): Promise<DocumentType<BankInformation>> {
-        return await BankInformationModel.findByIdAndUpdate(id, update).exec();
+    public async current(): Promise<BankInformation> {
+        return await this.bankInformationRepository.current()
     }
 
-    public async create(bankInfo: BankInformation): Promise<DocumentType<BankInformation>> {
-        return await BankInformationModel.create({
-            ...bankInfo
-        });
+    public async update(id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation> {
+        return await this.bankInformationRepository.update({
+            _id: id,
+            ...update
+        })
     }
 }
 

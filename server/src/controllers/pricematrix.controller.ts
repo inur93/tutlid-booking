@@ -1,30 +1,32 @@
-import { DocumentType } from '@typegoose/typegoose';
 import { differenceInCalendarDays, parseISO } from 'date-fns';
 import { Types } from 'mongoose';
+import { IContainer } from '../container';
 import { BookingWithPrice, CreateBookingDto } from '../models/booking/booking.dto';
 import { CreatePriceMatrix } from '../models/pricematrix/pricematrix.dto';
-import { PriceMatrix, PriceMatrixModel } from '../models/pricematrix/pricematrix.entity';
+import { PriceMatrix } from '../models/pricematrix/pricematrix.entity';
+import { IPriceMatrixRepository } from '../repositories/pricematrix.repo';
+
+export interface IPriceMatrixController {
+    get(from?: Date): Promise<PriceMatrix[]>
+    calculatePrice(booking: CreateBookingDto): Promise<BookingWithPrice>
+    create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrix>
+    delete(id: Types.ObjectId): Promise<void>
+}
 class PriceMatrixController {
 
-    public async get(from?: Date): Promise<DocumentType<PriceMatrix>> {
-        let filter = from ? { validFrom: { $gte: from } } : undefined;
-        return await PriceMatrixModel.find(filter)
-            .sort({ validFrom: 1 })
-            .exec();
+    priceMatrixRepository: IPriceMatrixRepository;
+    constructor({ priceMatrixRepository }: IContainer) {
+        this.priceMatrixRepository = priceMatrixRepository;
+    }
+    public async get(from?: Date): Promise<PriceMatrix[]> {
+        return await this.priceMatrixRepository.find(from);
     }
     public async calculatePrice(booking: CreateBookingDto): Promise<BookingWithPrice> {
         const from = parseISO(booking.from);
         const to = parseISO(booking.to);
 
         //use only the price valid on the first day
-        const priceMatrix = await PriceMatrixModel.findOne({
-            validFrom: { $lte: from },
-            $or: [
-                { validTo: { $exists: false } },
-                { validTo: { $gte: from } }
-            ]
-        }).exec() as PriceMatrix;
-
+        const priceMatrix = await this.priceMatrixRepository.getByDate(from);
         const days = Math.abs(differenceInCalendarDays(to, from));
 
         return {
@@ -38,29 +40,21 @@ class PriceMatrixController {
         }
     }
 
-    public async create(priceMatrix: CreatePriceMatrix): Promise<DocumentType<PriceMatrix>> {
-        await PriceMatrixModel.findOneAndUpdate({
-            validTo: { $exists: false }
-        }, {
-            validTo: priceMatrix.validFrom
-        });
-
-        return await PriceMatrixModel.create({
-            ...priceMatrix
-        });
+    public async create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrix> {
+        const latest = await this.priceMatrixRepository.getLatest();
+        if (latest) {
+            await this.priceMatrixRepository.update({
+                _id: latest._id,
+                validTo: priceMatrix.validFrom
+            })
+        }
+        return await this.priceMatrixRepository.create(priceMatrix);
     }
 
     public async delete(id: Types.ObjectId): Promise<void> {
-        const toDelete = await PriceMatrixModel.findById(id);
-        let update: any = toDelete?.validTo ?
-            { validTo: toDelete.validTo as Date } :
-            { $unset: { validTo: true } };
-        const toUpdate = await PriceMatrixModel.findOneAndUpdate({
-            validTo: toDelete.validFrom
-        }, update);
-        console.log('updated pm', toUpdate);
-        console.log('deleting price matrix', id);
-        await PriceMatrixModel.deleteOne({ _id: id });
+        const toDelete = await this.priceMatrixRepository.findById(id);
+        await this.priceMatrixRepository.updateValidToByDate(toDelete.validFrom, toDelete.validTo);
+        await this.priceMatrixRepository.delete(id);
     }
 }
 

@@ -1,16 +1,15 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { Types } from 'mongoose';
 import { UserRole, UserStatus } from './user.entity';
 
 export class CreateUserDto {
     @IsString()
-    public fullName: string;
+    public fullName!: string;
 
     @IsString()
-    public email: string;
+    public email!: string;
 
     @IsString()
-    public password: string;
+    public password!: string;
 
 }
 export class UpdateSelfDto {
@@ -20,10 +19,10 @@ export class UpdateSelfDto {
 
 export class UpdateUserStatusDto {
     @IsEnum(UserStatus)
-    public status: UserStatus;
+    public status!: UserStatus;
 }
 
 export class UpdateUserRoleDto {
     @IsEnum(UserRole)
-    public role: UserRole;
+    public role!: UserRole;
 }
