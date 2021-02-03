@@ -4,10 +4,11 @@ orbs:
 jobs:
   test-server:
     executor: node/default
-    working_directory: server
+    working_directory: ~/project/server
     
     steps:
-      - checkout
+      - checkout:
+          path: ~/project
       - node/install-packages:
           cache-path: node_modules
       - run: yarn test
