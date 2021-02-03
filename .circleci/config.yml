@@ -16,6 +16,7 @@ jobs:
             cd node_modules
             ls
             cd ..
+            yarn install
             yarn run test
           name: Checking folder structure
           working_directory: ~/project/server
