@@ -42,7 +42,7 @@
   "scripts": {
     "start:debug": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
     "build": "tsc",
-    "test": "mocha -r ts-node/register src/test/**/*.ts",
+    "test": "mocha -r ts-node/register --project tsconfig.json tests/**/*.ts",
     "_test": "set MONGOMS_VERSION=4.4.3 && set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register ./src/test/**/*.ts"
   }
 }

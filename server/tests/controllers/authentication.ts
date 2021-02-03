@@ -2,26 +2,38 @@ import faker from 'faker';
 import { before, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { stub } from 'sinon';
-import AuthenticationController, { IAuthenticationController } from '../../controllers/authentication.controller';
-import { DbHandler, IDbHandler } from '../../DbHandler';
-import UserRepository, { IUserRepository } from '../../repositories/user.repo';
 import chai, { expect } from 'chai';
-import { IContainer } from '../../container';
-import { IBankInformationController } from '../../controllers/bankinformation.controller';
-import { IBookingController } from '../../controllers/booking.controller';
-import { IPriceMatrixController } from '../../controllers/pricematrix.controller';
-import { IUserController } from '../../controllers/user.controller';
-import { IBankInformationRepository } from '../../repositories/bankinformation.repo';
-import { IBookingRepository } from '../../repositories/booking.repo';
-import { IPriceMatrixRepository } from '../../repositories/pricematrix.repo';
-import { UserRole, UserStatus } from '../../models/user/user.entity';
-import InvalidCredentialsException from '../../exceptions/InvalidCredentialsException';
 import chaiAsPromised from "chai-as-promised";
+import { IContainer } from '../../src/container';
+import MailController from '../../src/controllers/mail.controller';
+import AdminRoute from '../../src/routes/admin.route';
+import AuthRoute from '../../src/routes/auth.route';
+import BookingRoute from '../../src/routes/booking.route';
+import PriceMatrixRoute from '../../src/routes/pricematrix.route';
+import UserRoute from '../../src/routes/user.route';
+import DbHandler, { IDbHandler } from '../../src/DbHandler';
+import UserRepository, { IUserRepository } from '../../src/repositories/user.repo';
+import { IBookingRepository } from '../../src/repositories/booking.repo';
+import { IPriceMatrixRepository } from '../../src/repositories/pricematrix.repo';
+import { IBankInformationRepository } from '../../src/repositories/bankinformation.repo';
+import { IUserController } from '../../src/controllers/user.controller';
+import { IBookingController } from '../../src/controllers/booking.controller';
+import { IPriceMatrixController } from '../../src/controllers/pricematrix.controller';
+import { IBankInformationController } from '../../src/controllers/bankinformation.controller';
+import AuthenticationController, { IAuthenticationController } from '../../src/controllers/authentication.controller';
+import { UserRole, UserStatus } from '../../src/models/user/user.entity';
+import InvalidCredentialsException from '../../src/exceptions/InvalidCredentialsException';
 
 chai.should();
 chai.use(chaiAsPromised);
 
 class Container implements IContainer {
+    mailController!: MailController;
+    adminRoute!: AdminRoute;
+    authRoute!: AuthRoute;
+    bookingRoute!: BookingRoute;
+    priceMatrixRoute!: PriceMatrixRoute;
+    userRoute!: UserRoute;
     dbHandler!: IDbHandler;
     userRepository!: IUserRepository;
     bookingRepository!: IBookingRepository;
@@ -49,7 +61,7 @@ describe('authentication.controller', () => {
     const mongo = new MongoMemoryServer();
     let dbHandler: DbHandler;
     before(async () => {
-
+        await mongo.start();
         const uri = await mongo.getUri();
         const dbName = await mongo.getDbName();
 
@@ -65,10 +77,10 @@ describe('authentication.controller', () => {
     })
 
     after(async () => {
-        try{
-        await dbHandler.disconnect();
-        await mongo.stop();
-        }catch(e){
+        try {
+            await dbHandler.disconnect();
+            await mongo.stop();
+        } catch (e) {
             console.log('failed to disconnect mongo...', e);
         }
     })

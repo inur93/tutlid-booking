@@ -1,10 +1,9 @@
-import { plainToClass } from 'class-transformer';
-import { ClassType } from 'class-transformer/ClassTransformer';
+import { plainToClass, ClassConstructor } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
 import HttpException from '../exceptions/HttpException';
 
-function validationMiddleware<T>(type: ClassType<T>, skipMissingProperties = false): RequestHandler {
+function validationMiddleware<T>(type: ClassConstructor<T>, skipMissingProperties = false): RequestHandler {
     return (req, _, next) => {
         validate(plainToClass<T, any>(type, req.body), { skipMissingProperties })
             .then((errors: ValidationError[]) => {
