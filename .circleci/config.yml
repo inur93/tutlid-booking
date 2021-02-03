@@ -10,6 +10,10 @@ jobs:
           app-dir: ~/project/server
           pkg-manager: yarn
           cache-path: ~/project/server/node_modules
+      - run:
+          command: ls
+          name: Checking folder structure
+          working_directory: ~/project/server
       - run: yarn --cwd ~/project/server test
 workflows:
   node-tests:
