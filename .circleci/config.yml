@@ -11,7 +11,12 @@ jobs:
           pkg-manager: yarn
           cache-path: ~/project/server/node_modules
       - run:
-          command: ls
+          command: |
+            ls
+            cd node_modules
+            ls
+            cd ..
+            yarn run test
           name: Checking folder structure
           working_directory: ~/project/server
       - run: yarn --cwd ~/project/server test
