@@ -4,7 +4,7 @@ orbs:
 jobs:
   test-server:
     executor: node/default
-    working_directory: ~/project/server
+    working_directory: server
     
     steps:
       - checkout
@@ -15,5 +15,5 @@ workflows:
   node-tests:
     jobs:
       - node/test:
-          app-dir: ~/project/server
+          app-dir: server
       - test-server
