@@ -13,11 +13,7 @@ jobs:
       - run:
           command: |
             ls
-            cd node_modules
-            ls
-            cd ..
-            yarn install
-            yarn run test
+            yarn run build
           name: Checking folder structure
           working_directory: ~/project/server
       - run: yarn --cwd ~/project/server test
