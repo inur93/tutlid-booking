@@ -10,6 +10,7 @@ jobs:
           app-dir: ~/project/server
           pkg-manager: yarn
           cache-path: ~/project/server/node_modules
+          cache-version: v2
       - run:
           command: |
             ls
