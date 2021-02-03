@@ -13,10 +13,11 @@ jobs:
       - run:
           command: |
             ls
-            yarn run build
+            node -v
+            yarn -v
           name: Checking folder structure
           working_directory: ~/project/server
-      - run: yarn --cwd ~/project/server test
+      - run: yarn --cwd ~/project/server run test
 workflows:
   node-tests:
     jobs:
