@@ -4,14 +4,23 @@ orbs:
 jobs:
   test-server:
     executor: node/default
-    working_directory: ~/project/server
     steps:
-      - checkout:
-          path: ~/project
+      - checkout
       - node/install-packages:
+          app-dir: ~/project/server
           pkg-manager: yarn
-          cache-path: node_modules
-      - run: yarn test
+          cache-path: ~/project/server/node_modules
+          cache-version: v2
+      - run:
+          command: |
+            ls
+            cd node_modules
+            ls
+            node -v
+            yarn -v
+          name: Checking folder structure
+          working_directory: ~/project/server
+      - run: yarn --cwd ~/project/server run test
 workflows:
   node-tests:
     jobs:
