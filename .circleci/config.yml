@@ -73,7 +73,7 @@ jobs:
           command: |
             docker pull $IMAGE_NAME:latest
             docker tag $IMAGE_NAME:latest registry.heroku.com/${HEROKU_APP_NAME}/web
-            docker push
+            docker push registry.heroku.com/${HEROKU_APP_NAME}/web
       - heroku/deploy-via-git:
           maintenance-mode: true
 workflows:
