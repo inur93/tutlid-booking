@@ -1,4 +1,3 @@
-// import { DocumentType } from "@typegoose/typegoose";
 import { Model, Types } from "mongoose";
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { DocumentType } from "@typegoose/typegoose";
@@ -17,25 +16,24 @@ export interface IBaseRepository<T extends Base, C, U extends BaseUpdate> {
 
 export abstract class BaseRepository<T extends Base, C, U extends BaseUpdate> implements IBaseRepository<T, C, U> {
 
-    private model: Model<DocumentType<T>>;
+    private readonly model: Model<DocumentType<T>>;
     constructor(model: Model<DocumentType<T>>) {
         this.model = model;
     }
     async findById(id: Types.ObjectId): Promise<T> {
-        return await this.model.findById(id);
+        return this.model.findById(id);
     }
     async delete(id: Types.ObjectId): Promise<void> {
-        await this.model.deleteOne({
+        this.model.deleteOne({
             _id: id
         });
     }
     async create(entity: C): Promise<T> {
-        return await this.model.create(entity);
+        return this.model.create(entity);
     }
     async update({ _id, ...update }: U): Promise<T> {
-        return await this.model
+        return this.model
             .findById(_id, update)
             .exec();
     }
-
 }
