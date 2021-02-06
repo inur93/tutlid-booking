@@ -60,7 +60,7 @@
   "scripts": {
     "start:debug": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
     "build": "tsc",
-    "test": "mocha -r ts-node/register tests/**/*.ts --reporter mocha-junit-reporter",
+    "test": "set MOCHA_FILE=~/junit/test-results.xml && mocha -r ts-node/register tests/**/*.ts --reporter mocha-junit-reporter",
     "_test": "set MONGOMS_VERSION=4.4.3 && set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register ./src/test/**/*.ts"
   }
 }
