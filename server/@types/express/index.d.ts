@@ -1,5 +1,4 @@
-import { User } from "models/user/user.entity";
-import { Request } from 'express';
+import { User } from "./models/user/user.entity";
 /**
  * declaration merging to expose user on the request
  * https://www.typescriptlang.org/docs/handbook/declaration-merging.html

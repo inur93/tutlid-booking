@@ -1,9 +1,5 @@
-import { startOfToday } from 'date-fns';
 import mongoose from 'mongoose';
-import { BankInformationModel } from './models/bankinformation/bankinformation.entity';
-import { PriceMatrixModel } from './models/pricematrix/pricematrix.entity';
-import { UserModel, UserRole, UserStatus } from './models/user/user.entity';
-import { hashPassword } from './utils/security';
+import { isProduction } from './utils/environment';
 
 export interface IDbHandler {
     connect(): Promise<void>
@@ -12,14 +8,17 @@ export interface IDbHandler {
 type MongoOptions = {
     uri: string,
     dbName: string,
-    ssl: boolean,
-    createDefaults: boolean //TODO this should be done elsewhere
+    ssl: boolean
 }
 export default class DbHandler implements IDbHandler {
 
     options: MongoOptions;
     constructor(options: MongoOptions) {
-        this.options = options;
+        this.options = options || {
+            uri: process.env.MONGO_URI,
+            dbName: 'tutlid',
+            ssl: isProduction()
+        };
     }
     async connect(): Promise<void> {
         if (!this.options.uri) {
@@ -35,11 +34,6 @@ export default class DbHandler implements IDbHandler {
                 useFindAndModify: false,
                 useCreateIndex: true
             })
-            if (this.options.createDefaults) {
-                this.setupDefaultAdmin();
-                this.setupDefaultPriceMatrix();
-                this.setupDefaultBankInformation();
-            }
         } catch (error) {
             console.log('Error while connecting to the database', error);
         }
@@ -49,37 +43,5 @@ export default class DbHandler implements IDbHandler {
         await mongoose.disconnect();
     }
 
-    async setupDefaultAdmin() {
-        const admin = await UserModel.findOne({
-            roles: UserRole.admin
-        }).exec();
-        if (admin) { return; }
-        console.log('creating default admin');
-        UserModel.create({
-            email: process.env.DEFAULT_ADMIN_EMAIL,
-            fullName: process.env.DEFAULT_ADMIN_NAME,
-            roles: [UserRole.read, UserRole.basic, UserRole.admin],
-            status: UserStatus.approved,
-            password: await hashPassword(process.env.DEFAULT_ADMIN_PASSWORD || 'supersecret')
-        })
-    }
-
-    async setupDefaultPriceMatrix() {
-        const existing = await PriceMatrixModel.findOne({}).exec();
-        if (existing) { return; }
-        PriceMatrixModel.create({
-            validFrom: startOfToday(),
-            price: 350,
-            tubPrice: 50
-        })
-    }
-
-    async setupDefaultBankInformation() {
-        const existing = await BankInformationModel.findOne({}).exec();
-        if (existing) { return; }
-        BankInformationModel.create({
-            regNo: '1234',
-            accountNo: '1234567890'
-        })
-    }
+   
 }

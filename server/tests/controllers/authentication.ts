@@ -70,7 +70,6 @@ describe('authentication.controller', () => {
         const dbName = await mongo.getDbName();
 
         dbHandler = new DbHandler({
-            createDefaults: false,
             dbName,
             uri,
             ssl: false
