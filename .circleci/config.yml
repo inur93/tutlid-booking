@@ -11,16 +11,17 @@ jobs:
           pkg-manager: yarn
           cache-path: ~/project/server/node_modules
           cache-version: v2
+      - run: mkdir ~/junit
       - run:
-          command: |
-            ls
-            cd node_modules
-            ls
-            node -v
-            yarn -v
-          name: Checking folder structure
-          working_directory: ~/project/server
-      - run: yarn --cwd ~/project/server run test
+          name: Run Unit Tests
+          command: yarn test
+          environment:
+            MOCHA_FILE: ~/junit/test-results.xml
+          when: always
+      - store_test_results:
+          path: ~/junit
+      - store_artifacts:
+          path: ~/junit      
 workflows:
   node-tests:
     jobs:
