@@ -50,6 +50,7 @@
     "chai-as-promised": "^7.1.1",
     "faker": "^5.3.1",
     "mocha": "^8.2.1",
+    "mocha-junit-reporter": "^2.0.0",
     "mongodb-memory-server": "^6.9.3",
     "nodemon": "^2.0.6",
     "sinon": "^9.2.4",
@@ -59,7 +60,7 @@
   "scripts": {
     "start:debug": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
     "build": "tsc",
-    "test": "mocha -r ts-node/register tests/**/*.ts",
+    "test": "mocha -r ts-node/register tests/**/*.ts --reporter mocha-junit-reporter",
     "_test": "set MONGOMS_VERSION=4.4.3 && set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register ./src/test/**/*.ts"
   }
 }
