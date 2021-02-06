@@ -1,0 +1,44 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.1.0
+  heroku: circleci/heroku@1.2.5
+jobs:
+  test-server:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          app-dir: ~/project/server
+          pkg-manager: yarn
+          cache-path: ~/project/server/node_modules
+          cache-version: v2
+      - run: mkdir ~/junit
+      - run:
+          name: Run Unit Tests
+          command: yarn test
+          working_directory: ~/project/server
+          environment:
+            MOCHA_FILE: junit/test-results.xml
+          when: always
+      - store_test_results:
+          path: ~/project/server/junit
+      - store_artifacts:
+          path: ~/project/server/junit
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git:
+          maintenance-mode: true
+workflows:
+  node-tests:
+    jobs:
+      - test-server
+      - deploy:
+          filters:
+              branches:
+                  only:
+                      - master
+          requires:
+            - "test-server"

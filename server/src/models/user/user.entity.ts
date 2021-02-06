@@ -15,22 +15,22 @@ export enum UserStatus {
 }
 class User extends Base {
     @prop({ required: true })
-    public fullName: string
+    public fullName!: string
 
     @prop({ unique: true, required: true })
-    email: string;
+    email!: string;
 
     @prop({ required: true })
-    password: string;
+    password!: string;
 
-    @prop({ enum: UserRole, default: UserRole.read, type: String })
-    roles: UserRole[];
+    @prop({ enum: UserRole, default: [UserRole.read], type: String })
+    roles: UserRole[] = [];
 
     @prop({ enum: UserStatus, default: UserStatus.pendingApproval, type: String })
-    status: UserStatus;
+    status!: UserStatus;
 
-    @prop({default: false})
-    deleted: boolean;
+    @prop({ default: false })
+    deleted!: boolean;
 }
 
 const UserModel = getModelForClass(User) as Model<DocumentType<User>>;

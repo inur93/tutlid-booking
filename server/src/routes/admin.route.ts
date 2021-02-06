@@ -1,11 +1,11 @@
-import { NextFunction, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { Types } from 'mongoose';
-import BankInformationController from '../controllers/bankinformation.controller';
-import BookingController from '../controllers/booking.controller';
-import mailController from '../controllers/mail.controller';
-import PriceMatrixController from '../controllers/pricematrix.controller';
-import UserController from '../controllers/user.controller';
-import RequestWithUser from '../interfaces/requestWithUser.interface';
+import { IContainer } from '../container';
+import { IBankInformationController } from '../controllers/bankinformation.controller';
+import { IBookingController } from '../controllers/booking.controller';
+
+import { IPriceMatrixController } from '../controllers/pricematrix.controller';
+import { IUserController } from '../controllers/user.controller';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import validationMiddleware from '../middleware/validation.middleware';
@@ -15,17 +15,29 @@ import { BookingStatus } from '../models/booking/booking.entity';
 import { CreatePriceMatrix } from '../models/pricematrix/pricematrix.dto';
 import { UpdateUserRoleDto, UpdateUserStatusDto } from '../models/user/user.dto';
 import { User, UserRole, UserStatus } from '../models/user/user.entity';
+import MailController from '../controllers/mail.controller';
 
 export default class AdminRoute implements IRoute {
     public path = '/admin';
     public router = Router();
-    private userController = new UserController();
-    private bookingController = new BookingController();
-    private priceMatrixController = new PriceMatrixController();
-    private bankInformationController = new BankInformationController();
+    private readonly userController: IUserController;
+    private readonly bookingController: IBookingController;
+    private readonly priceMatrixController: IPriceMatrixController;
+    private readonly bankInformationController: IBankInformationController;
+    private readonly mailController: MailController;
 
 
-    constructor() {
+    constructor({
+        mailController,
+        userController,
+        bookingController,
+        priceMatrixController,
+        bankInformationController }: IContainer) {
+        this.mailController = mailController;
+        this.userController = userController;
+        this.bookingController = bookingController;
+        this.priceMatrixController = priceMatrixController;
+        this.bankInformationController = bankInformationController;
         this.initializeRoutes();
     }
 
@@ -42,7 +54,7 @@ export default class AdminRoute implements IRoute {
             .put(`${this.path}/bankinformation/:id`, validationMiddleware(BankInformation), this.updateBankInformation);
     }
 
-    private getUsers = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly getUsers = async (request: Request, response: Response, next: NextFunction) => {
         try {
             response.send(await this.userController.get(request.query.status as UserStatus));
         } catch (e) {
@@ -50,7 +62,7 @@ export default class AdminRoute implements IRoute {
         }
     }
 
-    private addUserRole = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly addUserRole = async (request: Request, response: Response, next: NextFunction) => {
 
         try {
             const user = await this.userController.addRole(Types.ObjectId(request.params.id), request.body.role);
@@ -60,7 +72,7 @@ export default class AdminRoute implements IRoute {
         }
     }
 
-    private removeUserRole = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly removeUserRole = async (request: Request, response: Response, next: NextFunction) => {
 
         try {
             const user = await this.userController.removeRole(Types.ObjectId(request.params.id), request.params.role as UserRole);
@@ -69,7 +81,7 @@ export default class AdminRoute implements IRoute {
             next(e);
         }
     }
-    private changeUserStatus = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly changeUserStatus = async (request: Request, response: Response, next: NextFunction) => {
 
         try {
             const user = await this.userController.changeStatus(Types.ObjectId(request.params.id), request.body.status);
@@ -79,7 +91,7 @@ export default class AdminRoute implements IRoute {
         }
     }
 
-    private changeBookingStatus = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly changeBookingStatus = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const booking = await this.bookingController.changeStatus({
                 id: Types.ObjectId(request.params.id),
@@ -90,9 +102,9 @@ export default class AdminRoute implements IRoute {
             if (!(booking.bookedBy as User).roles.includes(UserRole.admin)) {
                 if (booking.status === BookingStatus.accepted) {
                     const bankInfo = await this.bankInformationController.current();
-                    mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
+                    this.mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
                 } else {
-                    mailController.sendRejection(booking, booking.bookedBy as User);
+                    this.mailController.sendRejection(booking, booking.bookedBy as User);
                 }
             }
             response.send(booking);
@@ -102,7 +114,7 @@ export default class AdminRoute implements IRoute {
 
     }
 
-    private createPriceMatrix = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly createPriceMatrix = async (request: Request, response: Response, next: NextFunction) => {
         try {
             response.send(await this.priceMatrixController.create(request.body));
         } catch (e) {
@@ -110,7 +122,7 @@ export default class AdminRoute implements IRoute {
         }
     }
 
-    private deletePriceMatrix = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly deletePriceMatrix = async (request: Request, response: Response, next: NextFunction) => {
         try {
             response.send(await this.priceMatrixController.delete(Types.ObjectId(request.params.id)));
         } catch (e) {
@@ -118,7 +130,7 @@ export default class AdminRoute implements IRoute {
         }
     }
 
-    private getBankInformation = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly getBankInformation = async (_: Request, response: Response, next: NextFunction) => {
         try {
             response.send(await this.bankInformationController.current());
         } catch (e) {
@@ -126,7 +138,7 @@ export default class AdminRoute implements IRoute {
         }
     }
 
-    private updateBankInformation = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly updateBankInformation = async (request: Request, response: Response, next: NextFunction) => {
         try {
             response.send(await this.bankInformationController.update(Types.ObjectId(request.params.id), request.body));
         } catch (e) {

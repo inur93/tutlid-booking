@@ -44,18 +44,3 @@ export class AuthApi extends BaseApi {
         }
     }
 }
-
-export class DummyAuthApi extends BaseApi {
-
-    constructor() {
-        super(false);
-    }
-
-    async login(loginData: LoginData) {
-        return {
-            id: '1',
-            username: 'dummy-user',
-            token: ''
-        }
-    }
-}

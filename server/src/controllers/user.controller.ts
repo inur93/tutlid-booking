@@ -1,60 +1,70 @@
 import { Types } from 'mongoose';
 import NotFoundException from '../exceptions/NotFoundException';
 import { UpdateSelfDto } from '../models/user/user.dto';
-import { UserModel, UserRole, UserStatus } from '../models/user/user.entity';
-class UserController {
+import { User, UserRole, UserStatus } from '../models/user/user.entity';
+import { IUserRepository } from '../repositories/user.repo';
 
+export interface IUserController {
+    get(status?: UserStatus): Promise<User[]>
+    getById(id: Types.ObjectId): Promise<User>
+    update(id: Types.ObjectId, update: UpdateSelfDto): Promise<User>
+    changeStatus(id: Types.ObjectId, status: UserStatus): Promise<User>
+    addRole(id: Types.ObjectId, role: UserRole): Promise<User>
+    removeRole(id: Types.ObjectId, role: UserRole): Promise<User>
+}
+export default class UserController implements IUserController {
+    userRepository: IUserRepository;
+    constructor(userRepository: IUserRepository) {
+        this.userRepository = userRepository;
+    }
     public async get(status?: UserStatus) {
-        let query: any = {};
-        if (status) query.status = status;
-
-        return await UserModel.find(query, { password: false });
+        const query: any = {};
+        if (status) { query.status = status; }
+        return this.userRepository.findMany({
+            status
+        })
     }
 
     public async getById(id: Types.ObjectId) {
-        const user = await UserModel.findOne(id, { password: false });
+        const user = await this.userRepository.findById(id);
+        if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
         return user;
+
     }
 
     public async update(id: Types.ObjectId, update: UpdateSelfDto) {
-        await UserModel.updateOne({ _id: id }, update);
-        const user = await UserModel.findOne(id, { password: false });
-        if (user) {
-            return user;
-        } else {
-            throw new NotFoundException(`user id ${id} was not found`);
-        }
+        const user = this.userRepository.updateOne({
+            _id: id,
+            ...update
+        })
+        if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
+        return user;
     }
 
     public async changeStatus(id: Types.ObjectId, status: UserStatus) {
-        if (status === UserStatus.approved) {
-            await UserModel.updateOne({ _id: id }, {
-                status,
-                $addToSet: { roles: UserRole.basic }
-            })
-        } else {
-            await UserModel.updateOne({ _id: id }, {
-                status
-            })
-        }
-        return await UserModel.findOne(id, { password: false });
+
+        const update = {
+            _id: id,
+            status,
+            role: UserRole.basic
+        };
+
+        return (status === UserStatus.approved ?
+            this.userRepository.addRole(update) :
+            this.userRepository.removeRole(update))
     }
 
     public async addRole(id: Types.ObjectId, role: UserRole) {
-        await UserModel.updateOne({ _id: id }, {
-            $addToSet: { roles: role }
-        })
-
-        return await UserModel.findOne(id, { password: false });
+        return this.userRepository.addRole({
+            _id: id,
+            role: role
+        });
     }
 
     public async removeRole(id: Types.ObjectId, role: UserRole) {
-        await UserModel.updateOne({ _id: id }, {
-            $pull: { roles: role }
-        })
-
-        return await UserModel.findOne(id, { password: false });
+        return this.userRepository.removeRole({
+            _id: id,
+            role: role
+        });
     }
 }
-
-export default UserController;

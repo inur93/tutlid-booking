@@ -1,17 +1,17 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import AuthenticationTokenMissingException from '../exceptions/AuthenticationTokenMissingException';
 import InvalidAuthenticationTokenException from '../exceptions/InvalidAuthenticationTokenException';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import DataStoredInToken from '../interfaces/dataStoredInToken.interface';
-import RequestWithUser from '../interfaces/requestWithUser.interface';
-import { User, UserModel, UserRole } from '../models/user/user.entity';
+import { UserModel, UserRole } from '../models/user/user.entity';
 
-function authMiddleware(requiredRoles: UserRole[] = []) {
-    return async function (request: RequestWithUser, response: Response, next: NextFunction) {
+function authMiddleware(requiredRoles: UserRole[] = []): RequestHandler {
+    return async function (request: Request, _: Response, next: NextFunction): Promise<void> {
+
         const cookies = request.cookies;
         if (cookies && cookies.Authorization) {
-            const secret = process.env.JWT_SECRET;
+            const secret = process.env.JWT_SECRET || 'no_secret';
             try {
                 const verificationResponse = jwt.verify(cookies.Authorization, secret) as DataStoredInToken;
                 const id = verificationResponse.id;

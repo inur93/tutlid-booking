@@ -4,16 +4,16 @@ import { Model } from 'mongoose';
 
 class PriceMatrix extends Base {
     @prop({ required: true })
-    public validFrom: Date;
+    public validFrom!: Date;
 
     @prop()
     public validTo?: Date;
 
     @prop({ required: true })
-    price: number;
+    price!: number;
 
     @prop({ required: true })
-    tubPrice: number;
+    tubPrice!: number;
 
 }
 

@@ -10,3 +10,6 @@ To generate a migration do the following:
 1. navigate to the server folder containing package.json and a Dockerfile.
 2. run `yarn run docker:migration:generate <migration_name>` if any changes have been detected a new migration file will be created in `migrations` folder with the given migration name (`<migration_name>`).
 
+## Heroku Secrets ##
+
+run: heroku authorizations:create to get an API key

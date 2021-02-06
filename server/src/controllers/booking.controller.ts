@@ -1,63 +1,65 @@
-import { DocumentType } from '@typegoose/typegoose';
+import { Types } from 'mongoose';
+import { IContainer } from '../container';
 import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/booking.dto';
-import { Booking, BookingModel, BookingStatus } from '../models/booking/booking.entity';
+import { Booking, BookingStatus } from '../models/booking/booking.entity';
 import { User, UserRole } from '../models/user/user.entity';
-import PriceMatrixController from './pricematrix.controller';
-class BookingController {
-    private priceMatrixController = new PriceMatrixController();
-    public async get(from?: Date, to?: Date, status?: BookingStatus): Promise<DocumentType<Booking>[]> {
+import { IBookingRepository } from '../repositories/booking.repo';
+import { IPriceMatrixController } from './pricematrix.controller';
 
-        let query: any = {};
-        if (from) query.to = { $gt: from };
-        if (to) query.from = { $lt: to };
-        if (status) query.status = status;
-        const bookings = await BookingModel
-            .find(query)
-            .populate('bookedBy', {
-                fullName: true
-            })
-            .exec();
-        return bookings;
+export interface IBookingController {
+    get(from?: Date, to?: Date, status?: BookingStatus): Promise<Booking[]>
+    getById(id: string): Promise<Booking>
+    create(dto: CreateBookingDto, user: User): Promise<Booking>
+    changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<Booking>
+    delete(id: string): Promise<void>
+}
+export default class BookingController implements IBookingController {
+    private readonly priceMatrixController: IPriceMatrixController;
+    private readonly bookingRepository: IBookingRepository;
+    constructor({
+        bookingRepository,
+        priceMatrixController
+    }: IContainer) {
+        this.priceMatrixController = priceMatrixController;
+        this.bookingRepository = bookingRepository;
     }
 
-    public async getById(id: string): Promise<DocumentType<Booking>> {
-        const booking = await BookingModel
-            .findOne({
-                _id: id
-            }).exec();
-        return booking;
+    public async get(from?: Date, to?: Date, status?: BookingStatus): Promise<Booking[]> {
+        return this.bookingRepository.find({
+            from, to, status
+        })
+    }
+
+    public async getById(id: string): Promise<Booking> {
+        return this.bookingRepository.findById(Types.ObjectId(id));
     }
 
     public async create(dto: CreateBookingDto, user: User) {
         const priceDetails = await this.priceMatrixController.calculatePrice(dto);
-        const booking = await BookingModel.create({
-            _id: undefined,
-            ...dto,
-            bookedBy: user._id,
-            paid: false,
-            pricePpl: priceDetails.priceTotal,
-            priceTub: priceDetails.tubPriceTotal,
-            status: user.roles.includes(UserRole.admin) ? BookingStatus.accepted : BookingStatus.reserved,
-            messageFromAdmin: ''
-        })
 
-        return booking;
+        return this.bookingRepository.create(
+            {
+                from: new Date(dto.from),
+                to: new Date(dto.to),
+                pplCount: dto.pplCount,
+                tubCount: dto.tubCount,
+                comment: dto.comment,
+                bookedBy: user._id,
+                pricePpl: priceDetails.priceTotal,
+                priceTub: priceDetails.tubPriceTotal,
+                status: user.roles.includes(UserRole.admin) ? BookingStatus.accepted : BookingStatus.reserved
+            }
+        )
     }
 
-    public async changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<DocumentType<Booking>> {
-
-        await BookingModel.updateOne({
-            _id: id
-        }, data);
-
-        return await BookingModel.findOne({ _id: id }, undefined, { populate: 'bookedBy' });
+    public async changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<Booking> {
+        return this.bookingRepository.update({
+            _id: id,
+            ...data
+        })
     }
 
     public async delete(id: string) {
-        await BookingModel.deleteOne({
-            _id: id
-        });
+        this.bookingRepository.delete(Types.ObjectId(id));
     }
 }
-
-export default BookingController;

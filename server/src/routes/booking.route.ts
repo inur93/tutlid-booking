@@ -1,21 +1,24 @@
-import { NextFunction, Response, Router } from 'express';
-import BookingController from '../controllers/booking.controller';
-import mailController from '../controllers/mail.controller';
+import { NextFunction, Response, Router, Request } from 'express';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
-import RequestWithUser from '../interfaces/requestWithUser.interface';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import validationMiddleware from '../middleware/validation.middleware';
 import { CreateBookingDto } from '../models/booking/booking.dto';
 import { BookingStatus } from '../models/booking/booking.entity';
 import { UserRole } from '../models/user/user.entity';
+import { IBookingController } from '../controllers/booking.controller';
+import { IContainer } from '../container';
+import MailController from '../controllers/mail.controller';
 
 export default class BookingRoute implements IRoute {
     public path = '/bookings';
     public router = Router();
-    private bookingController = new BookingController();
+    private readonly bookingController: IBookingController;
+    private readonly mailController: MailController;
 
-    constructor() {
+    constructor({ bookingController, mailController }: IContainer) {
+        this.bookingController = bookingController;
+        this.mailController = mailController;
         this.initializeRoutes();
     }
 
@@ -26,7 +29,7 @@ export default class BookingRoute implements IRoute {
             .delete(`${this.path}/:id`, authMiddleware([UserRole.basic]), this.delete)
     }
 
-    private get = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly get = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const { from, to, status } = request.query;
             const qFrom = from ? new Date(Date.parse(request.query.from as string)) : undefined;
@@ -38,12 +41,12 @@ export default class BookingRoute implements IRoute {
         }
     }
 
-    private create = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly create = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const user = request.user;
-            const booking = await this.bookingController.create(request.body, request.user);
+            const booking = await this.bookingController.create(request.body, user);
             if (!user.roles.includes(UserRole.admin)) {
-                await mailController.sendReceipt(booking, request.user);
+                await this.mailController.sendReceipt(booking, user);
             }
             response.send(booking);
         } catch (e) {
@@ -51,15 +54,17 @@ export default class BookingRoute implements IRoute {
         }
     }
 
-    private delete = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+    private readonly delete = async (request: Request, response: Response, next: NextFunction) => {
 
         const booking = await this.bookingController.getById(request.params.id);
-        if (request.user._id.toHexString() !== booking.bookedBy.toString()) {
+        if (!booking.bookedBy) {
+            throw new Error('bookedBy is not set');
+        }
+        if (request.user._id.toHexString() !== booking.bookedBy) {
             next(new MissingPermissionsException());
         } else {
             await this.bookingController.delete(request.params.id);
             response.send();
         }
     }
-
 }

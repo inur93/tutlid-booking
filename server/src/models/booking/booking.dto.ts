@@ -1,35 +1,38 @@
-import { IsDateString, IsInt, IsString, Min } from 'class-validator';
+import { IsDateString, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { Types } from 'mongoose';
 import { BookingStatus } from './booking.entity';
 export class CreateBookingDto {
-    @IsDateString()
-    public from: string;
+    @IsDateString() @IsNotEmpty()
+    public from!: string;
 
-    @IsDateString()
-    public to: string;
-
-    @IsInt()
-    @Min(0)
-    public pplCount: number;
+    @IsDateString() @IsNotEmpty()
+    public to!: string;
 
     @IsInt()
-    @Min(0)
-    public tubCount: number;
+    @Min(0) @IsNotEmpty()
+    public pplCount!: number;
 
-    @IsString()
-    public comment: string;
+    @IsInt()
+    @Min(0) @IsNotEmpty()
+    public tubCount!: number;
+
+    @IsString() @IsOptional()
+    public comment?: string;
 }
 
 export class BookingWithPrice extends CreateBookingDto {
-    public days: number;
-    public price: number;
-    public priceTotal: number;
-    public tubPrice: number;
-    public tubPriceTotal: number;
+    public days!: number;
+    public price!: number;
+    public priceTotal!: number;
+    public tubPrice!: number;
+    public tubPriceTotal!: number;
 }
 
 export class ChangeBookingStatusDto {
-    public id: Types.ObjectId;
-    public status: BookingStatus;
-    public messageFromAdmin: string;
+    @IsUUID()
+    public id!: Types.ObjectId;
+    @IsEnum(BookingStatus)
+    public status!: BookingStatus;
+    @IsString() @IsOptional()
+    public messageFromAdmin?: string;
 }

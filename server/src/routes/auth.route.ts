@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import jwt from 'jsonwebtoken';
-import AuthenticationController from '../controllers/authentication.controller';
+import { IContainer } from '../container';
+import { IAuthenticationController } from '../controllers/authentication.controller';
 import { IRoute } from '../interfaces/route.interface';
 import TokenData from '../interfaces/tokenData.interface';
 import validationMiddleware from '../middleware/validation.middleware';
@@ -11,9 +12,9 @@ import { User } from '../models/user/user.entity';
 export default class AuthRoute implements IRoute {
     public path = '/auth';
     public router = Router();
-    private authController = new AuthenticationController();
-
-    constructor() {
+    private readonly authenticationController: IAuthenticationController;
+    constructor({ authenticationController }: IContainer) {
+        this.authenticationController = authenticationController;
         this.initializeRoutes();
     }
 
@@ -22,18 +23,18 @@ export default class AuthRoute implements IRoute {
         this.router.get(`${this.path}/logout`, this.logout);
         this.router.post(`${this.path}/register`, validationMiddleware(CreateUserDto), this.register)
     }
-    private register = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly register = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.authController.register(request.body);
+            const user = await this.authenticationController.register(request.body);
             this.attachTokenAndCookie(response, user);
             response.send(user);
         } catch (e) {
             next(e);
         }
     }
-    private login = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly login = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.authController.login(request.body);
+            const user = await this.authenticationController.login(request.body);
             this.attachTokenAndCookie(response, user);
             response.send(user);
         } catch (e) {
@@ -41,12 +42,12 @@ export default class AuthRoute implements IRoute {
         }
     }
 
-    private logout = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly logout = async (_: Request, response: Response) => {
         response.setHeader('Set-Cookie', this.createCookie({ token: '', expiresIn: 0 }));
         response.send();
     }
 
-    private attachTokenAndCookie = async (response: Response, user: User) => {
+    private readonly attachTokenAndCookie = async (response: Response, user: User) => {
         const tokenData = this.createToken(user);
         const cookie = this.createCookie(tokenData);
         response.setHeader('Set-Cookie', [cookie]);
@@ -56,7 +57,7 @@ export default class AuthRoute implements IRoute {
     }
     public createToken(user: User): TokenData {
         const expiresIn = 60 * 60 * 12; // 12 hours
-        const secret = process.env.JWT_SECRET;
+        const secret = process.env.JWT_SECRET || '';
         const dataStoredInToken = {
             id: user._id,
         };

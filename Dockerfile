@@ -37,7 +37,7 @@ COPY ./server/yarn.lock ./
 USER node
 
 # Install libraries as user node. If NODE_ENV=production dev_dependencies will not be installed.
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --production=true
 
 # Update the system
 #RUN apk --no-cache -U upgrade

@@ -1,2 +1,10 @@
 server/node_modules/
+server/build/
 client/node_modules/
+client/build/
+.circleci/
+.git/
+.github/
+.vs/
+.vscode/
+data/
