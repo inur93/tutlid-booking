@@ -13,3 +13,7 @@ To generate a migration do the following:
 ## Heroku Secrets ##
 
 run: heroku authorizations:create to get an API key
+
+## Issues ##
+1. due to this bug: https://github.com/ionic-team/stencil/issues/2235 it is required to specify the version in the setup_remote_docker command.
+
