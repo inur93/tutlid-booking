@@ -42,8 +42,8 @@ RUN yarn install --frozen-lockfile --production=true
 # Update the system
 #RUN apk --no-cache -U upgrade
 
-# Copy js files and change ownership to user node
-COPY --chown=node:node --from=server /server/build ./server
+# Copy js files and change ownership to user node. we copy only content from src/ folder as test/ folder is not necessary
+COPY --chown=node:node --from=server /server/build/src ./server
 
 COPY --chown=node:node --from=client /client/build ./public
 
