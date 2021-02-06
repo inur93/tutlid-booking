@@ -71,7 +71,6 @@ jobs:
       - run:
           name: Push Docker Image to Heroku Registry
           command: |
-            heroku login
             docker pull $IMAGE_NAME:latest
             docker tag $IMAGE_NAME:latest registry.heroku.com/${HEROKU_APP_NAME}/web
             docker push
