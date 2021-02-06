@@ -15,6 +15,7 @@ jobs:
       - run:
           name: Run Unit Tests
           command: yarn test
+          working_directory: ~/project/server
           environment:
             MOCHA_FILE: ~/junit/test-results.xml
           when: always
