@@ -79,17 +79,17 @@ jobs:
 workflows:
   node-tests:
     jobs:
-      #- test-server
-      #- build:
-      #    requires:
-      #      - "test-server"
-      #- publish-latest:
-      #    requires:
-      #      - "build"
+      - test-server
+      - build:
+          requires:
+            - "test-server"
+      - publish-latest:
+          requires:
+            - "build"
       - deploy:
           filters:
             branches:
               only:
                 - master
-      #    requires:
-       #     - "publish-latest"
+          requires:
+            - "publish-latest"
