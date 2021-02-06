@@ -58,7 +58,11 @@ describe('authentication.controller', () => {
     const container = stub(Container).prototype;
     container.userRepository = new UserRepository();
     const controller = new AuthenticationController(container);
-    const mongo = new MongoMemoryServer();
+    const mongo = new MongoMemoryServer({
+        binary: {
+            version: '4.0.14'
+        }
+    });
     let dbHandler: DbHandler;
     before(async () => {
         await mongo.start();
@@ -78,8 +82,8 @@ describe('authentication.controller', () => {
 
     after(async () => {
         try {
-            await dbHandler.disconnect();
-            await mongo.stop();
+            await dbHandler?.disconnect();
+            await mongo?.stop();
         } catch (e) {
             console.log('failed to disconnect mongo...', e);
         }
