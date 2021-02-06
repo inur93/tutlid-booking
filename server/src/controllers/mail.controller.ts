@@ -6,7 +6,7 @@ import { Booking } from '../models/booking/booking.entity';
 import { User } from '../models/user/user.entity';
 
 export default class MailController {
-    private mailsEnabled: boolean;
+    private readonly mailsEnabled: boolean;
     constructor() {
         const apiKey = process.env.SENDGRID_API_KEY
         if (apiKey) {
@@ -36,7 +36,7 @@ export default class MailController {
     }
 
     private user2templateData(user?: User) {
-        if (!user) return {};
+        if (!user) { return {}; }
         return {
             fullName: `${user.fullName}`,
             email: user.email
@@ -44,7 +44,7 @@ export default class MailController {
     }
 
     private bank2tempalteData(bankInfo?: BankInformation) {
-        if (!bankInfo) return {};
+        if (!bankInfo) {return {};}
         return {
             regNo: `${bankInfo.regNo}`,
             accountNo: `${bankInfo.accountNo}`
@@ -105,5 +105,4 @@ export default class MailController {
             console.log('could not send email', e.message);
         }
     }
-
 }

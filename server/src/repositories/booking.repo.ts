@@ -40,13 +40,12 @@ export interface IBookingRepository extends IBaseRepository<Booking, CreateBooki
 
 export default class BookingRepository extends BaseRepository<Booking, CreateBooking, UpdateBooking> implements IBookingRepository {
 
-
     constructor() {
         super(BookingModel);
     }
 
     async findById(id: Types.ObjectId): Promise<Booking> {
-        return await BookingModel
+        return BookingModel
             .findById(id)
             .populate('bookedBy', {
                 fullName: true
@@ -54,11 +53,11 @@ export default class BookingRepository extends BaseRepository<Booking, CreateBoo
             .exec();
     }
     async find({ from, to, status }: BookingQuery): Promise<Booking[]> {
-        let query: any = {};
-        if (from) query.to = { $gt: from };
-        if (to) query.from = { $lt: to };
-        if (status) query.status = status;
-        return await BookingModel
+        const query: any = {};
+        if (from) { query.to = { $gt: from }; }
+        if (to) { query.from = { $lt: to }; }
+        if (status) { query.status = status; }
+        return BookingModel
             .find(query)
             .populate('bookedBy', {
                 fullName: true
@@ -67,12 +66,11 @@ export default class BookingRepository extends BaseRepository<Booking, CreateBoo
     }
 
     async update({ _id, ...update }: UpdateBooking): Promise<Booking> {
-        return await BookingModel
+        return BookingModel
             .findOneAndUpdate({ _id }, update)
             .populate('bookedBy', {
                 fullName: true
             })
             .exec();
     }
-
 }

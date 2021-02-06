@@ -18,16 +18,16 @@ export default class UserController implements IUserController {
         this.userRepository = userRepository;
     }
     public async get(status?: UserStatus) {
-        let query: any = {};
-        if (status) query.status = status;
-        return await this.userRepository.findMany({
+        const query: any = {};
+        if (status) { query.status = status; }
+        return this.userRepository.findMany({
             status
         })
     }
 
     public async getById(id: Types.ObjectId) {
         const user = await this.userRepository.findById(id);
-        if (!user) throw new NotFoundException(`user id ${id} was not found`);
+        if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
         return user;
 
     }
@@ -37,7 +37,7 @@ export default class UserController implements IUserController {
             _id: id,
             ...update
         })
-        if (!user) throw new NotFoundException(`user id ${id} was not found`);
+        if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
         return user;
     }
 
@@ -49,20 +49,20 @@ export default class UserController implements IUserController {
             role: UserRole.basic
         };
 
-        return await (status === UserStatus.approved ?
+        return (status === UserStatus.approved ?
             this.userRepository.addRole(update) :
             this.userRepository.removeRole(update))
     }
 
     public async addRole(id: Types.ObjectId, role: UserRole) {
-        return await this.userRepository.addRole({
+        return this.userRepository.addRole({
             _id: id,
             role: role
         });
     }
 
     public async removeRole(id: Types.ObjectId, role: UserRole) {
-        return await this.userRepository.removeRole({
+        return this.userRepository.removeRole({
             _id: id,
             role: role
         });

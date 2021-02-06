@@ -31,21 +31,21 @@ export default class PriceMatrixRepository extends BaseRepository<PriceMatrix, C
     }
 
     async updateValidToByDate(queryDate: Date, validTo?: Date): Promise<PriceMatrix> {
-        let update: any = validTo ?
-            { validTo: validTo as Date } :
+        const update: any = validTo ?
+            { validTo } :
             { $unset: { validTo: true } };
-        return await PriceMatrixModel.findOneAndUpdate({
+        return PriceMatrixModel.findOneAndUpdate({
             validTo: queryDate
         }, update);
     }
 
     async getLatest(): Promise<PriceMatrix> {
-        return await PriceMatrixModel.findOne({
+        return PriceMatrixModel.findOne({
             validTo: { $exists: false }
         })
     }
     async getByDate(date: Date): Promise<PriceMatrix> {
-        return await PriceMatrixModel.findOne({
+        return PriceMatrixModel.findOne({
             validFrom: { $lte: date },
             $or: [
                 { validTo: { $exists: false } },
@@ -55,13 +55,13 @@ export default class PriceMatrixRepository extends BaseRepository<PriceMatrix, C
     }
     async find(from?: Date): Promise<PriceMatrix[]> {
         if (from) {
-            return await PriceMatrixModel.find({ validFrom: { $gte: from } })
+            return PriceMatrixModel.find({ validFrom: { $gte: from } })
                 .sort({ validFrom: 1 })
                 .exec();
         } else {
-            return await PriceMatrixModel.find()
-            .sort({ validFrom: 1 })
-            .exec();
+            return PriceMatrixModel.find()
+                .sort({ validFrom: 1 })
+                .exec();
         }
     }
 }

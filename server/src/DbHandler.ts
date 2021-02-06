@@ -42,7 +42,6 @@ export default class DbHandler implements IDbHandler {
             }
         } catch (error) {
             console.log('Error while connecting to the database', error);
-            return error;
         }
     }
 
@@ -54,20 +53,20 @@ export default class DbHandler implements IDbHandler {
         const admin = await UserModel.findOne({
             roles: UserRole.admin
         }).exec();
-        if (admin) return;
+        if (admin) { return; }
         console.log('creating default admin');
         UserModel.create({
             email: process.env.DEFAULT_ADMIN_EMAIL,
             fullName: process.env.DEFAULT_ADMIN_NAME,
             roles: [UserRole.read, UserRole.basic, UserRole.admin],
             status: UserStatus.approved,
-            password: await hashPassword(process.env.DEFAULT_ADMIN_PASSWORD!)
+            password: await hashPassword(process.env.DEFAULT_ADMIN_PASSWORD || 'supersecret')
         })
     }
 
     async setupDefaultPriceMatrix() {
         const existing = await PriceMatrixModel.findOne({}).exec();
-        if (existing) return;
+        if (existing) { return; }
         PriceMatrixModel.create({
             validFrom: startOfToday(),
             price: 350,
@@ -77,7 +76,7 @@ export default class DbHandler implements IDbHandler {
 
     async setupDefaultBankInformation() {
         const existing = await BankInformationModel.findOne({}).exec();
-        if (existing) return;
+        if (existing) { return; }
         BankInformationModel.create({
             regNo: '1234',
             accountNo: '1234567890'

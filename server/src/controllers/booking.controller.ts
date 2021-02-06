@@ -14,8 +14,8 @@ export interface IBookingController {
     delete(id: string): Promise<void>
 }
 export default class BookingController implements IBookingController {
-    private priceMatrixController: IPriceMatrixController;
-    private bookingRepository: IBookingRepository;
+    private readonly priceMatrixController: IPriceMatrixController;
+    private readonly bookingRepository: IBookingRepository;
     constructor({
         bookingRepository,
         priceMatrixController
@@ -25,19 +25,19 @@ export default class BookingController implements IBookingController {
     }
 
     public async get(from?: Date, to?: Date, status?: BookingStatus): Promise<Booking[]> {
-        return await this.bookingRepository.find({
+        return this.bookingRepository.find({
             from, to, status
         })
     }
 
     public async getById(id: string): Promise<Booking> {
-        return await this.bookingRepository.findById(Types.ObjectId(id));
+        return this.bookingRepository.findById(Types.ObjectId(id));
     }
 
     public async create(dto: CreateBookingDto, user: User) {
         const priceDetails = await this.priceMatrixController.calculatePrice(dto);
 
-        return await this.bookingRepository.create(
+        return this.bookingRepository.create(
             {
                 from: new Date(dto.from),
                 to: new Date(dto.to),
@@ -53,13 +53,13 @@ export default class BookingController implements IBookingController {
     }
 
     public async changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<Booking> {
-        return await this.bookingRepository.update({
+        return this.bookingRepository.update({
             _id: id,
             ...data
         })
     }
 
     public async delete(id: string) {
-        await this.bookingRepository.delete(Types.ObjectId(id));
+        this.bookingRepository.delete(Types.ObjectId(id));
     }
 }

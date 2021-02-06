@@ -42,36 +42,35 @@ export default class UserRepository extends BaseRepository<User, CreateUser, Upd
 
     async create(user: CreateUser): Promise<User> {
         const created = await UserModel.create(user);
-        return await this.findById(created.id);
+        return this.findById(created.id);
     }
 
-    async findById(id: Types.ObjectId, includePassword?: boolean): Promise<User> {
-        return await UserModel.findById(id, { password: includePassword || false });
+    async findById(id: Types.ObjectId, includePassword: boolean = false): Promise<User> {
+        return UserModel.findById(id, { password: includePassword });
     }
 
-    async findOne(query: UserQuery, includePassword?: boolean): Promise<User> {
-        return await UserModel.findOne(query, { password: includePassword || false });
+    async findOne(query: UserQuery, includePassword: boolean = false): Promise<User> {
+        return UserModel.findOne(query, { password: includePassword });
     }
     async findMany(query: UserQuery): Promise<User[]> {
-        return await UserModel.find(query, { password: false });
+        return UserModel.find(query, { password: false });
     }
     async updateOne({ _id, ...update }: UpdateUser): Promise<User> {
-        return await UserModel.findOneAndUpdate(
+        return UserModel.findOneAndUpdate(
             { _id },
             update,
             { projection: { password: false } });
     }
     async addRole({ _id, role, ...update }: UpdateUserRoleDto): Promise<User> {
-        return await UserModel.findOneAndUpdate({ _id }, {
+        return UserModel.findOneAndUpdate({ _id }, {
             ...update,
             $addToSet: { roles: role }
         }, { projection: { password: false } })
     }
     async removeRole({ _id, role, ...update }: UpdateUserRoleDto): Promise<User> {
-        return await UserModel.findOneAndUpdate({ _id }, {
+        return UserModel.findOneAndUpdate({ _id }, {
             ...update,
             $pull: { roles: role }
         }, { projection: { password: false } })
     }
-
 }

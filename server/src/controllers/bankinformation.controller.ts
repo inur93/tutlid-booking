@@ -7,7 +7,6 @@ import { IBankInformationRepository } from '../repositories/bankinformation.repo
 export interface IBankInformationController {
     current(): Promise<BankInformation>
     update(id: Types.ObjectId, update: BankInformation): Promise<BankInformation>
-    // create(bankInfo: BankInformation): Promise<BankInformation>
 }
 class BankInformationController implements IBankInformationController {
 
@@ -17,11 +16,11 @@ class BankInformationController implements IBankInformationController {
     }
 
     public async current(): Promise<BankInformation> {
-        return await this.bankInformationRepository.current()
+        return this.bankInformationRepository.current()
     }
 
     public async update(id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation> {
-        return await this.bankInformationRepository.update({
+        return this.bankInformationRepository.update({
             _id: id,
             ...update
         })

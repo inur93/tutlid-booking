@@ -13,8 +13,8 @@ import MailController from '../controllers/mail.controller';
 export default class BookingRoute implements IRoute {
     public path = '/bookings';
     public router = Router();
-    private bookingController: IBookingController;
-    private mailController: MailController;
+    private readonly bookingController: IBookingController;
+    private readonly mailController: MailController;
 
     constructor({ bookingController, mailController }: IContainer) {
         this.bookingController = bookingController;
@@ -29,7 +29,7 @@ export default class BookingRoute implements IRoute {
             .delete(`${this.path}/:id`, authMiddleware([UserRole.basic]), this.delete)
     }
 
-    private get = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly get = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const { from, to, status } = request.query;
             const qFrom = from ? new Date(Date.parse(request.query.from as string)) : undefined;
@@ -41,9 +41,9 @@ export default class BookingRoute implements IRoute {
         }
     }
 
-    private create = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly create = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = request.user!;
+            const user = request.user;
             const booking = await this.bookingController.create(request.body, user);
             if (!user.roles.includes(UserRole.admin)) {
                 await this.mailController.sendReceipt(booking, user);
@@ -54,15 +54,17 @@ export default class BookingRoute implements IRoute {
         }
     }
 
-    private delete = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly delete = async (request: Request, response: Response, next: NextFunction) => {
 
         const booking = await this.bookingController.getById(request.params.id);
-        if (request.user!._id.toHexString() !== booking.bookedBy!.toString()) {
+        if (!booking.bookedBy) {
+            throw new Error('bookedBy is not set');
+        }
+        if (request.user._id.toHexString() !== booking.bookedBy) {
             next(new MissingPermissionsException());
         } else {
             await this.bookingController.delete(request.params.id);
             response.send();
         }
     }
-
 }

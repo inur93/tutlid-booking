@@ -14,12 +14,12 @@ export interface IPriceMatrixController {
 }
 class PriceMatrixController {
 
-    priceMatrixRepository: IPriceMatrixRepository;
+    private readonly priceMatrixRepository: IPriceMatrixRepository;
     constructor({ priceMatrixRepository }: IContainer) {
         this.priceMatrixRepository = priceMatrixRepository;
     }
     public async get(from?: Date): Promise<PriceMatrix[]> {
-        return await this.priceMatrixRepository.find(from);
+        return this.priceMatrixRepository.find(from);
     }
     public async calculatePrice(booking: CreateBookingDto): Promise<BookingWithPrice> {
         const from = parseISO(booking.from);
@@ -48,7 +48,7 @@ class PriceMatrixController {
                 validTo: priceMatrix.validFrom
             })
         }
-        return await this.priceMatrixRepository.create(priceMatrix);
+        return this.priceMatrixRepository.create(priceMatrix);
     }
 
     public async delete(id: Types.ObjectId): Promise<void> {

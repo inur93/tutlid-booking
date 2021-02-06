@@ -7,12 +7,12 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 
 class App {
-    private app: Application;
+    private readonly app: Application;
 
     constructor(routes: IRoute[]) {
         this.app = express();
         console.log('environment', process.env.NODE_ENV);
-        if (process.env.NODE_ENV === 'production') this.initializeStaticFolder();
+        if (process.env.NODE_ENV === 'production') { this.initializeStaticFolder(); }
         this.initializeMiddlewares();
         this.initializeRoutes(routes);
         this.initializeErrorHandling();

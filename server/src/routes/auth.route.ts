@@ -12,7 +12,7 @@ import { User } from '../models/user/user.entity';
 export default class AuthRoute implements IRoute {
     public path = '/auth';
     public router = Router();
-    private authenticationController: IAuthenticationController;
+    private readonly authenticationController: IAuthenticationController;
     constructor({ authenticationController }: IContainer) {
         this.authenticationController = authenticationController;
         this.initializeRoutes();
@@ -23,7 +23,7 @@ export default class AuthRoute implements IRoute {
         this.router.get(`${this.path}/logout`, this.logout);
         this.router.post(`${this.path}/register`, validationMiddleware(CreateUserDto), this.register)
     }
-    private register = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly register = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const user = await this.authenticationController.register(request.body);
             this.attachTokenAndCookie(response, user);
@@ -32,7 +32,7 @@ export default class AuthRoute implements IRoute {
             next(e);
         }
     }
-    private login = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly login = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const user = await this.authenticationController.login(request.body);
             this.attachTokenAndCookie(response, user);
@@ -42,12 +42,12 @@ export default class AuthRoute implements IRoute {
         }
     }
 
-    private logout = async (_: Request, response: Response) => {
+    private readonly logout = async (_: Request, response: Response) => {
         response.setHeader('Set-Cookie', this.createCookie({ token: '', expiresIn: 0 }));
         response.send();
     }
 
-    private attachTokenAndCookie = async (response: Response, user: User) => {
+    private readonly attachTokenAndCookie = async (response: Response, user: User) => {
         const tokenData = this.createToken(user);
         const cookie = this.createCookie(tokenData);
         response.setHeader('Set-Cookie', [cookie]);

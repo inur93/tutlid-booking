@@ -10,7 +10,7 @@ import { UserRole } from '../models/user/user.entity';
 export default class UserRoute implements IRoute {
     public path = '/users';
     public router = Router();
-    private userController: IUserController;
+    private readonly userController: IUserController;
 
     constructor({ userController }: IContainer) {
         this.userController = userController;
@@ -23,23 +23,21 @@ export default class UserRoute implements IRoute {
             .put(`${this.path}/self`, validationMiddleware(UpdateSelfDto), this.updateSelf);
     }
 
-    private updateSelf = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly updateSelf = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.userController.update(request.user!._id, request.body);
+            const user = await this.userController.update(request.user._id, request.body);
             response.send(user);
         } catch (e) {
             next(e);
         }
     }
 
-    private self = async (request: Request, response: Response, next: NextFunction) => {
+    private readonly self = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.userController.getById(request.user!._id);
+            const user = await this.userController.getById(request.user._id);
             response.send(user);
         } catch (e) {
             next(e);
         }
     }
-
-
 }

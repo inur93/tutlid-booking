@@ -1,4 +1,4 @@
-import { asClass, createContainer, InjectionMode, Lifetime } from 'awilix';
+import { asClass, createContainer, InjectionMode } from 'awilix';
 import AuthenticationController, { IAuthenticationController } from './controllers/authentication.controller';
 import BankInformationController, { IBankInformationController } from './controllers/bankinformation.controller';
 import BookingController, { IBookingController } from './controllers/booking.controller';
