@@ -36,5 +36,9 @@ workflows:
     jobs:
       - test-server
       - deploy:
+          filters:
+              branches:
+                  only:
+                      - master
           requires:
             - "test-server"
