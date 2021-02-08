@@ -5,14 +5,18 @@ import container from "./container";
 import { BankInformationModel } from "./models/bankinformation/bankinformation.entity";
 import { PriceMatrixModel } from "./models/pricematrix/pricematrix.entity";
 import { UserModel, UserRole, UserStatus } from "./models/user/user.entity";
+import { isProduction } from "./utils/environment";
 import { hashPassword } from "./utils/security";
 import validateEnv from "./utils/validateEnv";
 
 validateEnv();
 
-
 (async () => {
-    await container.dbHandler.connect();
+    await container.dbHandler.connect({
+        uri: process.env.MONGO_URI || 'invalid',
+        dbName: 'tutlid',
+        ssl: isProduction()
+    });
 
     const setup = new DbSetup();
     await setup.setupDefaultAdmin();
@@ -21,6 +25,7 @@ validateEnv();
 
     const app = new App(
         [
+            container.authRoute,
             container.adminRoute,
             container.userRoute,
             container.bookingRoute,

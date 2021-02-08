@@ -3,6 +3,7 @@ import NotFoundException from '../exceptions/NotFoundException';
 import { UpdateSelfDto } from '../models/user/user.dto';
 import { User, UserRole, UserStatus } from '../models/user/user.entity';
 import { IUserRepository } from '../repositories/user.repo';
+import { IContainer } from '../container';
 
 export interface IUserController {
     get(status?: UserStatus): Promise<User[]>
@@ -14,7 +15,7 @@ export interface IUserController {
 }
 export default class UserController implements IUserController {
     userRepository: IUserRepository;
-    constructor(userRepository: IUserRepository) {
+    constructor({ userRepository }: IContainer) {
         this.userRepository = userRepository;
     }
     public async get(status?: UserStatus) {
@@ -26,10 +27,16 @@ export default class UserController implements IUserController {
     }
 
     public async getById(id: Types.ObjectId) {
-        const user = await this.userRepository.findById(id);
-        if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
-        return user;
 
+        try {
+            const user = await this.userRepository.findById(id);
+
+            if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
+            return user;
+        } catch (e) {
+            console.log('e', e);
+        }
+        return await this.userRepository.findById(id);
     }
 
     public async update(id: Types.ObjectId, update: UpdateSelfDto) {

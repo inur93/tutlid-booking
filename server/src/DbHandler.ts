@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import { isProduction } from './utils/environment';
 
 export interface IDbHandler {
-    connect(): Promise<void>
+    connect(options: MongoOptions): Promise<void>
     disconnect(): Promise<void>
 }
 type MongoOptions = {
@@ -12,23 +11,17 @@ type MongoOptions = {
 }
 export default class DbHandler implements IDbHandler {
 
-    options: MongoOptions;
-    constructor(options: MongoOptions) {
-        this.options = options || {
-            uri: process.env.MONGO_URI,
-            dbName: 'tutlid',
-            ssl: isProduction()
-        };
-    }
-    async connect(): Promise<void> {
-        if (!this.options.uri) {
+    async connect(options: MongoOptions): Promise<void> {
+
+        if (!options.uri) {
             console.error('Mongo URI is not set');
             return;
         }
+
         try {
-            await mongoose.connect(this.options.uri, {
-                ssl: this.options.ssl,
-                dbName: this.options.dbName,
+            await mongoose.connect(options.uri, {
+                ssl: options.ssl,
+                dbName: options.dbName,
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useFindAndModify: false,
@@ -43,5 +36,5 @@ export default class DbHandler implements IDbHandler {
         await mongoose.disconnect();
     }
 
-   
+
 }

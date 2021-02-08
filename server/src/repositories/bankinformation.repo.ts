@@ -14,9 +14,10 @@ export interface IBankInformationRepository {
 
 export default class BankInformationRepository implements IBankInformationRepository {
     async current(): Promise<BankInformation> {
-        return BankInformationModel.findOneAndUpdate({});
+        return BankInformationModel.findOne({});
     }
     async update({ _id, ...update }: UpdateBankInformation): Promise<BankInformation> {
-        return BankInformationModel.findByIdAndUpdate(_id, update);
+        await BankInformationModel.updateOne({ _id }, update);
+        return BankInformationModel.findById(_id);
     }
 }

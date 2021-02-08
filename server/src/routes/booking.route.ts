@@ -5,7 +5,7 @@ import authMiddleware from '../middleware/auth.middleware';
 import validationMiddleware from '../middleware/validation.middleware';
 import { CreateBookingDto } from '../models/booking/booking.dto';
 import { BookingStatus } from '../models/booking/booking.entity';
-import { UserRole } from '../models/user/user.entity';
+import { User, UserRole } from '../models/user/user.entity';
 import { IBookingController } from '../controllers/booking.controller';
 import { IContainer } from '../container';
 import MailController from '../controllers/mail.controller';
@@ -55,16 +55,11 @@ export default class BookingRoute implements IRoute {
     }
 
     private readonly delete = async (request: Request, response: Response, next: NextFunction) => {
-
-        const booking = await this.bookingController.getById(request.params.id);
-        if (!booking.bookedBy) {
-            throw new Error('bookedBy is not set');
-        }
-        if (request.user._id.toHexString() !== booking.bookedBy) {
-            next(new MissingPermissionsException());
-        } else {
-            await this.bookingController.delete(request.params.id);
+        try {
+            await this.bookingController.delete(request.params.id, request.user);
             response.send();
+        } catch (e) {
+            next(e);
         }
     }
 }

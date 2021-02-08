@@ -35,6 +35,11 @@ export default class AuthenticationController implements IAuthenticationControll
         if (!user) { throw new InvalidCredentialsException(); }
 
         if (!await comparePassword(password, user.password)) { throw new InvalidCredentialsException(); }
-        return this.userRepository.findById(user._id);
+        try {
+            return this.userRepository.findById(user._id);
+        }catch(e){
+            console.log('e', e);
+            return user;
+        }
     }
 }
