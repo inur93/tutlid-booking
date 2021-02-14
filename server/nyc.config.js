@@ -3,5 +3,5 @@ module.exports = {
     "extension": [".ts", ".tsx"],
     "reporter": ["lcov", "text-summary"],
     "include": ["src/**"],
-    "report-dir": "./coverage"
+    "report-dir": "./test-results/coverage"
 }

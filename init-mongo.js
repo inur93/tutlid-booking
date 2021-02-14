@@ -1,7 +1,7 @@
 db.createUser(
     {
-        user: 'tutlid_api_user',
-        pwd: 'mQmxL1hlh8NnqmrcqVnFsFjzQLdiUVbd',
+        user: process.env.DEFAULT_API_USER_USERNAME,
+        pwd: process.env.DEFAULT_API_USER_PASSWORD,
         roles: [
             {
                 role: "readWrite",

@@ -10,7 +10,7 @@ module.exports = {
     inlineDiffs: true,
     reporter: "mocha-junit-reporter", //"spec",
     reporterOptions: [
-        "mochaFile=./junit/test-results.xml",
+        "mochaFile=./test-results/junit/test-results.xml",
         "rootSuiteTitle=Server Tests"
     ],
 

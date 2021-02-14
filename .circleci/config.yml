@@ -23,12 +23,9 @@ jobs:
           working_directory: ~/project/server
           when: always
       - store_test_results:
-          path: ~/project/server/junit
+          path: ~/project/server/test-results
       - store_artifacts:
-          path: ~/project/server/junit/test-results.xml
-      - store_artifacts:
-          path: ~/project/server/coverage/lcov.info
-
+          path: ~/project/server/test-results
   build:
     executor: docker-publisher
     steps:
@@ -82,17 +79,25 @@ jobs:
 workflows:
   node-tests:
     jobs:
-      #- test-server
-      #- build:
-      #    requires:
-      #      - "test-server"
-      #- publish-latest:
-      #    requires:
-      #      - "build"
+      - test-server
+      - build:
+          requires:
+            - "test-server"
+          filters:
+            branches:
+              only:
+                - master
+      - publish-latest:
+          requires:
+            - "build"
+          filters:
+            branches:
+              only:
+                - master
       - deploy:
           filters:
             branches:
               only:
                 - master
-      #    requires:
-       #     - "publish-latest"
+          requires:
+            - "publish-latest"
