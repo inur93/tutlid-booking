@@ -1,7 +1,23 @@
+#server files
 server/node_modules/
 server/build/
+server/.nyc_output/
+server/build/
+server/junit/
+server/tests/
+server/Dockerfile
+server/Test.Dockerfile
+server/.gitignore
+
+#client files
 client/node_modules/
 client/build/
+client/Dockerfile
+client/.dockerignore
+client/README.md
+
+
+#misc
 .circleci/
 .git/
 .github/

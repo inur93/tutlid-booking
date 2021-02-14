@@ -24,7 +24,7 @@ export abstract class BaseRepository<T extends Base, C, U extends BaseUpdate> im
         return this.model.findById(id);
     }
     async delete(id: Types.ObjectId): Promise<void> {
-        this.model.deleteOne({
+        await this.model.deleteOne({
             _id: id
         });
     }
@@ -33,7 +33,6 @@ export abstract class BaseRepository<T extends Base, C, U extends BaseUpdate> im
     }
     async update({ _id, ...update }: U): Promise<T> {
         return this.model
-            .findById(_id, update)
-            .exec();
+            .findByIdAndUpdate(_id, update as any);
     }
 }

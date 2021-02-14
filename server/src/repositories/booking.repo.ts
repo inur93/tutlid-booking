@@ -49,28 +49,22 @@ export default class BookingRepository extends BaseRepository<Booking, CreateBoo
             .findById(id)
             .populate('bookedBy', {
                 fullName: true
-            })
-            .exec();
+            });
     }
     async find({ from, to, status }: BookingQuery): Promise<Booking[]> {
         const query: any = {};
-        if (from) { query.to = { $gt: from }; }
-        if (to) { query.from = { $lt: to }; }
+        if (from) { query.to = { $gte: from }; }
+        if (to) { query.from = { $lte: to }; }
         if (status) { query.status = status; }
         return BookingModel
             .find(query)
             .populate('bookedBy', {
                 fullName: true
-            })
-            .exec();
+            });
     }
 
     async update({ _id, ...update }: UpdateBooking): Promise<Booking> {
-        return BookingModel
-            .findOneAndUpdate({ _id }, update)
-            .populate('bookedBy', {
-                fullName: true
-            })
-            .exec();
+        await BookingModel.updateOne({ _id }, update);
+        return this.findById(_id);
     }
 }

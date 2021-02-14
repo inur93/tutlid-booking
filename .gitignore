@@ -27,3 +27,7 @@ out/
 configservice.properties
 db/
 data/
+server/src/server.ts
+server/.nyc_output/
+server/~/junit/test-results.xml 
+server/junit/

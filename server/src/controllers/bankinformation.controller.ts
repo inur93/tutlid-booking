@@ -6,7 +6,7 @@ import { IBankInformationRepository } from '../repositories/bankinformation.repo
 
 export interface IBankInformationController {
     current(): Promise<BankInformation>
-    update(id: Types.ObjectId, update: BankInformation): Promise<BankInformation>
+    update(id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation>
 }
 class BankInformationController implements IBankInformationController {
 

@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
+import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/booking.dto';
 import { Booking, BookingStatus } from '../models/booking/booking.entity';
 import { User, UserRole } from '../models/user/user.entity';
@@ -11,7 +12,7 @@ export interface IBookingController {
     getById(id: string): Promise<Booking>
     create(dto: CreateBookingDto, user: User): Promise<Booking>
     changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<Booking>
-    delete(id: string): Promise<void>
+    delete(id: string, user: User): Promise<void>
 }
 export default class BookingController implements IBookingController {
     private readonly priceMatrixController: IPriceMatrixController;
@@ -59,7 +60,14 @@ export default class BookingController implements IBookingController {
         })
     }
 
-    public async delete(id: string) {
-        this.bookingRepository.delete(Types.ObjectId(id));
+    public async delete(id: string, user: User) {
+        const existing = await this.getById(id);
+        const bookedBy = existing.bookedBy as User;
+
+        if (user._id.toHexString() !== bookedBy._id.toHexString()) {
+            throw new MissingPermissionsException();
+        }
+
+        await this.bookingRepository.delete(Types.ObjectId(id));
     }
 }

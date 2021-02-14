@@ -56,6 +56,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mongodb-memory-server": "^6.9.3",
     "nodemon": "^2.0.6",
+    "nyc": "^15.1.0",
     "sinon": "^9.2.4",
     "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
@@ -64,6 +65,7 @@
     "start:debug": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
     "build": "tsc",
     "test": "set MOCHA_FILE=~/junit/test-results.xml && mocha -r ts-node/register tests/**/*.ts --reporter mocha-junit-reporter",
-    "_test": "set MONGOMS_VERSION=4.4.3 && set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register ./src/test/**/*.ts"
+    "test:debug": "mocha -r ts-node/register tests/**/*.ts",
+    "test:coverage": "set MOCHA_FILE=~/junit/test-results.xml && nyc --reporter=text mocha -r ts-node/register tests/**/*.ts"
   }
 }
