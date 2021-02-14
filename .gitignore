@@ -31,3 +31,4 @@ server/src/server.ts
 server/.nyc_output/
 server/~/junit/test-results.xml 
 server/junit/
+server/coverage/

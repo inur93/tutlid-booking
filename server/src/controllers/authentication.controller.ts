@@ -2,7 +2,7 @@
 import { IContainer } from '../container';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
-import LogInDto from '../models/auth/login.dto';
+import LogInDto from '../models/auth/loginDto';
 import { CreateUserDto } from '../models/user/user.dto';
 import { User } from '../models/user/user.entity';
 import { IUserRepository } from '../repositories/user.repo';
@@ -23,7 +23,7 @@ export default class AuthenticationController implements IAuthenticationControll
         if (existing) {
             throw new UserWithThatEmailAlreadyExistsException(email);
         }
-        return await this.userRepository.create({
+        return this.userRepository.create({
             fullName,
             email,
             password: await hashPassword(password)
@@ -32,14 +32,14 @@ export default class AuthenticationController implements IAuthenticationControll
 
     public async login({ email, password }: LogInDto): Promise<User> {
         const user = await this.userRepository.findOne({ email }, true);
-        if (!user) { throw new InvalidCredentialsException(); }
-
-        if (!await comparePassword(password, user.password)) { throw new InvalidCredentialsException(); }
-        try {
-            return this.userRepository.findById(user._id);
-        }catch(e){
-            console.log('e', e);
-            return user;
+        if (!user) {
+            throw new InvalidCredentialsException();
         }
+
+        if (!await comparePassword(password, user.password)) {
+            throw new InvalidCredentialsException();
+        }
+
+        return this.userRepository.findById(user._id);
     }
 }

@@ -7,15 +7,15 @@ import { IBookingController } from '../controllers/booking.controller';
 import { IPriceMatrixController } from '../controllers/pricematrix.controller';
 import { IUserController } from '../controllers/user.controller';
 import { IRoute } from '../interfaces/route.interface';
-import authMiddleware from '../middleware/auth.middleware';
-import validationMiddleware from '../middleware/validation.middleware';
+import authMiddleware from '../middleware/authMiddleware';
+import validationMiddleware from '../middleware/validationMiddleware';
 import { BankInformation } from '../models/bankinformation/bankinformation.entity';
 import { ChangeBookingStatusDto } from '../models/booking/booking.dto';
 import { BookingStatus } from '../models/booking/booking.entity';
 import { CreatePriceMatrix } from '../models/pricematrix/pricematrix.dto';
 import { UpdateUserRoleDto, UpdateUserStatusDto } from '../models/user/user.dto';
 import { User, UserRole, UserStatus } from '../models/user/user.entity';
-import MailController from '../controllers/mail.controller';
+import MailController from '../controllers/MailController';
 
 export default class AdminRoute implements IRoute {
     public path = '/admin';

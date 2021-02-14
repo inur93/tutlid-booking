@@ -2,8 +2,8 @@ import { NextFunction, Response, Router, Request } from 'express';
 import { IContainer } from '../container';
 import { IUserController } from '../controllers/user.controller';
 import { IRoute } from '../interfaces/route.interface';
-import authMiddleware from '../middleware/auth.middleware';
-import validationMiddleware from '../middleware/validation.middleware';
+import authMiddleware from '../middleware/authMiddleware';
+import validationMiddleware from '../middleware/validationMiddleware';
 import { UpdateSelfDto } from '../models/user/user.dto';
 import { UserRole } from '../models/user/user.entity';
 

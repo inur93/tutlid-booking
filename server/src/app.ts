@@ -2,9 +2,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
 import { IRoute } from './interfaces/route.interface';
-import errorMiddleware from './middleware/error.middleware';
+import errorMiddleware from './middleware/errorMiddleware';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
+import { isProduction } from './utils/environment';
 
 class App {
     private readonly app: Application;
@@ -12,7 +13,9 @@ class App {
     constructor(routes: IRoute[]) {
         this.app = express();
         console.log('environment', process.env.NODE_ENV);
-        if (process.env.NODE_ENV === 'production') { this.initializeStaticFolder(); }
+        if (isProduction()) {
+            this.initializeStaticFolder();
+        }
         this.initializeMiddlewares();
         this.initializeRoutes(routes);
         this.initializeErrorHandling();

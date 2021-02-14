@@ -19,15 +19,16 @@ jobs:
       - run: mkdir ~/junit
       - run:
           name: Run Unit Tests
-          command: yarn test
+          command: yarn run coverage
           working_directory: ~/project/server
-          environment:
-            MOCHA_FILE: junit/test-results.xml
           when: always
       - store_test_results:
           path: ~/project/server/junit
       - store_artifacts:
-          path: ~/project/server/junit
+          path: ~/project/server/junit/test-results.xml
+      - store_artifacts:
+          path: ~/project/server/coverage/lcov.info
+
   build:
     executor: docker-publisher
     steps:

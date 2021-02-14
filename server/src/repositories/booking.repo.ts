@@ -53,9 +53,15 @@ export default class BookingRepository extends BaseRepository<Booking, CreateBoo
     }
     async find({ from, to, status }: BookingQuery): Promise<Booking[]> {
         const query: any = {};
-        if (from) { query.to = { $gte: from }; }
-        if (to) { query.from = { $lte: to }; }
-        if (status) { query.status = status; }
+        if (from) {
+            query.to = { $gte: from };
+        }
+        if (to) {
+            query.from = { $lte: to };
+        }
+        if (status) {
+            query.status = status;
+        }
         return BookingModel
             .find(query)
             .populate('bookedBy', {

@@ -2,7 +2,7 @@ import { asClass, createContainer, InjectionMode } from 'awilix';
 import AuthenticationController, { IAuthenticationController } from './controllers/authentication.controller';
 import BankInformationController, { IBankInformationController } from './controllers/bankinformation.controller';
 import BookingController, { IBookingController } from './controllers/booking.controller';
-import MailController from './controllers/mail.controller';
+import MailController from './controllers/MailController';
 import PriceMatrixController, { IPriceMatrixController } from './controllers/pricematrix.controller';
 import UserController, { IUserController } from './controllers/user.controller';
 import DbHandler, { IDbHandler } from './DbHandler';
@@ -10,11 +10,11 @@ import BankInformationRepository, { IBankInformationRepository } from './reposit
 import BookingRepository, { IBookingRepository } from './repositories/booking.repo';
 import PriceMatrixRepository, { IPriceMatrixRepository } from './repositories/pricematrix.repo';
 import UserRepository, { IUserRepository } from './repositories/user.repo';
-import AdminRoute from './routes/admin.route';
-import AuthRoute from './routes/auth.route';
-import BookingRoute from './routes/booking.route';
-import PriceMatrixRoute from './routes/pricematrix.route';
-import UserRoute from './routes/user.route';
+import AdminRoute from './routes/AdminRoute';
+import AuthRoute from './routes/AuthRoute';
+import BookingRoute from './routes/BookingRoute';
+import PriceMatrixRoute from './routes/PriceMatrixRoute';
+import UserRoute from './routes/UserRoute';
 
 export interface IContainer {
     dbHandler: IDbHandler

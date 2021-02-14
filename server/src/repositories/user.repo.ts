@@ -45,11 +45,11 @@ export default class UserRepository extends BaseRepository<User, CreateUser, Upd
         return this.findById(created.id);
     }
 
-    async findById(id: Types.ObjectId, includePassword: boolean = false): Promise<User> {
+    async findById(id: Types.ObjectId, includePassword = false): Promise<User> {
         return UserModel.findById(id, { password: includePassword });
     }
 
-    async findOne(query: UserQuery, includePassword: boolean = false): Promise<User> {
+    async findOne(query: UserQuery, includePassword = false): Promise<User> {
         return UserModel.findOne(query, { password: includePassword });
     }
     async findMany(query: UserQuery): Promise<User[]> {
