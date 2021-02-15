@@ -31,12 +31,14 @@ export default class UserController implements IUserController {
         try {
             const user = await this.userRepository.findById(id);
 
-            if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
+            if (!user) {
+                throw new NotFoundException(`user id ${id} was not found`);
+            }
             return user;
         } catch (e) {
             console.log('e', e);
         }
-        return await this.userRepository.findById(id);
+        return this.userRepository.findById(id);
     }
 
     public async update(id: Types.ObjectId, update: UpdateSelfDto) {
@@ -44,7 +46,9 @@ export default class UserController implements IUserController {
             _id: id,
             ...update
         })
-        if (!user) { throw new NotFoundException(`user id ${id} was not found`); }
+        if (!user) {
+            throw new NotFoundException(`user id ${id} was not found`);
+        }
         return user;
     }
 

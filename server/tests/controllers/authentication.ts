@@ -3,14 +3,12 @@ import chaiAsPromised from "chai-as-promised";
 import faker from 'faker';
 import { before, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { SinonSandbox } from 'sinon';
 import { IContainer } from '../../src/container';
-import AuthenticationController, { IAuthenticationController } from '../../src/controllers/authentication.controller';
+import { IAuthenticationController } from '../../src/controllers/authentication.controller';
 import { IDbHandler } from '../../src/DbHandler';
 import InvalidCredentialsException from '../../src/exceptions/InvalidCredentialsException';
 import UserWithThatEmailAlreadyExistsException from '../../src/exceptions/UserWithThatEmailAlreadyExistsException';
 import { UserRole, UserStatus } from '../../src/models/user/user.entity';
-import UserRepository from '../../src/repositories/user.repo';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
 

@@ -1,14 +1,13 @@
-import { NextFunction, Response, Router, Request } from 'express';
-import MissingPermissionsException from '../exceptions/MissingPermissionsException';
+import { NextFunction, Request, Response, Router } from 'express';
+import { IContainer } from '../container';
+import { IBookingController } from '../controllers/booking.controller';
+import MailController from '../controllers/MailController';
 import { IRoute } from '../interfaces/route.interface';
-import authMiddleware from '../middleware/auth.middleware';
-import validationMiddleware from '../middleware/validation.middleware';
+import authMiddleware from '../middleware/authMiddleware';
+import validationMiddleware from '../middleware/validationMiddleware';
 import { CreateBookingDto } from '../models/booking/booking.dto';
 import { BookingStatus } from '../models/booking/booking.entity';
-import { User, UserRole } from '../models/user/user.entity';
-import { IBookingController } from '../controllers/booking.controller';
-import { IContainer } from '../container';
-import MailController from '../controllers/mail.controller';
+import { UserRole } from '../models/user/user.entity';
 
 export default class BookingRoute implements IRoute {
     public path = '/bookings';

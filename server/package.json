@@ -55,6 +55,7 @@
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",
     "mongodb-memory-server": "^6.9.3",
+    "mongodb-memory-server-core": "^6.9.3",
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0",
     "sinon": "^9.2.4",
@@ -64,8 +65,9 @@
   "scripts": {
     "start:debug": "nodemon --config nodemon.json --inspect=0.0.0.0 src/server.ts",
     "build": "tsc",
-    "test": "set MOCHA_FILE=~/junit/test-results.xml && mocha -r ts-node/register tests/**/*.ts --reporter mocha-junit-reporter",
-    "test:debug": "mocha -r ts-node/register tests/**/*.ts",
-    "test:coverage": "set MOCHA_FILE=~/junit/test-results.xml && nyc --reporter=text mocha -r ts-node/register tests/**/*.ts"
+    "test": "mocha tests/**/*.ts",
+    "test:debug": "yarn run test -w --reporter=spec",
+    "coverage": "nyc yarn run test",
+    "coverage:debug": "nyc --reporter=text yarn run test"
   }
 }

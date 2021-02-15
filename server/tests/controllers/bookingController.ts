@@ -1,8 +1,9 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from "chai-as-promised";
 import { format, isSameDay, parse as parseFn } from 'date-fns';
+import MissingPermissionsException from '../../src/exceptions/MissingPermissionsException';
 import faker from 'faker';
-import { afterEach, before, beforeEach, describe, it } from 'mocha';
+import { afterEach, before, after, beforeEach, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { IContainer } from '../../src/container';
 import { IBookingController } from '../../src/controllers/booking.controller';
@@ -15,7 +16,8 @@ import { TestData } from '../testData';
 chai.should();
 chai.use(chaiAsPromised);
 
-const parse = (str: string) => parseFn(str, 'yyyy-MM-dd', new Date());
+const dateFormat = 'yyyy-MM-dd';
+const parse = (str: string) => parseFn(str, dateFormat, new Date());
 
 const userBasic: User = TestData.user({ roles: [UserRole.basic] });
 const userAdmin: User = TestData.user({ roles: [UserRole.admin] });
@@ -78,19 +80,26 @@ describe('booking.controller', () => {
         it('as basic user', async () => {
             const { from, to, pplCount, tubCount, comment } = TestData.booking();
             const created = await controller.create({
-                from: format(from, 'yyyy-MM-dd'),
-                to: format(to, 'yyyy-MM-dd'),
+                from: format(from, dateFormat),
+                to: format(to, dateFormat),
                 pplCount,
                 tubCount,
                 comment
             }, userBasic);
-            // const created = await controller.create({
-            //     from: '2021-02-01',
-            //     to: '2021-02-03',
-            //     pplCount: 3,
-            //     tubCount: 3,
-            //     comment: 'testcomment'
-            // }, testUser);
+
+            expect(isSameDay(from, created.from)).to.eq(true);
+            expect(isSameDay(to, created.to)).to.eq(true);
+        })
+
+        it('as admin', async () => {
+            const { from, to, pplCount, tubCount, comment } = TestData.booking();
+            const created = await controller.create({
+                from: format(from, dateFormat),
+                to: format(to, dateFormat),
+                pplCount,
+                tubCount,
+                comment
+            }, userAdmin);
 
             expect(isSameDay(from, created.from)).to.eq(true);
             expect(isSameDay(to, created.to)).to.eq(true);
@@ -106,6 +115,13 @@ describe('booking.controller', () => {
 
             const deleted = await BookingModel.findById(id);
             expect(deleted).to.eq(null);
+        })
+
+        it('as anonymous user', async () => {
+            const booking = bookings[0];
+            const id = booking._id;
+            await controller.delete(id.toHexString(), userAdmin)
+                .should.eventually.be.rejectedWith(MissingPermissionsException);
         })
     })
 

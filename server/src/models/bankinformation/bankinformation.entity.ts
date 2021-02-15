@@ -1,6 +1,5 @@
-import { DocumentType, getModelForClass, prop } from '@typegoose/typegoose';
+import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
-import { Model } from 'mongoose';
 
 class BankInformation extends Base {
 
@@ -13,7 +12,8 @@ class BankInformation extends Base {
 
 }
 
-const BankInformationModel = getModelForClass(BankInformation) as Model<DocumentType<BankInformation>>;
+const BankInformationModel = getModelForClass(BankInformation);
 export {
     BankInformation, BankInformationModel
 };
+

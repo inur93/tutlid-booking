@@ -4,8 +4,8 @@ import { IContainer } from '../container';
 import { IAuthenticationController } from '../controllers/authentication.controller';
 import { IRoute } from '../interfaces/route.interface';
 import TokenData from '../interfaces/tokenData.interface';
-import validationMiddleware from '../middleware/validation.middleware';
-import LogInDto from '../models/auth/login.dto';
+import validationMiddleware from '../middleware/validationMiddleware';
+import LogInDto from '../models/auth/loginDto';
 import { CreateUserDto } from '../models/user/user.dto';
 import { User } from '../models/user/user.entity';
 

@@ -2,12 +2,10 @@ import chai, { expect } from 'chai';
 import chaiAsPromised from "chai-as-promised";
 import { before, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { SinonSandbox } from 'sinon';
 import { IContainer } from '../../src/container';
-import BankInformationController, { IBankInformationController } from '../../src/controllers/bankinformation.controller';
+import { IBankInformationController } from '../../src/controllers/bankinformation.controller';
 import { IDbHandler } from '../../src/DbHandler';
 import { BankInformation, BankInformationModel } from '../../src/models/bankinformation/bankinformation.entity';
-import BankInformationRepository from '../../src/repositories/bankinformation.repo';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
 
@@ -56,7 +54,6 @@ describe('bankinformation.controller', () => {
         it('with success', async () => {
             const { _id, ...data } = TestData.bankInformation();
             const update = await controller.update(testBankInfo._id, data);
-            const changed = await controller.current();
             expect(update.regNo).to.eq(data.regNo);
             expect(update.accountNo).to.eq(data.accountNo);
         })

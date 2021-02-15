@@ -1,6 +1,5 @@
-import { DocumentType, getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
-import { Model } from 'mongoose';
 import { User } from '../user/user.entity';
 
 export enum BookingStatus {
@@ -45,7 +44,8 @@ class Booking extends Base {
     public messageFromAdmin?: string;
 }
 
-const BookingModel = getModelForClass(Booking) as Model<DocumentType<Booking>>;
+const BookingModel = getModelForClass(Booking);
 export {
     Booking, BookingModel
 };
+

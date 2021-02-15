@@ -19,7 +19,9 @@ export default class MailController {
     }
 
     private booking2templateData(booking?: Booking) {
-        if (!booking) return {};
+        if (!booking) {
+            return {};
+        }
         const dateFormat = 'dd. MMM yyyy';
         const from = format(booking.from, dateFormat, { locale: daLocale });
         const to = format(booking.to, dateFormat, { locale: daLocale });
@@ -36,7 +38,9 @@ export default class MailController {
     }
 
     private user2templateData(user?: User) {
-        if (!user) { return {}; }
+        if (!user) {
+            return {};
+        }
         return {
             fullName: `${user.fullName}`,
             email: user.email
@@ -44,7 +48,9 @@ export default class MailController {
     }
 
     private bank2tempalteData(bankInfo?: BankInformation) {
-        if (!bankInfo) {return {};}
+        if (!bankInfo) {
+            return {};
+        }
         return {
             regNo: `${bankInfo.regNo}`,
             accountNo: `${bankInfo.accountNo}`
