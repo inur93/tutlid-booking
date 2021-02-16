@@ -26,11 +26,14 @@ export default class AuthenticationController implements IAuthenticationControll
             throw new UserWithThatEmailAlreadyExistsException(email);
         }
 
-        const { password: hash, ...user } = await this.userRepository.create({
+        const { _id } = await this.userRepository.create({
             fullName,
             email,
             password: await hashPassword(password)
         });
+
+        //make sure to get object with default values
+        const user = await this.userRepository.findById(_id);
 
         return this.createToken(user)
     }
@@ -51,7 +54,7 @@ export default class AuthenticationController implements IAuthenticationControll
 
     public createToken(user: UserLoginData): TokenData {
         const expiresIn = 60 * 60 * 12; // 12 hours
-        const secret = process.env.JWT_SECRET || '';
+        const secret = process.env.JWT_SECRET || 'secret';
         const dataStoredInToken = {
             id: user._id,
         };

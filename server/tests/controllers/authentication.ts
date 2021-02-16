@@ -49,14 +49,13 @@ describe('authentication.controller', () => {
         it('Registration success with name, email, password, UserRole.read and not deleted', async () => {
             const data = TestData.user();
 
-            const user = await controller.register(data);
-            expect(user.email).to.equal(data.email);
-            expect(user.fullName).to.equal(data.fullName);
-            expect(user.password).to.not.exist;
-            expect(user.roles.length).to.be.eq(1);
-            expect(user.roles[0]).to.eq(UserRole.read);
-            expect(user.status).to.be.eq(UserStatus.pendingApproval);
-            expect(user.deleted).to.be.false;
+            const { user } = await controller.register(data);
+            expect(user?.email).to.equal(data.email);
+            expect(user?.fullName).to.equal(data.fullName);
+            expect(user?.roles.length).to.be.eq(1);
+            expect(user?.roles[0]).to.eq(UserRole.read);
+            expect(user?.status).to.be.eq(UserStatus.pendingApproval);
+            expect(user?.deleted).to.be.false;
         })
 
         it('Registration fail, email already exists', async () => {
