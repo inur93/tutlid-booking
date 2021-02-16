@@ -13,6 +13,9 @@ export enum UserStatus {
     approved = 'approved',
     rejected = 'rejected'
 }
+
+export type UserLoginData = Omit<User, "password">
+
 class User extends Base {
     @prop({ required: true })
     public fullName!: string
