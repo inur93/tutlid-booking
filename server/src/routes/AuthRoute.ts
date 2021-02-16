@@ -25,18 +25,18 @@ export default class AuthRoute implements IRoute {
     }
     private readonly register = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.authenticationController.register(request.body);
-            this.attachTokenAndCookie(response, user);
-            response.send(user);
+            const token = await this.authenticationController.register(request.body);
+            this.attachTokenAndCookie(response, token);
+            response.send(token.user);
         } catch (e) {
             next(e);
         }
     }
     private readonly login = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.authenticationController.login(request.body);
-            this.attachTokenAndCookie(response, user);
-            response.send(user);
+            const token = await this.authenticationController.login(request.body);
+            this.attachTokenAndCookie(response, token);
+            response.send(token.user);
         } catch (e) {
             next(e);
         }
@@ -47,23 +47,12 @@ export default class AuthRoute implements IRoute {
         response.send();
     }
 
-    private readonly attachTokenAndCookie = async (response: Response, user: User) => {
-        const tokenData = this.createToken(user);
-        const cookie = this.createCookie(tokenData);
+    private readonly attachTokenAndCookie = async (response: Response, token: TokenData) => {
+        const cookie = this.createCookie(token);
         response.setHeader('Set-Cookie', [cookie]);
     }
     public createCookie(tokenData: TokenData) {
         return `Authorization=${tokenData.token}; Max-Age=${tokenData.expiresIn}; path=/; HttpOnly`;
     }
-    public createToken(user: User): TokenData {
-        const expiresIn = 60 * 60 * 12; // 12 hours
-        const secret = process.env.JWT_SECRET || '';
-        const dataStoredInToken = {
-            id: user._id,
-        };
-        return {
-            expiresIn,
-            token: jwt.sign(dataStoredInToken, secret, { expiresIn })
-        };
-    }
+
 }
