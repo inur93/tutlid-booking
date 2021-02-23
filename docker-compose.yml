@@ -58,7 +58,16 @@ services:
     volumes:
       - ./client:/client
       - /client/node_modules
-
+  client-storybook:
+    image: tutlid-react-app-storybook
+    build:
+      context: ./client
+    command: sh -c "chokidar_usepolling=1 yarn run storybook"
+    ports:
+      - 6006:6006
+    volumes:
+      - ./client:/client
+      - /client/node_modules
 networks:
   mongo:
     driver: bridge

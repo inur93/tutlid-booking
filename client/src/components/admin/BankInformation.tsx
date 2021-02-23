@@ -3,6 +3,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { BankInformation as BankInformationModel } from '../../api';
 import { useBankInformation } from '../../hooks/useBankInformation';
 import { Alert } from '../shared/Alert';
 
@@ -20,7 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 }));
 
-type BankInformationProps = {}
+export type BankInformationProps = {
+    t: TFunction<string[]>,
+    bankInformation?: BankInformationModel
+    error: string,
+    loading: boolean,
+    onUpdate: (values: any, helpers: FormikHelpers<any>) => void
+}
 
 function getSchema(t: TFunction<string[]>) {
     return yup.object().shape({
@@ -34,11 +41,11 @@ function getSchema(t: TFunction<string[]>) {
             .required(t('validation:required'))
     })
 }
-export default function BankInformation({ }: BankInformationProps) {
-    const classes = useStyles();
+
+export default function () {
     const { t } = useTranslation(['app', 'common']);
     const [{ error, loading, bankInformation }, update] = useBankInformation();
-    const schema = getSchema(t);
+
     const handleUpdate = async (values: any, helpers: FormikHelpers<any>) => {
         if (bankInformation) {
             await update(bankInformation._id, values);
@@ -46,17 +53,30 @@ export default function BankInformation({ }: BankInformationProps) {
         helpers.setSubmitting(false);
     }
 
+    const props = {
+        t,
+        bankInformation,
+        error,
+        loading,
+        onUpdate: handleUpdate
+    }
+    return <BankInformation {...props} />
+}
+export function BankInformation({ t, bankInformation, error, loading, onUpdate }: BankInformationProps) {
+    const classes = useStyles();
+    const schema = getSchema(t);
+
     if (!bankInformation) return null;
 
     return (<Card>
         <CardContent className={classes.root}>
-        <Typography variant='h6'>{t('app:bankInformation.header')}</Typography>
+            <Typography variant='h6'>{t('app:bankInformation.header')}</Typography>
             <Formik initialValues={{
                 regNo: bankInformation?.regNo,
                 accountNo: bankInformation?.accountNo
             }}
                 validationSchema={schema}
-                onSubmit={handleUpdate}>
+                onSubmit={onUpdate}>
                 {({ isSubmitting, errors, touched, handleChange, values: { regNo, accountNo } }) => (
                     <Form>
                         <FormGroup>
