@@ -1,8 +1,8 @@
 import HttpException from './HttpException';
 
 class MissingPermissionsException extends HttpException {
-  constructor() {
-    super(401, 'Missing permission');
+  constructor(message?: string) {
+    super(401, message || 'Missing permission');
   }
 }
 

@@ -50,7 +50,7 @@ export default class UserRepository extends BaseRepository<User, CreateUser, Upd
     }
 
     async findOne(query: UserQuery, includePassword = false): Promise<User> {
-        return UserModel.findOne(query, { password: includePassword });
+        return UserModel.findOne(query, { password: includePassword }).exec();
     }
     async findMany(query: UserQuery): Promise<User[]> {
         return UserModel.find(query, { password: false });
