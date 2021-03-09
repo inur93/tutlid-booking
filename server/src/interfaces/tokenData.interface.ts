@@ -1,4 +1,4 @@
-import { UserLoginData } from "../models/user/user.entity";
+import { UserLoginData } from "../models/user/UserModels";
 
 interface TokenData {
   token: string;

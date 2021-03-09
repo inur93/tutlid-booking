@@ -1,15 +1,15 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from "chai-as-promised";
 import { format, isSameDay, parse as parseFn } from 'date-fns';
-import MissingPermissionsException from '../../src/exceptions/MissingPermissionsException';
 import faker from 'faker';
-import { afterEach, before, after, beforeEach, describe, it } from 'mocha';
+import { after, afterEach, before, beforeEach, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { IContainer } from '../../src/container';
-import { IBookingController } from '../../src/controllers/booking.controller';
+import { IBookingController } from '../../src/controllers/BookingController';
 import { IDbHandler } from '../../src/DbHandler';
-import { Booking, BookingModel, BookingStatus } from '../../src/models/booking/booking.entity';
-import { User, UserModel, UserRole } from '../../src/models/user/user.entity';
+import MissingPermissionsException from '../../src/exceptions/MissingPermissionsException';
+import { Booking, BookingModel, BookingStatus } from '../../src/models/booking/BookingModels';
+import { User, UserModel, UserRole } from '../../src/models/user/UserModels';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
 

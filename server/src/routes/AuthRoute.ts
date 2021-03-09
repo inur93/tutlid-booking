@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import jwt from 'jsonwebtoken';
 import { IContainer } from '../container';
-import { IAuthenticationController } from '../controllers/authentication.controller';
+import { IAuthenticationController } from '../controllers/AuthenticationController';
 import { IRoute } from '../interfaces/route.interface';
 import TokenData from '../interfaces/tokenData.interface';
 import validationMiddleware from '../middleware/validationMiddleware';
 import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto } from '../models/user/user.dto';
-import { User } from '../models/user/user.entity';
+import { CreateUserDto } from '../models/user/userViewModels';
 
 export default class AuthRoute implements IRoute {
     public path = '/auth';
