@@ -4,7 +4,7 @@ import AuthenticationTokenMissingException from '../exceptions/AuthenticationTok
 import InvalidAuthenticationTokenException from '../exceptions/InvalidAuthenticationTokenException';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import DataStoredInToken from '../interfaces/dataStoredInToken.interface';
-import { UserModel, UserRole } from '../models/user/user.entity';
+import { UserModel, UserRole } from '../models/user/UserModels';
 
 function authMiddleware(requiredRoles: UserRole[] = []): RequestHandler {
     return async function (request: Request, _: Response, next: NextFunction): Promise<void> {

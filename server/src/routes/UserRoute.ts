@@ -1,11 +1,11 @@
 import { NextFunction, Response, Router, Request } from 'express';
 import { IContainer } from '../container';
-import { IUserController } from '../controllers/user.controller';
+import { IUserController } from '../controllers/UserController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
-import { UpdateSelfDto } from '../models/user/user.dto';
-import { UserRole } from '../models/user/user.entity';
+import { UpdateSelfDto } from '../models/user/userViewModels';
+import { UserRole } from '../models/user/UserModels';
 
 export default class UserRoute implements IRoute {
     public path = '/users';

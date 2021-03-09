@@ -4,11 +4,11 @@ import faker from 'faker';
 import { before, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { IContainer } from '../../src/container';
-import { IAuthenticationController } from '../../src/controllers/authentication.controller';
+import { IAuthenticationController } from '../../src/controllers/AuthenticationController';
 import { IDbHandler } from '../../src/DbHandler';
 import InvalidCredentialsException from '../../src/exceptions/InvalidCredentialsException';
 import UserWithThatEmailAlreadyExistsException from '../../src/exceptions/UserWithThatEmailAlreadyExistsException';
-import { UserModel, UserRole, UserStatus } from '../../src/models/user/user.entity';
+import { UserModel, UserRole, UserStatus } from '../../src/models/user/UserModels';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
 

@@ -1,6 +1,6 @@
 import { IsDateString, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { Types } from 'mongoose';
-import { BookingStatus } from './booking.entity';
+import { BookingStatus } from './BookingModels';
 export class CreateBookingDto {
     @IsDateString() @IsNotEmpty()
     public from!: string;
@@ -18,14 +18,6 @@ export class CreateBookingDto {
 
     @IsString() @IsOptional()
     public comment?: string;
-}
-
-export class BookingWithPrice extends CreateBookingDto {
-    public days!: number;
-    public price!: number;
-    public priceTotal!: number;
-    public tubPrice!: number;
-    public tubPriceTotal!: number;
 }
 
 export class ChangeBookingStatusDto {

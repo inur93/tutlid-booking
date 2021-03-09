@@ -3,9 +3,9 @@ import chaiAsPromised from "chai-as-promised";
 import { before, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { IContainer } from '../../src/container';
-import { IBankInformationController } from '../../src/controllers/bankinformation.controller';
+import { IBankInformationController } from '../../src/controllers/BankInformationController';
 import { IDbHandler } from '../../src/DbHandler';
-import { BankInformation, BankInformationModel } from '../../src/models/bankinformation/bankinformation.entity';
+import { BankInformation, BankInformationModel } from '../../src/models/bankinformation/BankInformationModels';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
 
