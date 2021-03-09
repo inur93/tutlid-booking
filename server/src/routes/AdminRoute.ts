@@ -1,21 +1,19 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
-import { IBankInformationController } from '../controllers/bankinformation.controller';
-import { IBookingController } from '../controllers/booking.controller';
-
-import { IPriceMatrixController } from '../controllers/pricematrix.controller';
-import { IUserController } from '../controllers/user.controller';
+import { IBankInformationController } from '../controllers/BankInformationController';
+import { IBookingController } from '../controllers/BookingController';
+import { IPriceMatrixController } from '../controllers/PriceMatrixController';
+import { IUserController } from '../controllers/UserController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
-import { BankInformation } from '../models/bankinformation/bankinformation.entity';
-import { ChangeBookingStatusDto } from '../models/booking/booking.dto';
-import { BookingStatus } from '../models/booking/booking.entity';
-import { CreatePriceMatrix } from '../models/pricematrix/pricematrix.dto';
-import { UpdateUserRoleDto, UpdateUserStatusDto } from '../models/user/user.dto';
-import { User, UserRole, UserStatus } from '../models/user/user.entity';
-import MailController from '../controllers/MailController';
+import { UpdateBankInformation } from '../models/bankinformation/BankInformationViewModels';
+import { ChangeBookingStatusDto } from '../models/booking/BookingViewModels';
+import { CreatePriceMatrix } from '../models/pricematrix/PriceMatrixViewModels';
+import { UserRole, UserStatus } from '../models/user/UserModels';
+import { UpdateUserRoleDto, UpdateUserStatusDto } from '../models/user/userViewModels';
+
 
 export default class AdminRoute implements IRoute {
     public path = '/admin';
@@ -24,16 +22,12 @@ export default class AdminRoute implements IRoute {
     private readonly bookingController: IBookingController;
     private readonly priceMatrixController: IPriceMatrixController;
     private readonly bankInformationController: IBankInformationController;
-    private readonly mailController: MailController;
-
 
     constructor({
-        mailController,
         userController,
         bookingController,
         priceMatrixController,
         bankInformationController }: IContainer) {
-        this.mailController = mailController;
         this.userController = userController;
         this.bookingController = bookingController;
         this.priceMatrixController = priceMatrixController;
@@ -51,7 +45,7 @@ export default class AdminRoute implements IRoute {
             .post(`${this.path}/pricematrix`, validationMiddleware(CreatePriceMatrix), this.createPriceMatrix)
             .delete(`${this.path}/pricematrix/:id`, this.deletePriceMatrix)
             .get(`${this.path}/bankinformation`, this.getBankInformation)
-            .put(`${this.path}/bankinformation/:id`, validationMiddleware(BankInformation), this.updateBankInformation);
+            .put(`${this.path}/bankinformation/:id`, validationMiddleware(UpdateBankInformation), this.updateBankInformation);
     }
 
     private readonly getUsers = async (request: Request, response: Response, next: NextFunction) => {
@@ -63,7 +57,6 @@ export default class AdminRoute implements IRoute {
     }
 
     private readonly addUserRole = async (request: Request, response: Response, next: NextFunction) => {
-
         try {
             const user = await this.userController.addRole(Types.ObjectId(request.params.id), request.body.role);
             response.send(user);
@@ -73,7 +66,6 @@ export default class AdminRoute implements IRoute {
     }
 
     private readonly removeUserRole = async (request: Request, response: Response, next: NextFunction) => {
-
         try {
             const user = await this.userController.removeRole(Types.ObjectId(request.params.id), request.params.role as UserRole);
             response.send(user);
@@ -82,7 +74,6 @@ export default class AdminRoute implements IRoute {
         }
     }
     private readonly changeUserStatus = async (request: Request, response: Response, next: NextFunction) => {
-
         try {
             const user = await this.userController.changeStatus(Types.ObjectId(request.params.id), request.body.status);
             response.send(user);
@@ -98,15 +89,6 @@ export default class AdminRoute implements IRoute {
                 status: request.body.status,
                 messageFromAdmin: request.body.messageFromAdmin
             })
-
-            if (!(booking.bookedBy as User).roles.includes(UserRole.admin)) {
-                if (booking.status === BookingStatus.accepted) {
-                    const bankInfo = await this.bankInformationController.current();
-                    this.mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
-                } else {
-                    this.mailController.sendRejection(booking, booking.bookedBy as User);
-                }
-            }
             response.send(booking);
         } catch (e) {
             next(e);

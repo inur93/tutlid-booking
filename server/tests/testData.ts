@@ -1,10 +1,10 @@
 import { Types } from "mongoose";
-import { User, UserRole, UserStatus } from '../src/models/user/user.entity';
+import { User, UserRole, UserStatus } from '../src/models/user/UserModels';
 import faker from 'faker';
-import { BankInformation } from "../src/models/bankinformation/bankinformation.entity";
-import { Booking, BookingStatus } from "../src/models/booking/booking.entity";
+import { BankInformation } from "../src/models/bankinformation/BankInformationModels";
+import { Booking, BookingStatus } from "../src/models/booking/BookingModels";
 import { startOfDay } from "date-fns";
-import { PriceMatrix } from "../src/models/pricematrix/pricematrix.entity";
+import { PriceMatrix } from "../src/models/pricematrix/PriceMatrixModels";
 
 type UserData = {
     _id?: Types.ObjectId,

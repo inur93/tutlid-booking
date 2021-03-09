@@ -1,23 +1,20 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { IContainer } from '../container';
-import { IBookingController } from '../controllers/booking.controller';
-import MailController from '../controllers/MailController';
+import { IBookingController } from '../controllers/BookingController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
-import { CreateBookingDto } from '../models/booking/booking.dto';
-import { BookingStatus } from '../models/booking/booking.entity';
-import { UserRole } from '../models/user/user.entity';
+import { BookingStatus } from '../models/booking/BookingModels';
+import { CreateBookingDto } from '../models/booking/BookingViewModels';
+import { UserRole } from '../models/user/UserModels';
 
 export default class BookingRoute implements IRoute {
     public path = '/bookings';
     public router = Router();
     private readonly bookingController: IBookingController;
-    private readonly mailController: MailController;
 
-    constructor({ bookingController, mailController }: IContainer) {
+    constructor({ bookingController }: IContainer) {
         this.bookingController = bookingController;
-        this.mailController = mailController;
         this.initializeRoutes();
     }
 
@@ -42,11 +39,7 @@ export default class BookingRoute implements IRoute {
 
     private readonly create = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = request.user;
-            const booking = await this.bookingController.create(request.body, user);
-            if (!user.roles.includes(UserRole.admin)) {
-                await this.mailController.sendReceipt(booking, user);
-            }
+            const booking = await this.bookingController.create(request.body, request.user);
             response.send(booking);
         } catch (e) {
             next(e);

@@ -1,7 +1,7 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { UserRole, UserStatus } from './user.entity';
+import { User, UserRole, UserStatus } from './UserModels';
 
-export class CreateUserDto {
+export class CreateUserDto implements Pick<User, 'fullName' | 'email' | 'password'> {
     @IsString()
     public fullName!: string;
 
@@ -12,12 +12,12 @@ export class CreateUserDto {
     public password!: string;
 
 }
-export class UpdateSelfDto {
+export class UpdateSelfDto implements Partial<Pick<User, 'fullName'>> {
     @IsString() @IsOptional()
     public fullName?: string;
 }
 
-export class UpdateUserStatusDto {
+export class UpdateUserStatusDto implements Pick<User, 'status'> {
     @IsEnum(UserStatus)
     public status!: UserStatus;
 }

@@ -1,9 +1,9 @@
 import sendgrid from '@sendgrid/mail';
 import { format } from 'date-fns';
 import daLocale from 'date-fns/locale/da';
-import { BankInformation } from '../models/bankinformation/bankinformation.entity';
-import { Booking } from '../models/booking/booking.entity';
-import { User } from '../models/user/user.entity';
+import { BankInformation } from '../models/bankinformation/BankInformationModels';
+import { Booking } from '../models/booking/BookingModels';
+import { User } from '../models/user/UserModels';
 
 export default class MailController {
     private readonly mailsEnabled: boolean;

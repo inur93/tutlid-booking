@@ -1,10 +1,10 @@
 import { NextFunction, Response, Router, Request } from 'express';
 import { IContainer } from '../container';
-import { IPriceMatrixController } from '../controllers/pricematrix.controller';
+import { IPriceMatrixController } from '../controllers/PriceMatrixController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
-import { CreateBookingDto } from '../models/booking/booking.dto';
+import { CreateBookingDto } from '../models/booking/BookingViewModels';
 
 export default class PriceMatrixRoute implements IRoute {
     public path = '/pricematrix';

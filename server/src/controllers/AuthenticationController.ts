@@ -5,9 +5,9 @@ import InvalidCredentialsException from '../exceptions/InvalidCredentialsExcepti
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
 import TokenData from '../interfaces/tokenData.interface';
 import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto } from '../models/user/user.dto';
-import { UserLoginData } from '../models/user/user.entity';
-import { IUserRepository } from '../repositories/user.repo';
+import { CreateUserDto } from '../models/user/userViewModels';
+import { UserLoginData } from '../models/user/UserModels';
+import { IUserRepository } from '../repositories/UserRepository';
 import { comparePassword, hashPassword } from '../utils/security';
 
 export interface IAuthenticationController {
@@ -32,14 +32,14 @@ export default class AuthenticationController implements IAuthenticationControll
             password: await hashPassword(password)
         });
 
-        //make sure to get object with default values
+        //make sure to get object with all fields populated
         const user = await this.userRepository.findById(_id);
 
         return this.createToken(user)
     }
 
     public async login({ email, password }: LogInDto): Promise<TokenData> {
-        const existingUser = await this.userRepository.findOne({ email }, true);
+        const existingUser = await this.userRepository.findOne({ email });
         if (!existingUser) {
             throw new InvalidCredentialsException();
         }
@@ -57,7 +57,10 @@ export default class AuthenticationController implements IAuthenticationControll
         const secret = process.env.JWT_SECRET || 'secret';
         const dataStoredInToken = {
             id: user._id,
+            email: user.email,
+            fullName: user.fullName
         };
+        
         return {
             expiresIn,
             token: jwt.sign(dataStoredInToken, secret, { expiresIn }),

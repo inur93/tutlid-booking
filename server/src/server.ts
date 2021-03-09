@@ -2,9 +2,9 @@
 import { startOfToday } from "date-fns";
 import App from "./app";
 import container from "./container";
-import { BankInformationModel } from "./models/bankinformation/bankinformation.entity";
-import { PriceMatrixModel } from "./models/pricematrix/pricematrix.entity";
-import { UserModel, UserRole, UserStatus } from "./models/user/user.entity";
+import { BankInformationModel } from "./models/bankinformation/BankInformationModels";
+import { PriceMatrixModel } from "./models/pricematrix/PriceMatrixModels";
+import { UserModel, UserRole, UserStatus } from "./models/user/UserModels";
 import { isProduction } from "./utils/environment";
 import { hashPassword } from "./utils/security";
 import validateEnv from "./utils/validateEnv";
