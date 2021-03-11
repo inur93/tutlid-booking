@@ -15,7 +15,7 @@ export interface IBookingController {
     get(from?: Date, to?: Date, status?: BookingStatus): Promise<BasicBooking[]>
     getById(id: string): Promise<Booking>
     create(dto: CreateBookingDto, user: User): Promise<BasicBooking>
-    changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<BasicBooking>
+    changeStatus(id: Types.ObjectId, data: ChangeBookingStatusDto): Promise<BasicBooking>
     delete(id: string, user: User): Promise<void>
 }
 export default class BookingController implements IBookingController {
@@ -75,7 +75,7 @@ export default class BookingController implements IBookingController {
         return Mapper.toViewBasicBooking(booking);
     }
 
-    public async changeStatus({ id, ...data }: ChangeBookingStatusDto): Promise<BasicBooking> {
+    public async changeStatus(id: Types.ObjectId, data: ChangeBookingStatusDto): Promise<BasicBooking> {
         const booking = await this.bookingRepository.update(id, data);
         const bookedBy = await this.userRepository.findById((booking.bookedBy as User)._id);
 

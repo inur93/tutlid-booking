@@ -21,8 +21,6 @@ export class CreateBookingDto {
 }
 
 export class ChangeBookingStatusDto {
-    @IsUUID()
-    public id!: Types.ObjectId;
     @IsEnum(BookingStatus)
     public status!: BookingStatus;
     @IsString() @IsOptional()

@@ -84,11 +84,7 @@ export default class AdminRoute implements IRoute {
 
     private readonly changeBookingStatus = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const booking = await this.bookingController.changeStatus({
-                id: Types.ObjectId(request.params.id),
-                status: request.body.status,
-                messageFromAdmin: request.body.messageFromAdmin
-            })
+            const booking = await this.bookingController.changeStatus(Types.ObjectId(request.params.id), request.body);
             response.send(booking);
         } catch (e) {
             next(e);
