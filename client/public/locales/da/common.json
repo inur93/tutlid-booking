@@ -9,6 +9,8 @@
     "close": "Luk",
     "login": "Login",
     "register": "Tilmeld",
+    "updatePassword": "Opdater kodeord",
+    "resetPassword": "Nulstil kodeord",
     "logout": "Logud"
   }
 }

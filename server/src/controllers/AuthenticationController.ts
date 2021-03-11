@@ -2,22 +2,29 @@
 import jwt from 'jsonwebtoken';
 import { IContainer } from '../container';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
+import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
-import TokenData from '../interfaces/tokenData.interface';
+import TokenData, { TokenContent } from '../interfaces/tokenData.interface';
 import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto } from '../models/user/userViewModels';
-import { UserLoginData } from '../models/user/UserModels';
+import { CreateUserDto, ResetPasswordDto, UpdatePasswordDto } from '../models/user/userViewModels';
+import { UserLoginData, UserStatus } from '../models/user/UserModels';
 import { IUserRepository } from '../repositories/UserRepository';
 import { comparePassword, hashPassword } from '../utils/security';
+import MailController, { IMailController } from './MailController';
+import { Types } from 'mongoose';
 
 export interface IAuthenticationController {
     register(data: CreateUserDto): Promise<TokenData>
     login({ email, password }: LogInDto): Promise<TokenData>
+    resetPassword({ email }: ResetPasswordDto): Promise<void>
+    updatePassword({ password, token }: UpdatePasswordDto): Promise<void>
 }
 export default class AuthenticationController implements IAuthenticationController {
     private readonly userRepository: IUserRepository
-    constructor({ userRepository }: IContainer) {
+    private readonly mailController: IMailController
+    constructor({ userRepository, mailController }: IContainer) {
         this.userRepository = userRepository;
+        this.mailController = mailController;
     }
     public async register({ email, password, fullName }: CreateUserDto): Promise<TokenData> {
 
@@ -44,23 +51,65 @@ export default class AuthenticationController implements IAuthenticationControll
             throw new InvalidCredentialsException();
         }
 
-        const { password: hash, ...user } = existingUser;
-        if (!await comparePassword(password, hash)) {
+        const { password: hash } = existingUser;
+        const same = await comparePassword(password, hash);
+        if (!same) {
             throw new InvalidCredentialsException();
+        }
+
+        const user = await this.userRepository.findById(existingUser._id);
+
+        if (user.status !== UserStatus.approved) {
+            throw new MissingPermissionsException("Your account has not yet been approved");
         }
 
         return this.createToken(user);
     }
 
-    public createToken(user: UserLoginData): TokenData {
-        const expiresIn = 60 * 60 * 12; // 12 hours
+
+    public async resetPassword({ email }: ResetPasswordDto): Promise<void> {
+
+        try {
+            const user = await this.userRepository.findOne({ email });
+            if (!user) return;
+            const tokenData = this.createToken(user, 60 * 60); // 1 hour
+            console.log('token', tokenData.token);
+            this.mailController.sendResetPassword(user, tokenData.token);
+
+        } catch (e) {
+            console.error(`could not reset password for ${email}`, e);
+            throw e;
+        }
+    }
+
+    public async updatePassword({ password, token }: UpdatePasswordDto): Promise<void> {
+        try {
+            const { id } = this.decodeToken(token);
+            await this.userRepository.updateOne(Types.ObjectId(id), {
+                password: await hashPassword(password)
+            })
+        } catch (e) {
+            console.warn('could not update password', e);
+            throw e;
+        }
+    }
+
+    private decodeToken(token: string): TokenContent {
+        if (!jwt.verify(token, process.env.JWT_SECRET || 'secret')) {
+            throw new Error('The token is no longer valid');
+        }
+        return jwt.decode(token) as TokenContent;
+    }
+
+    private createToken(user: UserLoginData, expiration: number = 0): TokenData {
+        const expiresIn = expiration || (60 * 60 * 12); // 12 hours
         const secret = process.env.JWT_SECRET || 'secret';
         const dataStoredInToken = {
             id: user._id,
             email: user.email,
             fullName: user.fullName
         };
-        
+
         return {
             expiresIn,
             token: jwt.sign(dataStoredInToken, secret, { expiresIn }),

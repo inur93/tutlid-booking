@@ -8,14 +8,16 @@ import { IAuthenticationController } from '../../src/controllers/AuthenticationC
 import { IDbHandler } from '../../src/DbHandler';
 import InvalidCredentialsException from '../../src/exceptions/InvalidCredentialsException';
 import UserWithThatEmailAlreadyExistsException from '../../src/exceptions/UserWithThatEmailAlreadyExistsException';
-import { UserRole, UserStatus } from '../../src/models/user/UserModels';
+import { UserModel, UserRole, UserStatus } from '../../src/models/user/UserModels';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
 
 chai.should();
 chai.use(chaiAsPromised);
 
-const testUser = TestData.user();
+const testUser = TestData.user({
+    status: UserStatus.approved
+});
 
 describe('authentication.controller', () => {
 
@@ -33,6 +35,11 @@ describe('authentication.controller', () => {
 
         controller = container.authenticationController;
         await controller.register(testUser);
+
+        //findById does not work
+        const user = await UserModel.findOne({ fullName: testUser.fullName }).exec();
+        user.status = UserStatus.approved;
+        user.save();
     })
 
     after(async () => {
@@ -67,12 +74,25 @@ describe('authentication.controller', () => {
     })
 
     describe('login', () => {
-        it('login successfully', (done) => {
+        it('successful', (done) => {
             const loginData = {
                 email: testUser.email,
                 password: testUser.password
             }
             controller.login(loginData).should.eventually.be.fulfilled.and.notify(done)
+        })
+
+        it('should contain valid data', async () => {
+            const loginData = {
+                email: testUser.email,
+                password: testUser.password
+            }
+            const { user } = await controller.login(loginData);
+
+            expect(user?.deleted).to.not.eq(true);
+            expect(user?.email).to.eq(testUser.email);
+            expect(user?.roles).to.include(UserRole.read);
+            expect(user?.status).to.eq(UserStatus.approved);
         })
 
         it('login unsuccessfully, wrong password', (done) => {

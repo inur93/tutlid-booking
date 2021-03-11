@@ -1,4 +1,4 @@
-import { LoginData } from ".";
+import { LoginData, UpdatePasswordData } from ".";
 import { BaseApi } from "./baseApi";
 import { RegisterData } from './index';
 
@@ -12,12 +12,11 @@ export class AuthApi extends BaseApi {
         try {
             return await super.post('/auth/login', loginData);
         } catch (e) {
-            const { message, status } = e.response.body;
+            const { status } = e.response.body;
             switch (status) {
-                case 401:
-                    throw new Error('Wrong username or password was provided.');
                 default:
-                    throw new Error(`An unknown error occurred: ${message}`);
+                    throw super.handleError(e);
+
             }
         }
     }
@@ -26,11 +25,7 @@ export class AuthApi extends BaseApi {
         try {
             return await super.get('/auth/logout');
         } catch (e) {
-            const { message, status } = e.response.body;
-            switch (status) {
-                default:
-                    throw new Error(`An error occurred when logging out: ${message}`);
-            }
+            throw super.handleError(e);
         }
     }
 
@@ -38,9 +33,23 @@ export class AuthApi extends BaseApi {
         try {
             return await super.post('/auth/register', userData);
         } catch (e) {
-            if (!e.response.body) throw new Error(e.message);
-            const { message, status } = e.response.body;
-            throw new Error(message);
+            throw super.handleError(e);
+        }
+    }
+
+    async resetPassword(email: string) {
+        try {
+            return await super.post('/auth/reset-password', { email });
+        } catch (e) {
+            throw super.handleError(e);
+        }
+    }
+
+    async updatePassword(data: UpdatePasswordData) {
+        try {
+            return await super.post('/auth/update-password', data);
+        } catch (e) {
+            throw super.handleError(e);
         }
     }
 }

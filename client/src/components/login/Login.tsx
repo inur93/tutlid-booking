@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme } from "@material-ui/core";
+import { Button, Card, CardContent, createStyles, FormGroup, makeStyles, TextField, Theme, Typography } from "@material-ui/core";
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
@@ -48,7 +48,7 @@ type LoginProps = {
 export function Login({ onComplete }: LoginProps) {
     const classes = useStyles();
     const [, { login }, error] = useAuthUser();
-    const {t} = useTranslation(['app', 'common']);
+    const { t } = useTranslation(['app', 'common']);
     const handleLogin = async (values: any, helpers: FormikHelpers<any>) => {
         const success = await login(values);
         helpers.setSubmitting(false);
@@ -81,14 +81,17 @@ export function Login({ onComplete }: LoginProps) {
                                 value={password}
                                 onChange={handleChange} />
                         </FormGroup>
+
+                        <Typography variant="body1" style={{display: 'inline'}}>{t('app:login.forgotPasswordDescription')}</Typography>
+                        <Link to='/reset-password'>{t('app:login.forgotPasswordLink')}</Link>
+                        {error && <Alert severity='error'>{error}</Alert>}
                         <FormGroup>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                                 {t('common:button.login')}
-                        </Button>
+                            </Button>
                             <Button component={Link} to='/register' variant='outlined' color='secondary' onClick={onComplete}>
                                 {t('common:button.register')}
                             </Button>
-                            {error && <Alert severity='error'>{error}</Alert>}
                         </FormGroup>
                     </Form>)
                 }

@@ -2,7 +2,7 @@ import { asClass, createContainer, InjectionMode } from 'awilix';
 import AuthenticationController, { IAuthenticationController } from './controllers/AuthenticationController';
 import BankInformationController, { IBankInformationController } from './controllers/BankInformationController';
 import BookingController, { IBookingController } from './controllers/BookingController';
-import MailController from './controllers/MailController';
+import MailController, { IMailController } from './controllers/MailController';
 import PriceMatrixController, { IPriceMatrixController } from './controllers/PriceMatrixController';
 import UserController, { IUserController } from './controllers/UserController';
 import DbHandler, { IDbHandler } from './DbHandler';
@@ -27,7 +27,7 @@ export interface IContainer {
     bookingController: IBookingController
     priceMatrixController: IPriceMatrixController
     bankInformationController: IBankInformationController
-    mailController: MailController
+    mailController: IMailController
 
     authenticationController: IAuthenticationController
 

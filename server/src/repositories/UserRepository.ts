@@ -30,13 +30,13 @@ export default class UserRepository implements IUserRepository {
         return UserModel.find(query);
     }
     async updateOne(_id: Types.ObjectId, update: UpdateUser): Promise<User> {
-        UserModel.updateOne(
+        await UserModel.updateOne(
             { _id },
             update);
         return UserModel.findById(_id);
     }
     async addRole(_id: Types.ObjectId, { role, ...update }: UpdateUserRole): Promise<User> {
-        UserModel.updateOne(
+        await UserModel.updateOne(
             { _id },
             {
                 ...update,
@@ -45,7 +45,7 @@ export default class UserRepository implements IUserRepository {
         return UserModel.findById(_id);
     }
     async removeRole(_id: Types.ObjectId, { role, ...update }: UpdateUserRole): Promise<User> {
-        UserModel.updateOne({ _id }, {
+        await UserModel.updateOne({ _id }, {
             ...update,
             $pull: { roles: role }
         })

@@ -5,7 +5,7 @@ import { IRoute } from '../interfaces/route.interface';
 import TokenData from '../interfaces/tokenData.interface';
 import validationMiddleware from '../middleware/validationMiddleware';
 import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto } from '../models/user/userViewModels';
+import { CreateUserDto, ResetPasswordDto, UpdatePasswordDto } from '../models/user/userViewModels';
 
 export default class AuthRoute implements IRoute {
     public path = '/auth';
@@ -20,6 +20,8 @@ export default class AuthRoute implements IRoute {
         this.router.post(`${this.path}/login`, validationMiddleware(LogInDto), this.login);
         this.router.get(`${this.path}/logout`, this.logout);
         this.router.post(`${this.path}/register`, validationMiddleware(CreateUserDto), this.register)
+        this.router.post(`${this.path}/reset-password`, validationMiddleware(ResetPasswordDto), this.resetPassword)
+        this.router.post(`${this.path}/update-password`, validationMiddleware(UpdatePasswordDto), this.updatePassword)
     }
     private readonly register = async (request: Request, response: Response, next: NextFunction) => {
         try {
@@ -43,6 +45,24 @@ export default class AuthRoute implements IRoute {
     private readonly logout = async (_: Request, response: Response) => {
         response.setHeader('Set-Cookie', this.createCookie({ token: '', expiresIn: 0 }));
         response.send();
+    }
+
+    private readonly resetPassword = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            this.authenticationController.resetPassword(request.body);
+            response.send();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    private readonly updatePassword = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            this.authenticationController.updatePassword(request.body);
+            response.send();
+        } catch (e) {
+            next(e);
+        }
     }
 
     private readonly attachTokenAndCookie = async (response: Response, token: TokenData) => {

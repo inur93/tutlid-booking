@@ -23,6 +23,12 @@ export type LoginData = {
 export type RegisterData = LoginData & {
     fullName: string
 }
+
+export type UpdatePasswordData = {
+    password: string,
+    token: string
+}
+
 export enum BookingStatus {
     reserved = "reserved",
     accepted = "accepted",

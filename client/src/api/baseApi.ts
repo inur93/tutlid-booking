@@ -34,4 +34,13 @@ export abstract class BaseApi {
             .post(url)
             .send(body);
     }
+
+    handleError(e: any) {
+        if(!e || !e.response || !e.response.body){
+            return new Error('an unknown error occurred');
+        }
+        const { message, status } = e.response.body;
+        console.error(status, message);
+        return new Error(message);
+    }
 }
