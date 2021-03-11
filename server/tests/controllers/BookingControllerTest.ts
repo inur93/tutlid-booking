@@ -156,11 +156,11 @@ describe('booking.controller', () => {
 
     describe('changeStatus', () => {
         it('of normal booking from reserved to accepted', async () => {
-            const result = await controller.changeStatus({
-                id: bookings[0]._id,
-                status: BookingStatus.accepted,
-                messageFromAdmin: 'test'
-            })
+            const result = await controller.changeStatus(bookings[0]._id,
+                {
+                    status: BookingStatus.accepted,
+                    messageFromAdmin: 'test'
+                })
 
             expect(result.status).to.eq(BookingStatus.accepted);
             //check that email is sent.
