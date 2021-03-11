@@ -73,7 +73,9 @@
     "emailLabel": "Email",
     "emailPlaceholder": "Email",
     "passwordLabel": "Adgangskode",
-    "passwordPlaceholder": "Adgangskode"
+    "passwordPlaceholder": "Adgangskode",
+    "forgotPasswordLink": "her",
+    "forgotPasswordDescription": "Hvis du har glemt din adgangskode, så klik "
   },
   "loginModal": {
     "header": "Login"
@@ -87,6 +89,15 @@
     "loggedinMsg": "Hej {{name}}, velkommen til Tutlið booking. Inden du kan lave nogen bookinger skal din konto bekræftes af en administrator. Du vil modtage en mail når du kan booke sommerhuset.",
     "missingAdminApproval": "Inden du kan booke Tultið skal din konto bekræftes af en administrator. Du vil modtage en mail når din konto er klar.",
     "gotoHomePage": "Gå til forsiden"
+  },
+  "resetPassword": {
+    "header": "Nulstil kodeord",
+    "passwordLabel": "Kodeord",
+    "passwordPlaceholder": "Kodeord",
+    "passwordUpdateMessage": "Din adgangskode er nu opdateret",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "completeMessage": "Hvis din email findes i vores system, vil du modtage en email med et link til at nulstille din adgangskode."
   },
   "AccessDenied": {
     "header": "Du har ikke adgang til denne side"

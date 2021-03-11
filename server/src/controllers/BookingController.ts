@@ -1,16 +1,15 @@
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
+import { BasicBooking, Booking, BookingStatus } from '../models/booking/BookingModels';
 import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/BookingViewModels';
-import { Booking, BookingStatus, BasicBooking } from '../models/booking/BookingModels';
 import { User, UserRole } from '../models/user/UserModels';
 import { IBookingRepository } from '../repositories/BookingRepository';
-import { IPriceMatrixController } from './PriceMatrixController';
+import { IUserRepository } from '../repositories/UserRepository';
 import Mapper from '../utils/Mapper';
 import { IBankInformationController } from './BankInformationController';
-import MailController from './MailController';
-import { IUserController } from './UserController';
-import { IUserRepository } from '../repositories/UserRepository';
+import { IMailController } from './MailController';
+import { IPriceMatrixController } from './PriceMatrixController';
 
 export interface IBookingController {
     get(from?: Date, to?: Date, status?: BookingStatus): Promise<BasicBooking[]>
@@ -26,7 +25,7 @@ export default class BookingController implements IBookingController {
     private readonly priceMatrixController: IPriceMatrixController;
     private readonly bankInformationController: IBankInformationController;
     private readonly userRepository: IUserRepository;
-    private readonly mailController: MailController;
+    private readonly mailController: IMailController;
 
     constructor({
         bookingRepository,

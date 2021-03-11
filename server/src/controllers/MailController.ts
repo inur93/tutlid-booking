@@ -5,7 +5,22 @@ import { BankInformation } from '../models/bankinformation/BankInformationModels
 import { Booking } from '../models/booking/BookingModels';
 import { User } from '../models/user/UserModels';
 
-export default class MailController {
+export interface IMailController {
+    sendReceipt(booking: Booking, user: User): Promise<void>
+    sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation): Promise<void>
+    sendRejection(booking: Booking, user: User): Promise<void>
+    sendResetPassword(user: User, token: string): Promise<void>
+}
+
+type SendOptions = {
+    templateId: string,
+    user: User,
+    booking?: Booking,
+    bankInfo?: BankInformation,
+    token?: string,
+    resetPasswordLink?: string
+}
+export default class MailController implements IMailController {
     private readonly mailsEnabled: boolean;
     constructor() {
         const apiKey = process.env.SENDGRID_API_KEY
@@ -58,33 +73,42 @@ export default class MailController {
     }
 
     async sendReceipt(booking: Booking, user: User) {
-        const template = process.env.SG_TEMPLATE_RECEIPT;
-        if (!template) {
+        const templateId = process.env.SG_TEMPLATE_RECEIPT;
+        if (!templateId) {
             console.log('template id for receipt email is not specified');
             return;
         }
-        await this.send(template, user, booking)
+        await this.send({ templateId, user, booking })
     }
 
     async sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation) {
-        const template = process.env.SG_TEMPLATE_CONFIRMED;
-        if (!template) {
+        const templateId = process.env.SG_TEMPLATE_CONFIRMED;
+        if (!templateId) {
             console.log('template id for confirmation email is not specified');
             return;
         }
-        this.send(template, user, booking, bankInfo);
+        this.send({ templateId, user, booking, bankInfo });
     }
 
     async sendRejection(booking: Booking, user: User) {
-        const template = process.env.SG_TEMPLATE_REJECTED;
-        if (!template) {
+        const templateId = process.env.SG_TEMPLATE_REJECTED;
+        if (!templateId) {
             console.log('template id for rejection email is not specified');
             return;
         }
-        this.send(template, user, booking);
+        this.send({ templateId, user, booking });
     }
 
-    private async send(templateId: string, user: User, booking?: Booking, bankInfo?: BankInformation) {
+    async sendResetPassword(user: User, token: string) {
+        const templateId = process.env.SG_TEMPLATE_RESET_PASSWORD;
+        if (!templateId) {
+            console.log('template id for rejection email is not specified');
+            return;
+        }
+        this.send({ templateId, user, token, resetPasswordLink: process.env.RESET_PASSWORD_LINK });
+    }
+
+    private async send({ templateId, user, booking, bankInfo, token, resetPasswordLink }: SendOptions) {
         if (!this.mailsEnabled) {
             console.log('mails has been disabled');
             return;
@@ -104,7 +128,9 @@ export default class MailController {
                 dynamicTemplateData: {
                     ...this.booking2templateData(booking),
                     ...this.user2templateData(user),
-                    ...this.bank2tempalteData(bankInfo)
+                    ...this.bank2tempalteData(bankInfo),
+                    token: token,
+                    resetPasswordLink: resetPasswordLink
                 }
             })
         } catch (e) {

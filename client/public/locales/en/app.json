@@ -73,7 +73,9 @@
     "emailLabel": "Email",
     "emailPlaceholder": "Email",
     "passwordLabel": "Password",
-    "passwordPlaceholder": "Password"
+    "passwordPlaceholder": "Password",
+    "forgotPasswordLink": "here",
+    "forgotPasswordDescription": "If you forgot your password, click "
   },
   "loginModal": {
     "header": "Login"
@@ -87,6 +89,15 @@
     "loggedinMsg": "Welcome {{name}} to Tutlið booking. Before you can book Tutlið an admin will have to verify your account. You will get an email when you are good to go.",
     "missingAdminApproval": "Before you can book Tutlið an admin will have to verify your account. You will get an email when the account has been verified.",
     "gotoHomePage": "Go to front page"
+  },
+  "resetPassword": {
+    "header": "Reset Password",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Password",
+    "passwordUpdateMessage": "Your password has now been updated.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "completeMessage": "If your email is registered in our system you will get an email with a link to reset your password."
   },
   "AccessDenied": {
     "header": "You dont have permission to access this page"

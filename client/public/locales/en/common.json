@@ -9,6 +9,8 @@
     "close": "Close",
     "login": "Login",
     "register": "Register",
+    "updatePassword": "Update Password",
+    "resetPassword": "Reset Password",
     "logout": "Logout"
   }
 }
