@@ -12,6 +12,10 @@ export default class Mapper {
         return { _id, fullName }
     }
 
+    static toDetailedUser({ _id, fullName, email, roles, status, deleted }: User): DetailedUser {
+        return { _id, fullName, email, roles, status, deleted }
+    }
+
     static toAdminViewUser({ _id, fullName, status, email, deleted, roles }: User): DetailedUser {
         return { _id, fullName, status, email, deleted, roles }
     }
