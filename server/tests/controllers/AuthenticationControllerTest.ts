@@ -3,6 +3,7 @@ import chaiAsPromised from "chai-as-promised";
 import faker from 'faker';
 import { before, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { hashPasswordSync } from '../../src/utils/security';
 import { IContainer } from '../../src/container';
 import { IAuthenticationController } from '../../src/controllers/AuthenticationController';
 import { IDbHandler } from '../../src/DbHandler';
@@ -16,10 +17,11 @@ chai.should();
 chai.use(chaiAsPromised);
 
 const testUser = TestData.user({
-    status: UserStatus.approved
+    status: UserStatus.approved,
+    roles: [UserRole.read, UserRole.basic]
 });
 
-describe('authentication.controller', () => {
+describe('AuthenticationController', () => {
 
     let container: IContainer;
     let dbHandler: IDbHandler;
@@ -34,12 +36,6 @@ describe('authentication.controller', () => {
         mongo = setup.mongo;
 
         controller = container.authenticationController;
-        await controller.register(testUser);
-
-        //findById does not work
-        const user = await UserModel.findOne({ fullName: testUser.fullName }).exec();
-        user.status = UserStatus.approved;
-        user.save();
     })
 
     after(async () => {
@@ -49,6 +45,14 @@ describe('authentication.controller', () => {
         } catch (e) {
             console.log('failed to disconnect mongo...', e);
         }
+    })
+
+    beforeEach(async () => {
+        await UserModel.create([testUser].map(x => ({ ...x, password: hashPasswordSync(x.password) })));
+    })
+
+    afterEach(async () => {
+        await UserModel.deleteMany({});
     })
 
     describe('register', () => {

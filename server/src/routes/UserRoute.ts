@@ -34,7 +34,7 @@ export default class UserRoute implements IRoute {
 
     private readonly self = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = await this.userController.getById(request.user._id);
+            const user = await this.userController.getSelf(request.user._id);
             response.send(user);
         } catch (e) {
             next(e);

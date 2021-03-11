@@ -4,6 +4,7 @@ import { format, isSameDay, parse as parseFn } from 'date-fns';
 import faker from 'faker';
 import { after, afterEach, before, beforeEach, describe, it } from 'mocha';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { hashPasswordSync } from '../../src/utils/security';
 import { IContainer } from '../../src/container';
 import { IBookingController } from '../../src/controllers/BookingController';
 import { IDbHandler } from '../../src/DbHandler';
@@ -28,17 +29,18 @@ const bookingAccepted = TestData.booking({
     bookedBy: userBasic
 });
 const bookings: Booking[] = [
-    TestData.booking({ from: faker.date.soon(31, parse("2020-12-01")), bookedBy: userBasic }),
-    TestData.booking({ from: faker.date.soon(31, parse("2020-12-01")), bookedBy: userBasic }),
+    //to date will automatically be up to 5 days after from date
+    TestData.booking({ from: faker.date.soon(25, parse("2020-12-01")), bookedBy: userBasic }),
+    TestData.booking({ from: faker.date.soon(25, parse("2020-12-01")), bookedBy: userBasic }),
 
     TestData.booking({ to: parse("2021-01-01"), bookedBy: userBasic }),
-    TestData.booking({ from: faker.date.soon(31, parse("2021-01-01")), bookedBy: userBasic }),
-    TestData.booking({ from: faker.date.soon(31, parse("2021-01-01")), bookedBy: userBasic }),
-    TestData.booking({ from: faker.date.soon(31, parse("2021-01-01")), bookedBy: userBasic }),
+    TestData.booking({ from: parse("2021-01-07"), bookedBy: userBasic }),
+    TestData.booking({ from: parse("2021-01-15"), bookedBy: userBasic }),
+    TestData.booking({ from: parse("2021-01-25"), bookedBy: userBasic }),
     TestData.booking({ from: parse("2021-01-31"), bookedBy: userBasic }),
 
     bookingAccepted,
-    TestData.booking({ from: faker.date.soon(31, parse("2021-02-01")), bookedBy: userBasic }),
+    TestData.booking({ from: faker.date.soon(30, parse("2021-02-01")), bookedBy: userBasic }),
 ]
 
 describe('booking.controller', () => {
@@ -66,7 +68,7 @@ describe('booking.controller', () => {
     })
 
     beforeEach(async () => {
-        await UserModel.create([userBasic, userAdmin]);
+        await UserModel.create([userBasic, userAdmin].map(x => ({ ...x, password: hashPasswordSync(x.password) })));
         await BookingModel.create(bookings);
     })
 

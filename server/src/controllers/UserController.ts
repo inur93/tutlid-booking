@@ -9,6 +9,7 @@ import Mapper from '../utils/Mapper';
 export interface IUserController {
     get(status?: UserStatus): Promise<DetailedUser[]>
     getById(id: Types.ObjectId): Promise<BasicUser>
+    getSelf(id: Types.ObjectId): Promise<DetailedUser>
     update(id: Types.ObjectId, update: UpdateSelfDto): Promise<BasicUser>
     changeStatus(id: Types.ObjectId, status: UserStatus): Promise<DetailedUser>
     addRole(id: Types.ObjectId, role: UserRole): Promise<DetailedUser>
@@ -37,6 +38,16 @@ export default class UserController implements IUserController {
         }
 
         return Mapper.toViewBasicUser(await this.userRepository.findById(id));
+    }
+
+    public async getSelf(id: Types.ObjectId): Promise<DetailedUser> {
+        const user = await this.userRepository.findById(id);
+
+        if (!user) {
+            throw new NotFoundException(`user id ${id} was not found`);
+        }
+
+        return Mapper.toDetailedUser(await this.userRepository.findById(id));
     }
 
     public async update(id: Types.ObjectId, update: UpdateSelfDto): Promise<BasicUser> {
