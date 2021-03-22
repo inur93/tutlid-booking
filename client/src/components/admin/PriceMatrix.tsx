@@ -1,10 +1,11 @@
-import { Button, Collapse, createStyles, makeStyles, Tab, Table, TableBody, TableCell, TableRow, Tabs, Theme } from '@material-ui/core';
+import { Button, Card, CardContent, Collapse, createStyles, makeStyles, Tab, Table, TableBody, TableCell, TableRow, Tabs, Theme, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreatePriceMatrix as CreatePriceMatrixModel, PriceMatrix as PriceMatrixModel } from '../../api';
 import { usePriceMatrices } from '../../hooks/usePriceMatrices';
 import { formatDate } from '../../utils/dateFunctions';
 import CardLayout from '../layouts/CardLayout';
+import Panel from '../shared/Panel';
 import CreatePriceMatrix from './CreatePriceMatrix';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,10 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         form: {
             marginTop: theme.spacing(2)
-        },
-        content: {
-            flex: '1 0 auto',
-        },
+        }
     }));
 
 type PriceMatrixProps = {}
@@ -44,7 +42,8 @@ export default function PriceMatrix({ }: PriceMatrixProps) {
         await create(pm);
         setShow(false);
     }
-    return (<CardLayout>
+    return (<Panel elevation={0} header={t('app:priceMatrix.header')} smallHeader>
+        {!(priceMatrices?.length) && <Typography variant='body1'>{t('app:priceMatrix.emptyDescription')}</Typography>}
         <Tabs
             value={tab}
             onChange={handleChange}
@@ -79,7 +78,7 @@ export default function PriceMatrix({ }: PriceMatrixProps) {
                 {t('common:button.add')}
             </Button>
         }
-    </CardLayout>);
+    </Panel>);
 }
 
 type PriceMatrixTableProps = {

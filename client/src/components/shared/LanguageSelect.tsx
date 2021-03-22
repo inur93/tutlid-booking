@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type LanguageSelectorProps = {}
 export default function LanguageSelector({ }: LanguageSelectorProps) {
     const classes = useStyles();
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation('common');
 
     const changeLanguage = (event: React.ChangeEvent<{
         name?: string | undefined;
@@ -33,6 +33,6 @@ export default function LanguageSelector({ }: LanguageSelectorProps) {
         onChange={changeLanguage}
         disableUnderline={true}
     >
-        {getLanguages().map(x => <MenuItem key={x} value={x}>{x}</MenuItem>)}
+        {getLanguages().map(x => <MenuItem key={x} value={x}>{t(`common:languages.${x}`)}</MenuItem>)}
     </Select>);
 }

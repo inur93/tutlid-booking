@@ -1,6 +1,7 @@
 
 
 import { Button, IconButton, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
+import { LockOpen } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/HomeRounded';
 import AdminIcon from '@material-ui/icons/Settings';
@@ -45,22 +46,24 @@ export default function Toolbar({ }: ToolbarProps) {
 
     const isAdmin = user.hasRole(Role.admin);
     return (<div>
-        <IconButton component={Link} to={'/'}>
-            <HomeIcon className={classes.icon} />
-        </IconButton>
+        <Button className={classes.icon} component={Link} to={'/'} startIcon={<HomeIcon />}>
+            {t('common:button.home')}
+        </Button>
         {isAdmin &&
-            <IconButton component={Link} to={'/admin'}>
-                <AdminIcon className={classes.icon} />
-            </IconButton>}
+            <Button component={Link} to={'/admin'} className={classes.icon} startIcon={<AdminIcon />}>
+                {t('common:button.settings')}
+            </Button>}
         {user.isLoggedIn &&
-            <IconButton aria-label="account of current user"
+            <Button aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
+                className={classes.icon}
+                startIcon={<AccountCircle />}
                 onClick={handleMenu}>
-                <AccountCircle />
-            </IconButton>}
-        {!user.isLoggedIn && <Button color="inherit" onClick={() => setShowLogin(true)}>
+                {t('common:button.account')}
+            </Button>}
+        {!user.isLoggedIn && <Button className={classes.icon} component={Link} to='/login' startIcon={<LockOpen />}>
             {t('common:button.login')}
         </Button>}
         <Menu
@@ -81,7 +84,6 @@ export default function Toolbar({ }: ToolbarProps) {
             <MenuItem divider disabled >{user.fullName}</MenuItem>
             <MenuItem onClick={handleLogout}>{t('common:button.logout')}</MenuItem>
         </Menu>
-        {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
         <LanguageSelector />
     </div>);
 }

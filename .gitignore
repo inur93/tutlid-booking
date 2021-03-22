@@ -32,3 +32,4 @@ server/.nyc_output/
 server/~/junit/test-results.xml 
 server/junit/
 server/coverage/
+client/public/locales/**/*_old.json

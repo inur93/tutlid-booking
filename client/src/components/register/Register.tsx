@@ -6,29 +6,12 @@ import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useRegisterUser } from '../../hooks/useRegisterUser';
 import { Alert } from '../shared/Alert';
+import Panel from '../shared/Panel';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            display: 'flex',
-            minHeight: '20rem',
-            '& .MuiTextField-root,& .MuiButtonBase-root': {
-                marginBottom: theme.spacing(2)
-            }
-        },
-        form: {
-            marginTop: theme.spacing(2)
-        },
-        details: {
-            display: 'flex',
-            flexDirection: 'column',
-            width: '50%'
-        },
-        content: {
-            flex: '1 0 auto',
-        },
-        cover: {
-            width: '50%',
+        description: {
+            marginBottom: theme.spacing(2)
         }
     }),
 );
@@ -59,75 +42,71 @@ export default function RegisterUser({ header }: RegisterUserProps) {
         await register(values);
         helpers.setSubmitting(false);
     }
-    return (<Card className={classes.root}>
-        <CardHeader>
-            <Typography variant='h2'>{header}</Typography>
-        </CardHeader>
-        <CardContent className={classes.content}>
-            <Fade in={!user.isLoggedIn} >
-                <Formik initialValues={{
-                    fullName: '',
-                    email: '',
-                    password: ''
-                }}
-                    validationSchema={getSchema(t)}
-                    onSubmit={handleSubmit}>
-                    {({ isSubmitting, errors, touched, handleChange, values: { fullName, email, password } }) => (
+    return (<Panel header={header}>
+        <Typography className={classes.description} variant='body1'>{t('app:register.description')}</Typography>
+        <Fade in={!user.isLoggedIn} >
+            <Formik initialValues={{
+                fullName: '',
+                email: '',
+                password: ''
+            }}
+                validationSchema={getSchema(t)}
+                onSubmit={handleSubmit}>
+                {({ isSubmitting, errors, touched, handleChange, values: { fullName, email, password } }) => (
 
-                        <Form>
+                    <Form>
 
-                            <FormGroup>
-                                <TextField name='fullName'
-                                    label={t('app:register.fullNameLabel')}
-                                    placeholder={t('app:register.fullNamePlaceholder')}
-                                    variant='outlined'
-                                    value={fullName}
-                                    error={Boolean(errors.fullName)}
-                                    helperText={touched.fullName ? errors.fullName : ''}
-                                    onChange={handleChange} />
+                        <FormGroup>
+                            <TextField name='fullName'
+                                label={t('app:register.fullNameLabel')}
+                                placeholder={t('app:register.fullNamePlaceholder')}
+                                variant='outlined'
+                                value={fullName}
+                                error={Boolean(errors.fullName)}
+                                helperText={touched.fullName ? errors.fullName : ''}
+                                onChange={handleChange} />
 
-                                <TextField type="email"
-                                    name="email"
-                                    label={t('app:register.emailLabel')}
-                                    placeholder={t('app:register.emailLabel')}
-                                    variant='outlined'
-                                    value={email}
-                                    error={Boolean(errors.email)}
-                                    helperText={touched.email ? errors.email : ''}
-                                    onChange={handleChange} />
+                            <TextField type="email"
+                                name="email"
+                                label={t('app:register.emailLabel')}
+                                placeholder={t('app:register.emailLabel')}
+                                variant='outlined'
+                                value={email}
+                                error={Boolean(errors.email)}
+                                helperText={touched.email ? errors.email : ''}
+                                onChange={handleChange} />
 
-                                <TextField type="password"
-                                    name="password"
-                                    label={t('app:register.passwordLabel')}
-                                    placeholder={t('app:register.passwordPlaceholder')}
-                                    variant='outlined'
-                                    value={password}
-                                    error={Boolean(errors.password)}
-                                    helperText={touched.password ? errors.password : ''}
-                                    onChange={handleChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
-                                    {t('common:button.register')}
-                                </Button>
-                            </FormGroup>
+                            <TextField type="password"
+                                name="password"
+                                label={t('app:register.passwordLabel')}
+                                placeholder={t('app:register.passwordPlaceholder')}
+                                variant='outlined'
+                                value={password}
+                                error={Boolean(errors.password)}
+                                helperText={touched.password ? errors.password : ''}
+                                onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
+                                {t('common:button.register')}
+                            </Button>
+                        </FormGroup>
 
 
-                        </Form>
-                    )
-                    }
-                </Formik>
-            </Fade>
+                    </Form>
+                )
+                }
+            </Formik>
+        </Fade>
 
-            {error && <Alert severity='error'>{error}</Alert>}
-            {user.isLoggedIn &&
-                <Alert severity='success'>
-                    {t('register.loggedinMsg', { name: user.fullName })}
+        {error && <Alert severity='error'>{error}</Alert>}
+        {user.isLoggedIn &&
+            <Alert severity='success'>
+                {t('register.loggedinMsg', { name: user.fullName })}
 
-                    {!user.approvedByAdmin ? <p>{t('register.missingAdminApproval')}</p> : ' '}
-                    <Link to='/'>{t('register.gotoHomePage')}</Link>
-                </Alert>
-            }
-        </CardContent>
-    </Card>);
+                {!user.approvedByAdmin ? <p>{t('register.missingAdminApproval')}</p> : ' '}
+                <Link to='/'>{t('register.gotoHomePage')}</Link>
+            </Alert>
+        }
+    </Panel>);
 }

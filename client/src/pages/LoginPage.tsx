@@ -3,27 +3,20 @@ import { Login } from "../components/login/Login";
 import { useAuthUser } from "../hooks/useAuthUser";
 import { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            marginTop: '5rem'
-        }
-    }),
-);
+import { BasePage } from "./BasePage";
+import { useTranslation } from "react-i18next";
 
 export function LoginPage() {
-    const classes = useStyles();
     const [user] = useAuthUser();
     const router = useHistory();
+    const { t } = useTranslation(['app']);
+
     useEffect(() => {
-        if(user.isLoggedIn){
+        if (user.isLoggedIn) {
             router.push('/');
         }
     }, [user]);
-    return <Grid className={classes.root} container justify='center'>
-        <Grid item  xs={12} md={8} lg={6}>
-            <Login />
-        </Grid>
-    </Grid>
+    return <BasePage>
+        <Login header={t('app:login.header')} />
+    </BasePage>
 }

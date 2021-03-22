@@ -46,16 +46,22 @@ function UserRequest({ user, onClick }: UserRequestProps) {
 type AdminUsersPanelProps = {}
 export default function AdminUsersPanel({ }: AdminUsersPanelProps) {
     const classes = useStyles();
-    const [{ users }, reply] = useUsers(UserStatus.pendingApproval);
+    const [{ users: pendingUsers }, reply] = useUsers(UserStatus.pendingApproval);
     const { t } = useTranslation('app');
-    if (!users.length) return null;
+    if (!pendingUsers.length) return null;
     return (<Card>
         <CardContent>
             <Typography variant='h6'>{t('AdminUserPanel.header')}</Typography>
             <List dense>
-                {users.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
+                {pendingUsers.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
             </List>
         </CardContent>
-
+        <CardContent>
+            <Typography variant='h6'>{t('AdminUserPanel.header')}</Typography>
+            <List dense>
+                {pendingUsers.map(x => <UserRequest key={x._id} user={x} onClick={reply} />)}
+            </List>
+        </CardContent>
+        
     </Card>);
 }

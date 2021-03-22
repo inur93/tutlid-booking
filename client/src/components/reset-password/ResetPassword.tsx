@@ -1,6 +1,6 @@
 
 
-import { Button, Card, CardContent, CardHeader, createStyles, FormGroup, IconButton, InputAdornment, makeStyles, TextField, Theme, Typography } from "@material-ui/core";
+import { Button, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Form, Formik, FormikHelpers } from 'formik';
 import queryString from 'query-string';
@@ -10,16 +10,7 @@ import { useLocation } from "react-router-dom";
 import * as yup from 'yup';
 import api from "../../api";
 import { Alert } from '../shared/Alert';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '& .MuiTextField-root,& .MuiButtonBase-root': {
-                marginBottom: theme.spacing(2)
-            }
-        }
-    }),
-);
+import Panel from "../shared/Panel";
 
 let resetFormSchema = yup.object().shape({
     email: yup
@@ -118,16 +109,12 @@ export function ResetPasswordForm({ handleResetPassword, error, complete, t }: R
     </Formik>
 }
 export function ResetPassword({ prompt, ...props }: ResetPasswordProps) {
-    const classes = useStyles();
-
-    return (<Card className={classes.root}>
-
-        <CardContent>
-            <Typography variant='h5' component="h2">{props.t('app:resetPassword.header')}</Typography>
-            {prompt === 'email' && <ResetPasswordForm {...props} />}
-            {prompt === 'password' && <UpdatePasswordForm {...props} />}
-        </CardContent>
-    </Card>)
+    return (<Panel header={props.t('app:resetPassword.header')}>
+        <Typography variant='body1'>{props.t('app:resetPassword.description')}</Typography>
+        <p />
+        {prompt === 'email' && <ResetPasswordForm {...props} />}
+        {prompt === 'password' && <UpdatePasswordForm {...props} />}
+    </Panel>)
 }
 
 export default function IResetPassword() {
