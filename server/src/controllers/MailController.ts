@@ -87,7 +87,7 @@ export default class MailController implements IMailController {
             console.log('template id for confirmation email is not specified');
             return;
         }
-        this.send({ templateId, user, booking, bankInfo });
+        await this.send({ templateId, user, booking, bankInfo });
     }
 
     async sendRejection(booking: Booking, user: User) {
@@ -96,7 +96,7 @@ export default class MailController implements IMailController {
             console.log('template id for rejection email is not specified');
             return;
         }
-        this.send({ templateId, user, booking });
+        await this.send({ templateId, user, booking });
     }
 
     async sendResetPassword(user: User, token: string) {
@@ -105,7 +105,7 @@ export default class MailController implements IMailController {
             console.log('template id for rejection email is not specified');
             return;
         }
-        this.send({ templateId, user, token, resetPasswordLink: process.env.RESET_PASSWORD_LINK });
+        await this.send({ templateId, user, token, resetPasswordLink: process.env.RESET_PASSWORD_LINK });
     }
 
     private async send({ templateId, user, booking, bankInfo, token, resetPasswordLink }: SendOptions) {
@@ -134,7 +134,7 @@ export default class MailController implements IMailController {
                 }
             })
         } catch (e) {
-            console.log('could not send email', e.message);
+            console.log('could not send email', e.message, e);
         }
     }
 }

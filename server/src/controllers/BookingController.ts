@@ -82,9 +82,9 @@ export default class BookingController implements IBookingController {
         if (!bookedBy.roles.includes(UserRole.admin)) {
             if (booking.status === BookingStatus.accepted) {
                 const bankInfo = await this.bankInformationController.current();
-                this.mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
+                await this.mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
             } else {
-                this.mailController.sendRejection(booking, booking.bookedBy as User);
+                await this.mailController.sendRejection(booking, booking.bookedBy as User);
             }
         }
         return Mapper.toViewBasicBooking(booking);

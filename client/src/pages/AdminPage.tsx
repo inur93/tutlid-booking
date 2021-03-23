@@ -12,14 +12,17 @@ import AccessDenied from '../components/shared/AccessDenied';
 import { useAuthUser } from '../hooks/useAuthUser';
 import { useBookings } from '../hooks/useBookings';
 import { useUsers } from '../hooks/useUsers';
+import { BasePage } from './BasePage';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
     'root': {
         flexGrow: 1,
+        opacity: 0.9,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: 224,
+        height: "calc(100vh - 6rem)",
+        overflowY: 'auto',
         marginTop: theme.spacing(2),
         '& .MuiCard-root': {
             marginBottom: theme.spacing(2)
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
+        marginTop: theme.spacing(2),
     },
 
 }));
@@ -68,27 +72,25 @@ export default function AdminPage({ }: AdminPageProps) {
 
     if (!user.hasRole(Role.admin)) return <AccessDenied requiredRoles={[Role.admin]} />;
 
-    return (<Grid container justify='center'>
-        <Grid className={classes.root} item xs={12} md={8} lg={6}>
-            <Tabs orientation='vertical'
-                aria-label='Admin panels'
-                className={classes.tabs}
-                value={page}
-                onChange={(e, v) => setPage(v)}
-            >
-                <Tab label={t('app:adminPage.usersTabLabel')} icon={<Badge badgeContent={users.length} color="primary"><PeopleIcon /></Badge>} id='0' />
-                <Tab label={t('app:adminPage.bookingsTabLabel')} icon={<Badge badgeContent={bookings.length} color="primary"><EventIcon /></Badge>} id='1' />
-                <Tab label={t('app:adminPage.accountTabLabel')} icon={<AccountBalanceIcon />} id='2' />
-            </Tabs>
-            <TabPanel index={page} value={0}>
-                <NewUserPanel users={users} changeStatus={changeUserStatus} />
-            </TabPanel>
-            <TabPanel index={page} value={1}>
-                <PendingBookingsPanel bookings={bookings} changeStatus={changeBookingStatus} />
-            </TabPanel>
-            <TabPanel index={page} value={2}>
-                <AccountPanel />
-            </TabPanel>
-        </Grid>
-    </Grid>);
+    return (<BasePage className={classes.root}>
+        <Tabs orientation='vertical'
+            aria-label='Admin panels'
+            className={classes.tabs}
+            value={page}
+            onChange={(e, v) => setPage(v)}
+        >
+            <Tab label={t('app:adminPage.usersTabLabel')} icon={<Badge badgeContent={users.length} color="primary"><PeopleIcon /></Badge>} id='0' />
+            <Tab label={t('app:adminPage.bookingsTabLabel')} icon={<Badge badgeContent={bookings.length} color="primary"><EventIcon /></Badge>} id='1' />
+            <Tab label={t('app:adminPage.accountTabLabel')} icon={<AccountBalanceIcon />} id='2' />
+        </Tabs>
+        <TabPanel index={page} value={0}>
+            <NewUserPanel users={users} changeStatus={changeUserStatus} />
+        </TabPanel>
+        <TabPanel index={page} value={1}>
+            <PendingBookingsPanel bookings={bookings} changeStatus={changeBookingStatus} />
+        </TabPanel>
+        <TabPanel index={page} value={2}>
+            <AccountPanel />
+        </TabPanel>
+    </BasePage>);
 }

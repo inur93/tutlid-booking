@@ -25,6 +25,8 @@
     "declineMsgLabel": "Send a reason for the rejection"
   },
   "priceMatrix": {
+    "header": "Price Matrix",
+    "emptyDescription": "There is currently no price configured. Click on the button below the setup a pricematrix. The configured price will be used when users are creating a booking as well as being part of the confirmation email.",
     "currentPriceMatrixTabLabel": "Current",
     "tablePriceLabel": "Price / Person / Night",
     "tablePriceTubLabel": "Hot Tub Price / Person",
@@ -74,13 +76,15 @@
     "emailPlaceholder": "Email",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Password",
+    "forgotPasswordDescription": "If you forgot your password, click ",
     "forgotPasswordLink": "here",
-    "forgotPasswordDescription": "If you forgot your password, click "
+    "header": "Login"
   },
   "loginModal": {
     "header": "Login"
   },
   "register": {
+    "description": "Enter your information and click 'Register' and you will be ready in no time.",
     "fullNameLabel": "Full Name",
     "fullNamePlaceholder": "Full Name",
     "emailLabel": "Email",
@@ -91,13 +95,14 @@
     "gotoHomePage": "Go to front page"
   },
   "resetPassword": {
-    "header": "Reset Password",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Password",
     "passwordUpdateMessage": "Your password has now been updated.",
     "emailLabel": "Email",
     "emailPlaceholder": "Email",
-    "completeMessage": "If your email is registered in our system you will get an email with a link to reset your password."
+    "completeMessage": "If your email is registered in our system you will get an email with a link to reset your password.",
+    "header": "Reset Password",
+    "description": "Enter your email address here. If your email exists in our system you will get an email with information on how to reset your password."
   },
   "AccessDenied": {
     "header": "You dont have permission to access this page"
@@ -111,8 +116,7 @@
     "accountTabLabel": "Bank"
   },
   "homePage": {
-    "greeting": "Welcome to Tutlið booking! Create an account to book the sommer house for your next holiday!",
-    "registerHeader": "Register"
+    "greeting": "Welcome to Tutlið booking! Create an account to book the sommer house for your next holiday!"
   },
   "registerPage": {
     "header": "Register"

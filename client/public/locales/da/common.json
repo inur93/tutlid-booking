@@ -11,6 +11,13 @@
     "register": "Tilmeld",
     "updatePassword": "Opdater kodeord",
     "resetPassword": "Nulstil kodeord",
+    "home": "hjem",
+    "settings": "Administration",
+    "account": "Profil",
     "logout": "Logud"
+  },
+  "langauges": {
+    "en": "English",
+    "da": "Dansk"
   }
 }

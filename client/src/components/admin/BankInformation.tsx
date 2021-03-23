@@ -48,7 +48,7 @@ export default function BankInformation({ }: BankInformationProps) {
 
     if (!bankInformation) return null;
 
-    return (<Card>
+    return (<Card elevation={0}>
         <CardContent className={classes.root}>
         <Typography variant='h6'>{t('app:bankInformation.header')}</Typography>
             <Formik initialValues={{

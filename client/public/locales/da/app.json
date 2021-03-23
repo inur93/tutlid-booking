@@ -25,6 +25,8 @@
     "declineMsgLabel": "Giv en årsag til afvisningen"
   },
   "priceMatrix": {
+    "header": "Prismatrice",
+    "emptyDescription": "Der findes ingen priser i øjeblikket. Klik på 'Tilføj' for at oprette.",
     "currentPriceMatrixTabLabel": "Nuværende",
     "tablePriceLabel": "Pris / Person / Nat",
     "tablePriceTubLabel": "Pris for varm pot / Person",
@@ -74,13 +76,15 @@
     "emailPlaceholder": "Email",
     "passwordLabel": "Adgangskode",
     "passwordPlaceholder": "Adgangskode",
+    "forgotPasswordDescription": "Hvis du har glemt din adgangskode, så klik ",
     "forgotPasswordLink": "her",
-    "forgotPasswordDescription": "Hvis du har glemt din adgangskode, så klik "
+    "header": "Login"
   },
   "loginModal": {
     "header": "Login"
   },
   "register": {
+    "description": "Indtast dine oplysninger og klik på 'Tilmeld' og du vil være klar på ingen tid.",
     "fullNameLabel": "Fuldt Navn",
     "fullNamePlaceholder": "Fuldt Navn",
     "emailLabel": "Email",
@@ -91,13 +95,14 @@
     "gotoHomePage": "Gå til forsiden"
   },
   "resetPassword": {
-    "header": "Nulstil kodeord",
     "passwordLabel": "Kodeord",
     "passwordPlaceholder": "Kodeord",
     "passwordUpdateMessage": "Din adgangskode er nu opdateret",
     "emailLabel": "Email",
     "emailPlaceholder": "Email",
-    "completeMessage": "Hvis din email findes i vores system, vil du modtage en email med et link til at nulstille din adgangskode."
+    "completeMessage": "Hvis din email findes i vores system, vil du modtage en email med et link til at nulstille din adgangskode.",
+    "header": "Nulstil kodeord",
+    "description": "Indtast din e-mail adresse nedenfor. Hvis din e-mail findes i vores system vil du modtage en e-mail med yderligere information om hvordan du nulstiller din adgangskode."
   },
   "AccessDenied": {
     "header": "Du har ikke adgang til denne side"
@@ -111,8 +116,7 @@
     "accountTabLabel": "Bank"
   },
   "homePage": {
-    "greeting": "Velkommen til Tutlið Booking! Opret en konto nedenfor, og book sommerhuset til den næste ferie!",
-    "registerHeader": "Opret bruger"
+    "greeting": "Velkommen til Tutlið Booking! Opret en konto nedenfor, og book sommerhuset til den næste ferie!"
   },
   "registerPage": {
     "header": "Opret bruger"

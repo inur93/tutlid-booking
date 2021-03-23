@@ -11,6 +11,13 @@
     "register": "Register",
     "updatePassword": "Update Password",
     "resetPassword": "Reset Password",
+    "home": "Home",
+    "settings": "Settings",
+    "account": "Account",
     "logout": "Logout"
+  },
+  "languages": {
+    "en": "English",
+    "da": "Dansk"
   }
 }

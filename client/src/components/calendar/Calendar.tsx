@@ -24,10 +24,15 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '100%'
         },
         invalidDate: {
-            background: `repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #DDD 10px, #DDD 20px)`
+            background: `repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #DDD 10px, #DDD 20px)`,
+            opacity: 0.6
         },
         event: {
-            backgroundColor: '#1ece44'
+            backgroundColor: '#1ece44',
+            opacity: 0.8
+        },
+        validDate: {
+            opacity: 0.6
         }
     }),
 );
@@ -80,7 +85,7 @@ export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }:
 
         dayPropGetter={(date, resource) => {
             if (date < endOfYesterday()) return { className: classes.invalidDate };
-            return {};
+            return {className: classes.validDate};
         }}
         eventPropGetter={(event, start, end, selected) => {
             return {

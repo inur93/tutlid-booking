@@ -7,12 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { User } from '../../api';
 import { UserStatus } from '../../api/index';
 
-const useStyles = makeStyles((theme: Theme) =>
-({
-    'root': {
-    }
-}));
-
 const useRequestStyles = makeStyles((theme: Theme) =>
 ({
     'approve': {
@@ -48,7 +42,6 @@ function UserRequest({ user, onClick }: UserRequestProps) {
 }
 
 export default function NewUserPanel({ users, changeStatus }: NewUserPanelProps) {
-    const classes = useStyles();
     const { t } = useTranslation('app');
     if (!users.length) return null;
     return (<Card>
