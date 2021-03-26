@@ -91,8 +91,7 @@ export class TestData {
             price: data?.price || faker.random.number({ min: 100, max: 1000 }),
             tubPrice: data?.tubPrice || faker.random.number({ min: 100, max: 500 }),
             validFrom: data?.validFrom || faker.date.future(2),
-            validTo: data?.validTo || faker.date.past(1),
-
+            validTo: data?.validTo,
         }
     }
 }

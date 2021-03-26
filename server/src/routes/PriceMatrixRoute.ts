@@ -5,6 +5,7 @@ import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
 import { CreateBookingDto } from '../models/booking/BookingViewModels';
+import { parseDate } from '../utils/dateFunctions';
 
 export default class PriceMatrixRoute implements IRoute {
     public path = '/pricematrix';
@@ -24,8 +25,8 @@ export default class PriceMatrixRoute implements IRoute {
 
     private readonly get = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const validFrom = request.query.validFrom;
-            const from = validFrom ? new Date(Date.parse(request.query.validFrom as string)) : undefined;
+            const validFrom = request.query.validFrom as string;
+            const from = validFrom ? parseDate(validFrom) : undefined;
             response.send(await this.priceMatrixController.get(from));
         } catch (e) {
             next(e);

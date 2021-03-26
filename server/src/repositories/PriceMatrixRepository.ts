@@ -40,7 +40,12 @@ export default class PriceMatrixRepository implements IPriceMatrixRepository {
     }
     async find(from?: Date): Promise<PriceMatrix[]> {
         if (from) {
-            return PriceMatrixModel.find({ validFrom: { $gte: from } })
+            return PriceMatrixModel.find({
+                $or: [
+                    { validTo: { $exists: false } },
+                    { validTo: { $gte: from } }
+                ]
+            })
                 .sort({ validFrom: 1 })
                 .exec();
         } else {
