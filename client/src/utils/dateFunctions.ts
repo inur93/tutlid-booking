@@ -1,8 +1,9 @@
 import { format } from "date-fns";
 import { da, enGB } from 'date-fns/locale';
+import { TFunction } from "i18next";
 
-export function getLanguages() {
-    return ['da', 'en']
+export function getLanguages(t: TFunction) {
+    return [{ key: 'da', value: t('common:languages.da') }, { key: 'en', value: t('common:languages.en') }]
 }
 
 export function getCurrentLanguage(): string {
@@ -31,6 +32,6 @@ export function formatQueryDate(date: Date) {
     return format(date, 'yyyy-MM-dd');
 }
 
-export function formatFormDate(date: Date): string  {
+export function formatFormDate(date: Date): string {
     return format(date, 'yyyy-MM-dd');
 }

@@ -1,16 +1,16 @@
 
 
-import { Button, IconButton, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
+import { Button, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
 import { LockOpen } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/HomeRounded';
+import ImageIcon from '@material-ui/icons/Image';
 import AdminIcon from '@material-ui/icons/Settings';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Role } from '../../../api';
 import { useAuthUser } from '../../../hooks/useAuthUser';
-import { LoginModal } from '../../login/LoginModal';
 import LanguageSelector from '../LanguageSelect';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,7 +26,6 @@ type ToolbarProps = {}
 export default function Toolbar({ }: ToolbarProps) {
     const classes = useStyles();
     const [user, { logout }] = useAuthUser();
-    const [showLogin, setShowLogin] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const { t } = useTranslation('common');
@@ -48,6 +47,9 @@ export default function Toolbar({ }: ToolbarProps) {
     return (<div>
         <Button className={classes.icon} component={Link} to={'/'} startIcon={<HomeIcon />}>
             {t('common:button.home')}
+        </Button>
+        <Button className={classes.icon} component={Link} to={'/gallery'} startIcon={<ImageIcon />}>
+            {t('common:button.gallery')}
         </Button>
         {isAdmin &&
             <Button component={Link} to={'/admin'} className={classes.icon} startIcon={<AdminIcon />}>

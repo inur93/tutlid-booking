@@ -116,7 +116,8 @@
     "accountTabLabel": "Bank"
   },
   "homePage": {
-    "greeting": "Velkommen til Tutlið Booking! Opret en konto nedenfor, og book sommerhuset til den næste ferie!"
+    "greeting": "Velkommen til Tutlið Booking! Opret en konto nedenfor, og book sommerhuset til den næste ferie!",
+    "gallery": "Se alle de flotte billeder fra sommerhuset her!"
   },
   "registerPage": {
     "header": "Opret bruger"

@@ -14,7 +14,8 @@
     "home": "Home",
     "settings": "Settings",
     "account": "Account",
-    "logout": "Logout"
+    "logout": "Logout",
+    "gallery": "Gallery"
   },
   "languages": {
     "en": "English",
