@@ -14,7 +14,8 @@
     "home": "hjem",
     "settings": "Administration",
     "account": "Profil",
-    "logout": "Logud"
+    "logout": "Logud",
+    "gallery": "Billeder"
   },
   "langauges": {
     "en": "English",

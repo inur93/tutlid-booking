@@ -1,4 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
+import { Gallery } from '../components/gallery/Gallery';
 import AdminPage from './AdminPage';
 import { Home } from './Home';
 import { LoginPage } from './LoginPage';
@@ -11,6 +12,8 @@ export function Routes() {
         <Route path="/register" component={RegisterPage} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/reset-password" component={ResetPasswordPage} />
+        <Route path="/gallery" component={Gallery} />
         <Route path="/" component={Home} />
+
     </Switch>)
 }

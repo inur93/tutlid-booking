@@ -116,7 +116,8 @@
     "accountTabLabel": "Bank"
   },
   "homePage": {
-    "greeting": "Welcome to Tutlið booking! Create an account to book the sommer house for your next holiday!"
+    "greeting": "Welcome to Tutlið booking! Create an account to book the sommer house for your next holiday!",
+    "gallery": "See all the beautiful pictures from the sommerhouse here!"
   },
   "registerPage": {
     "header": "Register"

@@ -33,6 +33,6 @@ export default function LanguageSelector({ }: LanguageSelectorProps) {
         onChange={changeLanguage}
         disableUnderline={true}
     >
-        {getLanguages().map(x => <MenuItem key={x} value={x}>{t(`common:languages.${x}`)}</MenuItem>)}
+        {getLanguages(t).map(x => <MenuItem key={x.key} value={x.key}>{x.value}</MenuItem>)}
     </Select>);
 }
