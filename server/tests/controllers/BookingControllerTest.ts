@@ -24,7 +24,7 @@ const userBasic: User = TestData.user({ roles: [UserRole.basic] });
 const userAdmin: User = TestData.user({ roles: [UserRole.admin] });
 
 const bookingAccepted = TestData.booking({
-    from: faker.date.soon(31, parse("2021-02-01")),
+    from: faker.date.soon(31, parse("2021-02-02")),
     status: BookingStatus.accepted,
     bookedBy: userBasic
 });
@@ -40,7 +40,7 @@ const bookings: Booking[] = [
     TestData.booking({ from: parse("2021-01-31"), bookedBy: userBasic }),
 
     bookingAccepted,
-    TestData.booking({ from: faker.date.soon(30, parse("2021-02-01")), bookedBy: userBasic }),
+    TestData.booking({ from: faker.date.soon(30, parse("2021-02-02")), bookedBy: userBasic }),
 ]
 
 describe('booking.controller', () => {

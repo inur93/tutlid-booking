@@ -3,15 +3,13 @@
 import { Button, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
 import { LockOpen } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import HomeIcon from '@material-ui/icons/HomeRounded';
-import ImageIcon from '@material-ui/icons/Image';
-import AdminIcon from '@material-ui/icons/Settings';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Role } from '../../../api';
 import { useAuthUser } from '../../../hooks/useAuthUser';
 import LanguageSelector from '../LanguageSelect';
+import { AdminMenuItem, GalleryMenuItem, HomeMenuItem } from './MenuItems';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -22,8 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }
 }));
 
-type ToolbarProps = {}
-export default function Toolbar({ }: ToolbarProps) {
+type Props = {}
+export function NavigationMenu({ }: Props) {
     const classes = useStyles();
     const [user, { logout }] = useAuthUser();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -45,16 +43,9 @@ export default function Toolbar({ }: ToolbarProps) {
 
     const isAdmin = user.hasRole(Role.admin);
     return (<div>
-        <Button className={classes.icon} component={Link} to={'/'} startIcon={<HomeIcon />}>
-            {t('common:button.home')}
-        </Button>
-        <Button className={classes.icon} component={Link} to={'/gallery'} startIcon={<ImageIcon />}>
-            {t('common:button.gallery')}
-        </Button>
-        {isAdmin &&
-            <Button component={Link} to={'/admin'} className={classes.icon} startIcon={<AdminIcon />}>
-                {t('common:button.settings')}
-            </Button>}
+        <HomeMenuItem />
+        <GalleryMenuItem />
+        {isAdmin && <AdminMenuItem />}
         {user.isLoggedIn &&
             <Button aria-label="account of current user"
                 aria-controls="menu-appbar"

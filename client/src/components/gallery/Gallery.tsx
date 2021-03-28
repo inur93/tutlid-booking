@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             marginTop: theme.spacing(2),
         },
-        container: {
-            height: 'calc(100vh - 130px)'
+        carousel: {
+            maxHeight: 'calc(100vh - 110px)'
         }
     })
 );
@@ -20,11 +20,11 @@ type Props = {
 }
 export function Gallery({ }: Props) {
     const classes = useStyles();
-
+    
     return (<BasePage fullWidth>
         <Grid className={classes.root} container justify='center'>
-            <Grid className={classes.container} item xs={12} lg={10}>
-                <Carousel />
+            <Grid item xs={12} lg={10}>
+                <Carousel className={classes.carousel}/>
             </Grid>
         </Grid>
     </BasePage>)

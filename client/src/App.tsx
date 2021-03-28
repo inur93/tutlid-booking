@@ -3,7 +3,7 @@ import { green } from '@material-ui/core/colors';
 import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import api from './api';
-import { Navigation } from './components/shared/Navigation';
+import { Navigation } from './components/shared/navigation/Navigation';
 import UserContext, { AuthUser } from './contexts/UserContext';
 import { Routes } from './pages/Routes';
 

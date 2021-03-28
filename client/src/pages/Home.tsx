@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
             }
         },
         gallery: {
-            height: '400px',
             marginBottom: theme.spacing(2)
         }
     })
@@ -33,7 +32,7 @@ export function Home() {
         {!user.isLoggedIn &&
             <div className={classes.wrapper}>
                 <Panel>
-                    <Typography variant='h1'>Tutlið booking</Typography>
+                    <Typography variant='h3' component='h1'>Tutlið booking</Typography>
                     <Typography variant='body1'>{t('app:homePage.greeting')}</Typography>
                     <br />
                     <Button variant='contained' color='primary' component={Link} to='/login'>{t('common:button.login')}</Button>{' '}

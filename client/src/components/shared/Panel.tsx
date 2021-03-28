@@ -32,7 +32,7 @@ type Props = {
 export default function Panel({ header, children, elevation, smallHeader, className }: Props) {
     const classes = useStyles();
 
-    return (<Card className={classes.root} elevation={elevation}>
+    return (<Card className={classes.root} elevation={elevation || 0}>
         <CardContent className={classnames(classes.content, className)}>
             {header && <Typography className={classes.header} variant={smallHeader ? "h6" : "h2"}>{header}</Typography>}
             {children}
