@@ -9,7 +9,7 @@ import { IContainer } from '../../src/container';
 import { IBookingController } from '../../src/controllers/BookingController';
 import { IDbHandler } from '../../src/DbHandler';
 import MissingPermissionsException from '../../src/exceptions/MissingPermissionsException';
-import { Booking, BookingModel, BookingStatus } from '../../src/models/booking/BookingModels';
+import { BasicBooking, Booking, BookingModel, BookingStatus } from '../../src/models/booking/BookingModels';
 import { User, UserModel, UserRole } from '../../src/models/user/UserModels';
 import { setupTest } from '../setup';
 import { TestData } from '../testData';
@@ -21,6 +21,7 @@ const dateFormat = 'yyyy-MM-dd';
 const parse = (str: string) => parseFn(str, dateFormat, new Date());
 
 const userBasic: User = TestData.user({ roles: [UserRole.basic] });
+const userBasicRandom: User = TestData.user({ roles: [UserRole.basic] });
 const userAdmin: User = TestData.user({ roles: [UserRole.admin] });
 
 const bookingAccepted = TestData.booking({
@@ -68,7 +69,7 @@ describe('booking.controller', () => {
     })
 
     beforeEach(async () => {
-        await UserModel.create([userBasic, userAdmin].map(x => ({ ...x, password: hashPasswordSync(x.password) })));
+        await UserModel.create([userBasic, userAdmin, userBasicRandom].map(x => ({ ...x, password: hashPasswordSync(x.password) })));
         await BookingModel.create(bookings);
     })
 
@@ -127,30 +128,49 @@ describe('booking.controller', () => {
         })
     })
 
-    describe('getById', () => {
-
-        it('any', async () => {
-            const booking = bookings[1];
-            const b = await controller.getById(booking._id.toHexString());
-
-            const bookedBy = b.bookedBy as User;
-            expect(bookedBy._id.toHexString()).to.eq((booking.bookedBy as User)._id.toHexString());
-        })
-    })
-
     describe('get (many with filters)', () => {
 
-        it('all for january', async () => {
-            const results = await controller.get(parse('2021-01-01'), parse('2021-02-01'));
+        it('all within range', async () => {
+            const results = await controller.get({ from: parse('2021-01-01'), to: parse('2021-02-01') });
 
             expect(results.length).to.eq(5);
         })
 
         it('with status accepted', async () => {
-            const results = await controller.get(undefined, undefined, BookingStatus.accepted);
+            const results = await controller.get({ status: BookingStatus.accepted });
 
             expect(results.length).to.eq(1);
             expect(results[0]._id.toHexString()).to.eq(bookingAccepted._id.toHexString());
+        })
+
+        it('all as anonymous user', async () => {
+            const results = await controller.get({});
+            results.forEach(x => {
+                expect(x).to.not.have.property('bookedBy');
+                expect(x).to.not.have.property('status');
+                expect(x).to.not.have.property('tubCount');
+                expect(x).to.not.have.property('pplCount');
+            })
+        })
+
+        it('all as basic user', async () => {
+            const results = await controller.get({}, userBasicRandom);
+            results.forEach(x => {
+                expect(x).to.not.have.property('bookedBy');
+                expect(x).to.not.have.property('status');
+                expect(x).to.not.have.property('tubCount');
+                expect(x).to.not.have.property('pplCount');
+            })
+        })
+
+        it('all as basic user with bookings', async () => {
+            const results = await controller.get({}, userBasic);
+            results.forEach(x => {
+                expect(x).to.have.property('bookedBy');
+                expect(x).to.have.property('status');
+                expect(x).to.have.property('tubCount');
+                expect(x).to.have.property('pplCount');
+            })
         })
     })
 
