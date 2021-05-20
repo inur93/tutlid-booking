@@ -1,11 +1,11 @@
 import { Button, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { BookingCalendar } from '../components/calendar/BookingCalendar';
-import { GalleryPreview } from '../components/gallery/GalleryPreview';
-import Panel from '../components/shared/Panel';
-import { useAuthUser } from '../hooks/useAuthUser';
-import { BasePage } from './BasePage';
+import { BookingCalendar } from '../../components/calendar/BookingCalendar';
+import { GalleryPreview } from '../../components/gallery/GalleryPreview';
+import Panel from '../../components/shared/Panel';
+import { useAuthUser } from '../../hooks/useAuthUser';
+import { BasePage } from '../BasePage';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export function Home() {
+export function HomePage() {
     const classes = useStyles();
     const [user] = useAuthUser();
     const { t } = useTranslation(['app', 'common']);

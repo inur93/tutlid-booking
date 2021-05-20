@@ -27,11 +27,16 @@ export default class BookingRoute implements IRoute {
 
     private readonly get = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const { from, to, status } = request.query;
-            const qFrom = from ? new Date(Date.parse(request.query.from as string)) : undefined;
-            const qTo = to ? new Date(Date.parse(request.query.to as string)) : undefined;
-            const qStatus = status ? status as BookingStatus : undefined;
-            response.send(await this.bookingController.get(qFrom, qTo, qStatus));
+            const q = request.query;
+            const from = q.from ? new Date(Date.parse(q.from as string)) : undefined;
+            const to = q.to ? new Date(Date.parse(q.to as string)) : undefined;
+            const status = q.status ? q.status as BookingStatus : undefined;
+            const count = q.count ? Number.parseInt(q.count as string) : undefined;
+            const bookings = await this.bookingController.get({
+                from, to, status, count
+            }, request.user);
+
+            response.send(bookings);
         } catch (e) {
             next(e);
         }

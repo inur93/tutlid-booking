@@ -1,14 +1,15 @@
 import { Types } from 'mongoose';
-import NotFoundException from '../exceptions/NotFoundException';
-import { UpdateSelfDto } from '../models/user/userViewModels';
-import { DetailedUser, UserRole, UserStatus, BasicUser, User } from '../models/user/UserModels';
-import { IUserRepository } from '../repositories/UserRepository';
 import { IContainer } from '../container';
+import NotFoundException from '../exceptions/NotFoundException';
+import { BasicUser, DetailedUser, UserRole, UserStatus } from '../models/user/UserModels';
+import { UpdateSelfDto } from '../models/user/userViewModels';
+import { IUserRepository } from '../repositories/UserRepository';
 import Mapper from '../utils/Mapper';
 
 export interface IUserController {
     get(status?: UserStatus): Promise<DetailedUser[]>
     getById(id: Types.ObjectId): Promise<BasicUser>
+    getDetailsById(id: Types.ObjectId): Promise<DetailedUser>
     getSelf(id: Types.ObjectId): Promise<DetailedUser>
     update(id: Types.ObjectId, update: UpdateSelfDto): Promise<BasicUser>
     changeStatus(id: Types.ObjectId, status: UserStatus): Promise<DetailedUser>
@@ -38,6 +39,17 @@ export default class UserController implements IUserController {
         }
 
         return Mapper.toViewBasicUser(await this.userRepository.findById(id));
+    }
+
+    public async getDetailsById(id: Types.ObjectId): Promise<DetailedUser> {
+
+        const user = await this.userRepository.findById(id);
+
+        if (!user) {
+            throw new NotFoundException(`user id ${id} was not found`);
+        }
+
+        return Mapper.toAdminViewUser(await this.userRepository.findById(id));
     }
 
     public async getSelf(id: Types.ObjectId): Promise<DetailedUser> {

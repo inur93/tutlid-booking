@@ -1,9 +1,6 @@
-
-
-
 import { createStyles, Grid, makeStyles, Theme } from '@material-ui/core';
-import { ReactNode } from 'react';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -41,7 +38,7 @@ type Props = {
 }
 export function BasePage({ className, children, hideBackground, fullWidth }: Props) {
     const classes = useStyles();
-
+    
     return (<Grid className={classes.root} container justify='center'>
         {!hideBackground &&
             <div className={classes.imageContainer}>

@@ -22,10 +22,11 @@ export interface Booking {
     messageFromAdmin?: string;
 }
 
-export type BookingQuery = Partial<Pick<Booking, 'from' | 'to' | 'status'>>
+export type BookingQuery = Partial<Pick<Booking, 'from' | 'to' | 'status'>> & { count?: number }
 export type CreateBooking = Pick<Booking, 'from' | 'to' | 'pplCount' | 'tubCount' | 'comment' | 'messageFromAdmin' | 'pricePpl' | 'priceTub' | 'status'> & { bookedBy: Types.ObjectId }
 export type UpdateBooking = Partial<Omit<CreateBooking, 'bookedBy'>>
 export type BasicBooking = Pick<Booking, '_id' | 'from' | 'to' | 'pplCount' | 'tubCount' | 'status' | 'bookedBy'>
+export type AnonymousBooking = Pick<Booking, '_id' | 'from' | 'to'>
 export type DetailedBooking = BasicBooking & Pick<Booking, 'pricePpl' | 'priceTub' | 'paid'>
 
 export type BookingWithPrice = {

@@ -10,7 +10,7 @@ type UseBookingsType = [
     },
     {
         setRange: (range: Range) => void,
-        load: () => void
+        load: () => Promise<void>
     },
     string //error
 ]
@@ -44,6 +44,6 @@ export function useBookings(useRange: boolean = true, status?: BookingStatus): U
         setStart(range.start);
         setEnd(range.end);
     }
-    
+
     return [{ bookings, loading }, { setRange, load }, error];
 }

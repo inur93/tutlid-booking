@@ -1,37 +1,30 @@
 {
-  "AdminUserPanel": {
-    "header": "New Users awaiting confirmation"
+  "pendingBookingsPanel": {
+    "confirmationMsgHeader": "Confirm booking",
+    "declineMsgHeader": "Reject booking",
+    "confirmationMsgLabel": "Send a message along with the confirmation",
+    "declineMsgLabel": "Send a reason for the rejection"
   },
   "bankInformation": {
-    "header": "Bank information",
     "regNoLabel": "reg. no.",
     "regNoPlaceholder": "4 digit registration number",
     "accountNoLabel": "account no.",
-    "accountNoPlaceholder": "10 digit bank account number"
+    "accountNoPlaceholder": "10 digit bank account number",
+    "header": "Bank information"
   },
   "createPriceMatrix": {
     "validFromLabel": "Valid From",
     "priceLabel": "Price / person / night",
     "tubPriceLabel": "Hot tub price / person"
   },
-  "newUserPanel": {
-    "header": "New Users awaiting confirmation"
-  },
-  "pendingBookingsPanel": {
-    "header": "Reserved bookings awaiting confirmation",
-    "confirmationMsgHeader": "Confirm booking",
-    "declineMsgHeader": "Reject booking",
-    "confirmationMsgLabel": "Send a message along with the confirmation",
-    "declineMsgLabel": "Send a reason for the rejection"
-  },
   "priceMatrix": {
-    "header": "Price Matrix",
     "emptyDescription": "There is currently no price configured. Click on the button below the setup a pricematrix. The configured price will be used when users are creating a booking as well as being part of the confirmation email.",
     "currentPriceMatrixTabLabel": "Current",
     "tablePriceLabel": "Price / Person / Night",
     "tablePriceTubLabel": "Hot Tub Price / Person",
     "tableValidFromLabel": "Valid From",
-    "tableValidToLabel": "Expires at"
+    "tableValidToLabel": "Expires at",
+    "header": "Price Matrix"
   },
   "bookingInfo": {
     "description1": "Overnight guests: {{pplCount}}",
@@ -108,12 +101,21 @@
     "header": "You dont have permission to access this page"
   },
   "accessDenied": {
+    "requireRoles": "You need one of the following roles {{requiredRoles}} to access this page.",
     "requireLoginMsg": "You need to login to access this page"
   },
-  "adminPage": {
-    "usersTabLabel": "Users",
-    "bookingsTabLabel": "Bookings",
-    "accountTabLabel": "Bank"
+  "bookingsPage": {
+    "pendingBookingsHeader": "Bookings await approval",
+    "upcomingBookingsHeader": "The next booking",
+    "upcomingBookingsHeader_plural": "The next {{count}} bookings",
+    "noUpcomingBookingsLabel": "There are currently no planned bookings",
+    "loadMore": "Load more"
+  },
+  "newUserPanel": {
+    "header": "New Users awaiting confirmation"
+  },
+  "usersPage": {
+    "usersHeader": "All Users"
   },
   "homePage": {
     "greeting": "Welcome to Tutlið booking! Create an account to book the sommer house for your next holiday!",

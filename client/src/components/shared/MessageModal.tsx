@@ -1,11 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, TextField, Theme } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-
-const useStyles = makeStyles((theme: Theme) =>
-({
-    'root': {
-    }
-}));
 
 type MessageModalProps = {
     onClose: () => void,
@@ -16,7 +10,6 @@ type MessageModalProps = {
     header?: string
 }
 export default function MessageModal({ header, fieldLabel, cancelLabel, submitLabel, onClose, onAccept }: MessageModalProps) {
-    const classes = useStyles();
     const [comment, setComment] = useState('');
     const [loading, setLoading] = useState(false);
 

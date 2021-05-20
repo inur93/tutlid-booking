@@ -47,7 +47,7 @@ services:
     image: tutlid-react-app
     build: 
       context: ./client
-    command: sh -c "yarn run i18n:extract && chokidar_usepolling=1 yarn start"
+    command: sh -c "yarn run i18n:extract && chokidar_usepolling=true yarn start"
     links:
       - mongo:mongo
     #  - tutlid-api # to enable proxy

@@ -1,10 +1,9 @@
-import { createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
-import { Login } from "../components/login/Login";
-import { useAuthUser } from "../hooks/useAuthUser";
 import { useEffect } from 'react';
-import { useHistory } from "react-router-dom";
-import { BasePage } from "./BasePage";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
+import { Login } from "../../components/login/Login";
+import { useAuthUser } from "../../hooks/useAuthUser";
+import { BasePage } from "../BasePage";
 
 export function LoginPage() {
     const [user] = useAuthUser();

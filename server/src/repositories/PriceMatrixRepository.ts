@@ -26,7 +26,7 @@ export default class PriceMatrixRepository implements IPriceMatrixRepository {
 
     async getLatest(): Promise<PriceMatrix> {
         return PriceMatrixModel.findOne({
-            validTo: { $exists: false }
+            validTo: undefined
         })
     }
     async findValidPriceMatrix(date: Date): Promise<PriceMatrix> {
@@ -34,6 +34,7 @@ export default class PriceMatrixRepository implements IPriceMatrixRepository {
             validFrom: { $lte: date },
             $or: [
                 { validTo: { $exists: false } },
+                { validTo: undefined },
                 { validTo: { $gte: date } }
             ]
         }).exec()
@@ -43,6 +44,7 @@ export default class PriceMatrixRepository implements IPriceMatrixRepository {
             return PriceMatrixModel.find({
                 $or: [
                     { validTo: { $exists: false } },
+                    { validTo: undefined },
                     { validTo: { $gte: from } }
                 ]
             })

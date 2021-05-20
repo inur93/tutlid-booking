@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { BookingStatus, CreatePriceMatrix, Role, UserStatus } from ".";
 import { BaseApi } from "./baseApi";
 import { BankInformation } from './index';
@@ -8,6 +9,10 @@ export class AdminApi extends BaseApi {
     }
     async getUsers(status?: UserStatus) {
         return await super.get(`/admin/users`).query({ status })
+    }
+
+    async getUser(id: string) {
+        return await super.get(`/admin/users/${id}`);
     }
 
     async changeUserStatus(id: string, status: UserStatus) {
@@ -22,7 +27,14 @@ export class AdminApi extends BaseApi {
         return await super.del(`/admin/users/${id}/roles/${role}`);
     }
 
-    async changeBookingStatus(id: string, update: {status: BookingStatus, messageFromAdmin?: string}) {
+    async getBookings(fromDate: Date, count: number) {
+        const from = fromDate ? format(fromDate, 'yyyy-MM-dd') : undefined;
+        return await super.get(`/admin/bookings`).query({
+            from, count
+        })
+    }
+
+    async changeBookingStatus(id: string, update: { status: BookingStatus, messageFromAdmin?: string }) {
         return await super.put(`/admin/bookings/${id}/status`, update);
     }
 

@@ -9,6 +9,7 @@ import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
 import { UpdateBankInformation } from '../models/bankinformation/BankInformationViewModels';
+import { BookingStatus } from '../models/booking/BookingModels';
 import { ChangeBookingStatusDto } from '../models/booking/BookingViewModels';
 import { CreatePriceMatrix } from '../models/pricematrix/PriceMatrixViewModels';
 import { UserRole, UserStatus } from '../models/user/UserModels';
@@ -38,9 +39,11 @@ export default class AdminRoute implements IRoute {
     private initializeRoutes() {
         this.router.all(this.path, authMiddleware([UserRole.admin]))
             .get(`${this.path}/users`, this.getUsers)
+            .get(`${this.path}/users/:id`, this.getUser)
             .put(`${this.path}/users/:id/status`, validationMiddleware(UpdateUserStatusDto), this.changeUserStatus)
             .put(`${this.path}/users/:id/role`, validationMiddleware(UpdateUserRoleDto), this.addUserRole)
             .delete(`${this.path}/users/:id/role/:role`, this.removeUserRole)
+            .get(`${this.path}/bookings`, authMiddleware([UserRole.admin]), this.getBookings)
             .put(`${this.path}/bookings/:id/status`, validationMiddleware(ChangeBookingStatusDto), this.changeBookingStatus)
             .post(`${this.path}/pricematrix`, validationMiddleware(CreatePriceMatrix), this.createPriceMatrix)
             .delete(`${this.path}/pricematrix/:id`, this.deletePriceMatrix)
@@ -51,6 +54,14 @@ export default class AdminRoute implements IRoute {
     private readonly getUsers = async (request: Request, response: Response, next: NextFunction) => {
         try {
             response.send(await this.userController.get(request.query.status as UserStatus));
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    private readonly getUser = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            response.send(await this.userController.getDetailsById(Types.ObjectId(request.params.id)));
         } catch (e) {
             next(e);
         }
@@ -80,6 +91,24 @@ export default class AdminRoute implements IRoute {
         } catch (e) {
             next(e);
         }
+    }
+
+    private readonly getBookings = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            const query = request.query;
+            const from = query.from ? new Date(Date.parse(query.from as string)) : undefined;
+            const to = query.to ? new Date(Date.parse(query.to as string)) : undefined;
+            const status = query.status ? query.status as BookingStatus : undefined;
+            const count = query.count ? Number.parseInt(query.count as string) : undefined;
+
+            const bookings = await this.bookingController.get({
+                from, to, status, count
+            }, request.user);
+            response.send(bookings);
+        } catch (e) {
+            next(e);
+        }
+
     }
 
     private readonly changeBookingStatus = async (request: Request, response: Response, next: NextFunction) => {

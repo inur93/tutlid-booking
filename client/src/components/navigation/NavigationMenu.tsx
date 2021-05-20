@@ -6,9 +6,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Role } from '../../../api';
-import { useAuthUser } from '../../../hooks/useAuthUser';
-import LanguageSelector from '../LanguageSelect';
+import { Role } from '../../api';
+import { useAuthUser } from '../../hooks/useAuthUser';
+import LanguageSelector from '../shared/LanguageSelect';
 import { AdminMenuItem, GalleryMenuItem, HomeMenuItem } from './MenuItems';
 
 const useStyles = makeStyles((theme: Theme) =>

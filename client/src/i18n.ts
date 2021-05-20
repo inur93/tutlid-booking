@@ -2,7 +2,6 @@ import i18n from 'i18next';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 import { isProduction } from './utils/environment';
-import { getCurrentLanguage } from './utils/dateFunctions';
 
 // don't want to use this?
 // have a look at the Quick start guide 
@@ -28,3 +27,11 @@ i18n
 
 
 export default i18n;
+
+export function getCurrentLanguage(): string {
+  return localStorage.getItem('language') || 'da';
+}
+
+export function setCurrentLanguage(language: string) {
+  localStorage.setItem('language', language)
+}

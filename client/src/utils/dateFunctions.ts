@@ -1,20 +1,7 @@
 import { format } from "date-fns";
 import { da, enGB } from 'date-fns/locale';
-import { TFunction } from "i18next";
 
-export function getLanguages(t: TFunction) {
-    return [{ key: 'da', value: t('common:languages.da') }, { key: 'en', value: t('common:languages.en') }]
-}
-
-export function getCurrentLanguage(): string {
-    return localStorage.getItem('language') || 'da';
-}
-
-export function setCurrentLanguage(language: string) {
-    localStorage.setItem('language', language)
-}
-
-export function getLocale(language: string) {
+function getLocale(language: string) {
     switch (language) {
         // case 'fo': return fo;
         case 'da': return da;

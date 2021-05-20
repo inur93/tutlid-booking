@@ -1,8 +1,12 @@
-import { Booking, BasicBooking } from "../models/booking/BookingModels";
+import { Booking, BasicBooking, AnonymousBooking } from "../models/booking/BookingModels";
 import { DetailedUser, User, BasicUser } from "../models/user/UserModels";
 
 
 export default class Mapper {
+
+    static toAnonymousBooking({ _id, from, to }: Booking): AnonymousBooking {
+        return { _id, from, to }
+    }
 
     static toViewBasicBooking({ _id, from, to, bookedBy, pplCount, tubCount, status }: Booking): BasicBooking {
         return { _id, from, to, bookedBy, pplCount, tubCount, status }

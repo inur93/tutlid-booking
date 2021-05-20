@@ -1,24 +1,32 @@
 {
+  "labels": {
+    "days": "{{count}} dag",
+    "days_plural": "{{count}} dage",
+    "occupied": "Optaget"
+  },
   "button": {
-    "save": "Gem",
     "cancel": "Annuller",
-    "create": "Opret",
     "confirm": "Bekræft",
+    "save": "Gem",
+    "create": "Opret",
     "delete": "Slet",
     "add": "Tilføj",
     "close": "Luk",
     "login": "Login",
     "register": "Tilmeld",
-    "updatePassword": "Opdater kodeord",
-    "resetPassword": "Nulstil kodeord",
     "home": "Hjem",
-    "settings": "Administration",
-    "account": "Profil",
+    "gallery": "Billeder",
+    "users": "Brugere",
+    "bookings": "Bookinger",
+    "bank": "Økonomi",
+    "admin": "Administration",
     "logout": "Log ud",
-    "gallery": "Billeder"
+    "account": "Profil",
+    "updatePassword": "Opdater kodeord",
+    "resetPassword": "Nulstil kodeord"
   },
-  "langauges": {
-    "en": "English",
-    "da": "Dansk"
+  "languages": {
+    "da": "Dansk",
+    "en": "Engelsk"
   }
 }

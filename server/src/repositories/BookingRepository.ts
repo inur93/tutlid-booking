@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { Booking, BookingDoc, BookingModel, BookingQuery as QueryBooking, CreateBooking, UpdateBooking } from "../models/booking/BookingModels";
+import { Booking, BookingModel, BookingQuery as QueryBooking, CreateBooking, UpdateBooking } from "../models/booking/BookingModels";
 
 
 
@@ -24,7 +24,7 @@ export default class BookingRepository implements IBookingRepository {
                 fullName: true
             });
     }
-    async find({ from, to, status }: QueryBooking): Promise<Booking[]> {
+    async find({ from, to, status, count }: QueryBooking): Promise<Booking[]> {
         const query: any = {};
         if (from) {
             query.to = { $gte: from };
@@ -37,6 +37,10 @@ export default class BookingRepository implements IBookingRepository {
         }
         return BookingModel
             .find(query)
+            .sort({
+                from: 'ascending'
+            })
+            .limit(count || 1000) //1000 must be a reasonable limit
             .populate('bookedBy', {
                 fullName: true
             });

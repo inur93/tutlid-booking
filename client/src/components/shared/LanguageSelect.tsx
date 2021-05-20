@@ -1,8 +1,8 @@
 import { ListItem, ListItemIcon, makeStyles, MenuItem, Select, Theme } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getLanguages, setCurrentLanguage } from '../../utils/dateFunctions';
 import LanguageIcon from '@material-ui/icons/Language';
+import { setCurrentLanguage } from '../../i18n';
 const useStyles = makeStyles((theme: Theme) =>
 ({
     root: {
@@ -20,7 +20,10 @@ type LanguageSelectorProps = {
 export default function LanguageSelector({ listItem, onSelect }: LanguageSelectorProps) {
     const classes = useStyles();
     const { t, i18n } = useTranslation('common');
-
+    const options = [
+        { key: 'da', value: t('common:languages.da') },
+        { key: 'en', value: t('common:languages.en') }
+    ];
     const changeLanguage = (event: React.ChangeEvent<{
         name?: string | undefined;
         value: unknown;
@@ -37,7 +40,7 @@ export default function LanguageSelector({ listItem, onSelect }: LanguageSelecto
             onChange={changeLanguage}
             disableUnderline={true}
         >
-            {getLanguages(t).map(x => <MenuItem key={x.key} value={x.key}>{x.value}</MenuItem>)}
+            {options.map(x => <MenuItem key={x.key} value={x.key}>{x.value}</MenuItem>)}
         </Select>
     )
     if (listItem) {

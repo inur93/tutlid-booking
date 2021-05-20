@@ -1,19 +1,19 @@
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
-import { BasicBooking, Booking, BookingStatus } from '../models/booking/BookingModels';
+import { AnonymousBooking, BasicBooking, Booking, BookingQuery, BookingStatus } from '../models/booking/BookingModels';
 import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/BookingViewModels';
 import { User, UserRole } from '../models/user/UserModels';
 import { IBookingRepository } from '../repositories/BookingRepository';
 import { IUserRepository } from '../repositories/UserRepository';
+import { shouldBeAnonymous } from '../utils/bookingFunctions';
 import Mapper from '../utils/Mapper';
 import { IBankInformationController } from './BankInformationController';
 import { IMailController } from './MailController';
 import { IPriceMatrixController } from './PriceMatrixController';
 
 export interface IBookingController {
-    get(from?: Date, to?: Date, status?: BookingStatus): Promise<BasicBooking[]>
-    getById(id: string): Promise<Booking>
+    get(query: BookingQuery, user?: User): Promise<(BasicBooking | AnonymousBooking)[]>
     create(dto: CreateBookingDto, user: User): Promise<BasicBooking>
     changeStatus(id: Types.ObjectId, data: ChangeBookingStatusDto): Promise<BasicBooking>
     delete(id: string, user: User): Promise<void>
@@ -41,14 +41,16 @@ export default class BookingController implements IBookingController {
         this.mailController = mailController;
     }
 
-    public async get(from?: Date, to?: Date, status?: BookingStatus): Promise<BasicBooking[]> {
-        const bookings = await this.bookingRepository.find({
-            from, to, status
-        })
-        return bookings.map(Mapper.toViewBasicBooking);
+    public async get(query: BookingQuery, user?: User): Promise<(BasicBooking | AnonymousBooking)[]> {
+        const bookings = await this.bookingRepository.find(query)
+        return bookings.map(x => {
+            return shouldBeAnonymous(x, user) ?
+                Mapper.toAnonymousBooking(x) :
+                Mapper.toViewBasicBooking(x)
+        });
     }
 
-    public async getById(id: string): Promise<Booking> {
+    private async getById(id: string, user?: User): Promise<Booking> {
         return this.bookingRepository.findById(Types.ObjectId(id));
     }
 

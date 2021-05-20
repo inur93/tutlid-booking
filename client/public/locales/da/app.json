@@ -1,37 +1,30 @@
 {
-  "AdminUserPanel": {
-    "header": "Nye brugere som afventer bekræftelse"
+  "pendingBookingsPanel": {
+    "confirmationMsgHeader": "Bekræft booking",
+    "declineMsgHeader": "Afvis booking",
+    "confirmationMsgLabel": "Send en hilsen med bekræftelsen",
+    "declineMsgLabel": "Giv en årsag til afvisningen"
   },
   "bankInformation": {
-    "header": "Bank information",
     "regNoLabel": "reg. nr.",
     "regNoPlaceholder": "4 cifret registrerings nummer",
     "accountNoLabel": "konto nr.",
-    "accountNoPlaceholder": "10 cifret konto nummer"
+    "accountNoPlaceholder": "10 cifret konto nummer",
+    "header": "Bank information"
   },
   "createPriceMatrix": {
     "validFromLabel": "Gyldig fra",
     "priceLabel": "Pris / person / overnatning",
     "tubPriceLabel": "Varm pot pris / person"
   },
-  "newUserPanel": {
-    "header": "Nye brugere som afventer bekræftelse"
-  },
-  "pendingBookingsPanel": {
-    "header": "Reserverede booking som afventer bekræftelse",
-    "confirmationMsgHeader": "Bekræft booking",
-    "declineMsgHeader": "Afvis booking",
-    "confirmationMsgLabel": "Send en hilsen med bekræftelsen",
-    "declineMsgLabel": "Giv en årsag til afvisningen"
-  },
   "priceMatrix": {
-    "header": "Prismatrice",
     "emptyDescription": "Der findes ingen priser i øjeblikket. Klik på 'Tilføj' for at oprette.",
     "currentPriceMatrixTabLabel": "Nuværende",
     "tablePriceLabel": "Pris / Person / Nat",
     "tablePriceTubLabel": "Pris for varm pot / Person",
     "tableValidFromLabel": "Gyldig fra",
-    "tableValidToLabel": "Udløber den"
+    "tableValidToLabel": "Udløber den",
+    "header": "Prismatrice"
   },
   "bookingInfo": {
     "description1": "Overnattende gæster: {{pplCount}}",
@@ -108,12 +101,21 @@
     "header": "Du har ikke adgang til denne side"
   },
   "accessDenied": {
+    "requireRoles": "Du mangler en af følgende roller {{requiredRoles}} for at tilgå denne side.",
     "requireLoginMsg": "Du skal logge ind for at tilgå denne side"
   },
-  "adminPage": {
-    "usersTabLabel": "Brugere",
-    "bookingsTabLabel": "Bookinger",
-    "accountTabLabel": "Bank"
+  "bookingsPage": {
+    "pendingBookingsHeader": "Bookinger som afventer godkendelse",
+    "upcomingBookingsHeader": "Næste booking",
+    "upcomingBookingsHeader_plural": "De næste {{count}} bookinger",
+    "noUpcomingBookingsLabel": "Der er p.t. ingen planlagte bookinger",
+    "loadMore": "Indlæs flere"
+  },
+  "newUserPanel": {
+    "header": "Nye brugere som afventer bekræftelse"
+  },
+  "usersPage": {
+    "usersHeader": "Alle brugere"
   },
   "homePage": {
     "greeting": "Velkommen til Tutlið Booking! Opret en konto nedenfor, og book sommerhuset til den næste ferie!",

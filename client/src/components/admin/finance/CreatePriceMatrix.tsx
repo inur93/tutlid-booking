@@ -4,8 +4,8 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import { CreatePriceMatrix as CreatePriceMatrixModel } from '../../api';
-import { formatFormDate } from '../../utils/dateFunctions';
+import { CreatePriceMatrix as CreatePriceMatrixModel } from '../../../api';
+import { formatFormDate } from '../../../utils/dateFunctions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
