@@ -1,99 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.3940" tests="27" failures="0">
-  <testsuite name="Server Tests" timestamp="2021-07-20T18:58:50" tests="0" time="0.0000" failures="0">
+<testsuites name="Mocha Tests" time="0.3860" tests="27" failures="0">
+  <testsuite name="Server Tests" timestamp="2021-07-20T19:05:14" tests="0" time="0.0000" failures="0">
   </testsuite>
-  <testsuite name="AuthenticationController" timestamp="2021-07-20T18:58:50" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\AuthenticationController.test.ts" time="0.0000" failures="0">
+  <testsuite name="AuthenticationController" timestamp="2021-07-20T19:05:14" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\AuthenticationController.test.ts" time="0.0000" failures="0">
   </testsuite>
-  <testsuite name="register" timestamp="2021-07-20T18:58:51" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\AuthenticationController.test.ts" time="0.0860" failures="0">
-    <testcase name="AuthenticationController register Registration success with name, email, password, UserRole.read and not deleted" time="0.0840" classname="Registration success with name, email, password, UserRole.read and not deleted">
+  <testsuite name="register" timestamp="2021-07-20T19:05:15" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\AuthenticationController.test.ts" time="0.0830" failures="0">
+    <testcase name="AuthenticationController register Registration success with name, email, password, UserRole.read and not deleted" time="0.0800" classname="Registration success with name, email, password, UserRole.read and not deleted">
     </testcase>
-    <testcase name="AuthenticationController register Registration fail, email already exists" time="0.0020" classname="Registration fail, email already exists">
-    </testcase>
-  </testsuite>
-  <testsuite name="login" timestamp="2021-07-20T18:58:51" tests="3" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\AuthenticationController.test.ts" time="0.2030" failures="0">
-    <testcase name="AuthenticationController login successful" time="0.0680" classname="successful">
-    </testcase>
-    <testcase name="AuthenticationController login should contain valid data" time="0.0690" classname="should contain valid data">
-    </testcase>
-    <testcase name="AuthenticationController login login unsuccessfully, wrong password" time="0.0660" classname="login unsuccessfully, wrong password">
+    <testcase name="AuthenticationController register Registration fail, email already exists" time="0.0030" classname="Registration fail, email already exists">
     </testcase>
   </testsuite>
-  <testsuite name="bankinformation.controller" timestamp="2021-07-20T18:58:52" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BankinformationController.test.ts" time="0.0000" failures="0">
-  </testsuite>
-  <testsuite name="current" timestamp="2021-07-20T18:58:52" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BankinformationController.test.ts" time="0.0030" failures="0">
-    <testcase name="bankinformation.controller current regNo and accountNo exist" time="0.0030" classname="regNo and accountNo exist">
+  <testsuite name="login" timestamp="2021-07-20T19:05:15" tests="3" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\AuthenticationController.test.ts" time="0.1980" failures="0">
+    <testcase name="AuthenticationController login successful" time="0.0660" classname="successful">
+    </testcase>
+    <testcase name="AuthenticationController login should contain valid data" time="0.0670" classname="should contain valid data">
+    </testcase>
+    <testcase name="AuthenticationController login login unsuccessfully, wrong password" time="0.0650" classname="login unsuccessfully, wrong password">
     </testcase>
   </testsuite>
-  <testsuite name="update" timestamp="2021-07-20T18:58:52" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BankinformationController.test.ts" time="0.0070" failures="0">
-    <testcase name="bankinformation.controller update with success" time="0.0070" classname="with success">
+  <testsuite name="bankinformation.controller" timestamp="2021-07-20T19:05:16" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BankinformationController.test.ts" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="current" timestamp="2021-07-20T19:05:16" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BankinformationController.test.ts" time="0.0020" failures="0">
+    <testcase name="bankinformation.controller current regNo and accountNo exist" time="0.0020" classname="regNo and accountNo exist">
     </testcase>
   </testsuite>
-  <testsuite name="booking.controller" timestamp="2021-07-20T18:58:52" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0000" failures="0">
+  <testsuite name="update" timestamp="2021-07-20T19:05:16" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BankinformationController.test.ts" time="0.0050" failures="0">
+    <testcase name="bankinformation.controller update with success" time="0.0050" classname="with success">
+    </testcase>
   </testsuite>
-  <testsuite name="create" timestamp="2021-07-20T18:58:53" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0130" failures="0">
-    <testcase name="booking.controller create as basic user" time="0.0100" classname="as basic user">
+  <testsuite name="booking.controller" timestamp="2021-07-20T19:05:16" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="create" timestamp="2021-07-20T19:05:17" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0110" failures="0">
+    <testcase name="booking.controller create as basic user" time="0.0080" classname="as basic user">
     </testcase>
     <testcase name="booking.controller create as admin" time="0.0030" classname="as admin">
     </testcase>
   </testsuite>
-  <testsuite name="delete" timestamp="2021-07-20T18:58:53" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0140" failures="0">
+  <testsuite name="delete" timestamp="2021-07-20T19:05:17" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0140" failures="0">
     <testcase name="booking.controller delete as owner" time="0.0110" classname="as owner">
     </testcase>
     <testcase name="booking.controller delete as anonymous user" time="0.0030" classname="as anonymous user">
     </testcase>
   </testsuite>
-  <testsuite name="get (many with filters)" timestamp="2021-07-20T18:58:54" tests="5" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0300" failures="0">
-    <testcase name="booking.controller get (many with filters) all within range" time="0.0070" classname="all within range">
+  <testsuite name="get (many with filters)" timestamp="2021-07-20T19:05:18" tests="5" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0320" failures="0">
+    <testcase name="booking.controller get (many with filters) all within range" time="0.0050" classname="all within range">
     </testcase>
-    <testcase name="booking.controller get (many with filters) with status accepted" time="0.0030" classname="with status accepted">
+    <testcase name="booking.controller get (many with filters) with status accepted" time="0.0040" classname="with status accepted">
     </testcase>
     <testcase name="booking.controller get (many with filters) all as anonymous user" time="0.0080" classname="all as anonymous user">
     </testcase>
-    <testcase name="booking.controller get (many with filters) all as basic user" time="0.0070" classname="all as basic user">
+    <testcase name="booking.controller get (many with filters) all as basic user" time="0.0090" classname="all as basic user">
     </testcase>
-    <testcase name="booking.controller get (many with filters) all as basic user with bookings" time="0.0050" classname="all as basic user with bookings">
-    </testcase>
-  </testsuite>
-  <testsuite name="changeStatus" timestamp="2021-07-20T18:58:55" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0090" failures="0">
-    <testcase name="booking.controller changeStatus of normal booking from reserved to accepted" time="0.0090" classname="of normal booking from reserved to accepted">
+    <testcase name="booking.controller get (many with filters) all as basic user with bookings" time="0.0060" classname="all as basic user with bookings">
     </testcase>
   </testsuite>
-  <testsuite name="UserController" timestamp="2021-07-20T18:58:55" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0000" failures="0">
+  <testsuite name="changeStatus" timestamp="2021-07-20T19:05:19" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\BookingController.test.ts" time="0.0100" failures="0">
+    <testcase name="booking.controller changeStatus of normal booking from reserved to accepted" time="0.0100" classname="of normal booking from reserved to accepted">
+    </testcase>
   </testsuite>
-  <testsuite name="getSelf" timestamp="2021-07-20T18:58:55" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0030" failures="0">
+  <testsuite name="UserController" timestamp="2021-07-20T19:05:19" tests="0" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="getSelf" timestamp="2021-07-20T19:05:20" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0030" failures="0">
     <testcase name="UserController getSelf getself with name and email" time="0.0020" classname="getself with name and email">
     </testcase>
     <testcase name="UserController getSelf GetSelf with random id" time="0.0010" classname="GetSelf with random id">
     </testcase>
   </testsuite>
-  <testsuite name="getById" timestamp="2021-07-20T18:58:56" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0020" failures="0">
-    <testcase name="UserController getById get only fullname and id" time="0.0010" classname="get only fullname and id">
+  <testsuite name="getById" timestamp="2021-07-20T19:05:20" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0030" failures="0">
+    <testcase name="UserController getById get only fullname and id" time="0.0020" classname="get only fullname and id">
     </testcase>
     <testcase name="UserController getById get with random id" time="0.0010" classname="get with random id">
     </testcase>
   </testsuite>
-  <testsuite name="addRole" timestamp="2021-07-20T18:58:56" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0050" failures="0">
-    <testcase name="UserController addRole admin role" time="0.0050" classname="admin role">
+  <testsuite name="addRole" timestamp="2021-07-20T19:05:20" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0040" failures="0">
+    <testcase name="UserController addRole admin role" time="0.0040" classname="admin role">
     </testcase>
   </testsuite>
-  <testsuite name="removeRole" timestamp="2021-07-20T18:58:56" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0030" failures="0">
-    <testcase name="UserController removeRole basic role" time="0.0030" classname="basic role">
+  <testsuite name="removeRole" timestamp="2021-07-20T19:05:20" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0040" failures="0">
+    <testcase name="UserController removeRole basic role" time="0.0040" classname="basic role">
     </testcase>
   </testsuite>
-  <testsuite name="changeStatus" timestamp="2021-07-20T18:58:56" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0080" failures="0">
+  <testsuite name="changeStatus" timestamp="2021-07-20T19:05:20" tests="2" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0080" failures="0">
     <testcase name="UserController changeStatus to rejected" time="0.0050" classname="to rejected">
     </testcase>
     <testcase name="UserController changeStatus to approved" time="0.0030" classname="to approved">
     </testcase>
   </testsuite>
-  <testsuite name="getDetailsById" timestamp="2021-07-20T18:58:56" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0020" failures="0">
-    <testcase name="UserController getDetailsById for any user" time="0.0020" classname="for any user">
+  <testsuite name="getDetailsById" timestamp="2021-07-20T19:05:20" tests="1" file="C:\workspaces\tutlid-booking\server\src\controllers\__tests__\UserController.test.ts" time="0.0010" failures="0">
+    <testcase name="UserController getDetailsById for any user" time="0.0010" classname="for any user">
     </testcase>
   </testsuite>
-  <testsuite name="users" timestamp="2021-07-20T18:58:56" tests="0" file="C:\workspaces\tutlid-booking\server\src\routes\__tests__\UserRoute.test.ts" time="0.0000" failures="0">
+  <testsuite name="users" timestamp="2021-07-20T19:05:20" tests="0" file="C:\workspaces\tutlid-booking\server\src\routes\__tests__\UserRoute.test.ts" time="0.0000" failures="0">
   </testsuite>
-  <testsuite name="GET /self" timestamp="2021-07-20T18:58:56" tests="1" file="C:\workspaces\tutlid-booking\server\src\routes\__tests__\UserRoute.test.ts" time="0.0060" failures="0">
-    <testcase name="users GET /self get self with no cookie" time="0.0060" classname="get self with no cookie">
+  <testsuite name="GET /self" timestamp="2021-07-20T19:05:20" tests="1" file="C:\workspaces\tutlid-booking\server\src\routes\__tests__\UserRoute.test.ts" time="0.0080" failures="0">
+    <testcase name="users GET /self get self with no cookie" time="0.0080" classname="get self with no cookie">
     </testcase>
   </testsuite>
 </testsuites>

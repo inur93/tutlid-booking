@@ -8,8 +8,8 @@ import { SetupData, setupTest } from '../../__tests__/setup';
 chai.use(chaiHttp);
 chai.should();
 
-const server = new App([container.userRoute]);
-server.listen();
+const app = new App([container.userRoute]);
+const server = app.listen();
 
 describe('users', () => {
     let config: SetupData;
@@ -19,9 +19,10 @@ describe('users', () => {
         })
         after(async () => {
             await config.teardown();
+            server.close();
         })
         it("get self with no cookie", async () => {
-            chai.request(server.getServer())
+            chai.request(app.getServer())
                 .get('/users/self')
                 .end((err: any, res) => {
                     res.should.have.status(401);
