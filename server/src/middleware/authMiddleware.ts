@@ -3,8 +3,9 @@ import jwt from 'jsonwebtoken';
 import AuthenticationTokenMissingException from '../exceptions/AuthenticationTokenMissingException';
 import InvalidAuthenticationTokenException from '../exceptions/InvalidAuthenticationTokenException';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
-import DataStoredInToken from '../interfaces/dataStoredInToken.interface';
-import { UserModel, UserRole } from '../models/user/UserModels';
+import { DataStoredInToken } from '../models/auth/dataStoredInToken';
+import UserModel from '../models/user/User';
+import { UserRole } from '../models/user/UserRole';
 
 function authMiddleware(requiredRoles: UserRole[] = []): RequestHandler {
     return async function (request: Request, _: Response, next: NextFunction): Promise<void> {

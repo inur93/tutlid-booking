@@ -4,7 +4,7 @@ server/build/
 server/.nyc_output/
 server/build/
 server/junit/
-server/tests/
+server/**/__tests__
 server/Dockerfile
 server/Test.Dockerfile
 server/.gitignore

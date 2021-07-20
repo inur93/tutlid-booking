@@ -43,6 +43,14 @@ services:
       - /server/node_modules
     networks:
      - mongo
+  tutlid-api-test:
+    image: tutlid-api-test
+    build:
+      context: ./server
+      dockerfile: Test.Dockerfile
+    volumes:
+      - ./server:/server
+      - /server/node_modules
   client:
     image: tutlid-react-app
     build: 

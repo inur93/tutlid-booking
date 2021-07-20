@@ -2,9 +2,10 @@
 import { startOfToday } from "date-fns";
 import App from "./app";
 import container from "./container";
-import { BankInformationModel } from "./models/bankinformation/BankInformationModels";
-import { PriceMatrixModel } from "./models/pricematrix/PriceMatrixModels";
-import { UserModel, UserRole, UserStatus } from "./models/user/UserModels";
+import BankInformationModel from "./models/bankinformation/BankInformation";
+import UserModel from "./models/user/User";
+import { UserRole } from "./models/user/UserRole";
+import { UserStatus } from "./models/user/UserStatus";
 import { isProduction } from "./utils/environment";
 import { hashPassword } from "./utils/security";
 import validateEnv from "./utils/validateEnv";
@@ -21,7 +22,6 @@ validateEnv();
     const setup = new DbSetup();
     await setup.setupDefaultAdmin();
     await setup.setupDefaultBankInformation();
-    await setup.setupDefaultPriceMatrix();
 
     const app = new App(
         [
@@ -29,8 +29,7 @@ validateEnv();
             container.adminRoute,
             container.userRoute,
             container.bookingRoute,
-            container.adminRoute,
-            container.priceMatrixRoute
+            container.adminRoute
         ],
     );
 
@@ -53,18 +52,6 @@ class DbSetup {
             roles: [UserRole.read, UserRole.basic, UserRole.admin],
             status: UserStatus.approved,
             password: await hashPassword(process.env.DEFAULT_ADMIN_PASSWORD || 'supersecret')
-        })
-    }
-
-    async setupDefaultPriceMatrix() {
-        const existing = await PriceMatrixModel.findOne({}).exec();
-        if (existing) {
-            return
-        }
-        PriceMatrixModel.create({
-            validFrom: startOfToday(),
-            price: 350,
-            tubPrice: 50
         })
     }
 

@@ -2,10 +2,13 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { IContainer } from '../container';
 import { IAuthenticationController } from '../controllers/AuthenticationController';
 import { IRoute } from '../interfaces/route.interface';
-import TokenData from '../interfaces/tokenData.interface';
+
 import validationMiddleware from '../middleware/validationMiddleware';
-import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto, ResetPasswordDto, UpdatePasswordDto } from '../models/user/userViewModels';
+import { Login } from '../models/auth/Login';
+import { TokenData } from '../models/auth/tokenData';
+import { CreateUser } from '../models/user/CreateUser';
+import { ResetUserPassword } from '../models/user/ResetUserPassword';
+import { UpdateUserPassword } from '../models/user/UpdateUserPassword';
 
 export default class AuthRoute implements IRoute {
     public path = '/auth';
@@ -17,11 +20,11 @@ export default class AuthRoute implements IRoute {
     }
 
     private initializeRoutes() {
-        this.router.post(`${this.path}/login`, validationMiddleware(LogInDto), this.login);
+        this.router.post(`${this.path}/login`, validationMiddleware(Login), this.login);
         this.router.get(`${this.path}/logout`, this.logout);
-        this.router.post(`${this.path}/register`, validationMiddleware(CreateUserDto), this.register)
-        this.router.post(`${this.path}/reset-password`, validationMiddleware(ResetPasswordDto), this.resetPassword)
-        this.router.post(`${this.path}/update-password`, validationMiddleware(UpdatePasswordDto), this.updatePassword)
+        this.router.post(`${this.path}/register`, validationMiddleware(CreateUser), this.register)
+        this.router.post(`${this.path}/reset-password`, validationMiddleware(ResetUserPassword), this.resetPassword)
+        this.router.post(`${this.path}/update-password`, validationMiddleware(UpdateUserPassword), this.updatePassword)
     }
     private readonly register = async (request: Request, response: Response, next: NextFunction) => {
         try {

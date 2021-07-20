@@ -1,23 +1,29 @@
 
 import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
-import TokenData, { TokenContent } from '../interfaces/tokenData.interface';
-import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto, ResetPasswordDto, UpdatePasswordDto } from '../models/user/userViewModels';
-import { UserLoginData, UserStatus } from '../models/user/UserModels';
+import { Login } from '../models/auth/Login';
+import { TokenContent } from '../models/auth/TokenContent';
+import { TokenData } from '../models/auth/tokenData';
+import { CreateUser } from '../models/user/CreateUser';
+import { GetAdminUser } from '../models/user/GetAdminUser';
+import { ResetUserPassword } from '../models/user/ResetUserPassword';
+import { UpdateUserPassword } from '../models/user/UpdateUserPassword';
+import { UserRole } from '../models/user/UserRole';
+import { UserStatus } from '../models/user/UserStatus';
 import { IUserRepository } from '../repositories/UserRepository';
 import { comparePassword, hashPassword } from '../utils/security';
-import MailController, { IMailController } from './MailController';
-import { Types } from 'mongoose';
+import { IMailController } from './MailController';
+
 
 export interface IAuthenticationController {
-    register(data: CreateUserDto): Promise<TokenData>
-    login({ email, password }: LogInDto): Promise<TokenData>
-    resetPassword({ email }: ResetPasswordDto): Promise<void>
-    updatePassword({ password, token }: UpdatePasswordDto): Promise<void>
+    register(data: CreateUser): Promise<TokenData>
+    login({ email, password }: Login): Promise<TokenData>
+    resetPassword({ email }: ResetUserPassword): Promise<void>
+    updatePassword({ password, token }: UpdateUserPassword): Promise<void>
 }
 export default class AuthenticationController implements IAuthenticationController {
     private readonly userRepository: IUserRepository
@@ -26,7 +32,7 @@ export default class AuthenticationController implements IAuthenticationControll
         this.userRepository = userRepository;
         this.mailController = mailController;
     }
-    public async register({ email, password, fullName }: CreateUserDto): Promise<TokenData> {
+    public async register({ email, password, fullName }: CreateUser): Promise<TokenData> {
 
         const existing = await this.userRepository.findOne({ email });
         if (existing) {
@@ -36,7 +42,10 @@ export default class AuthenticationController implements IAuthenticationControll
         const { _id } = await this.userRepository.create({
             fullName,
             email,
-            password: await hashPassword(password)
+            password: await hashPassword(password),
+            deleted: false,
+            roles: [UserRole.read],
+            status: UserStatus.pendingApproval
         });
 
         //make sure to get object with all fields populated
@@ -45,7 +54,7 @@ export default class AuthenticationController implements IAuthenticationControll
         return this.createToken(user)
     }
 
-    public async login({ email, password }: LogInDto): Promise<TokenData> {
+    public async login({ email, password }: Login): Promise<TokenData> {
         const existingUser = await this.userRepository.findOne({ email });
         if (!existingUser) {
             throw new InvalidCredentialsException();
@@ -67,7 +76,7 @@ export default class AuthenticationController implements IAuthenticationControll
     }
 
 
-    public async resetPassword({ email }: ResetPasswordDto): Promise<void> {
+    public async resetPassword({ email }: ResetUserPassword): Promise<void> {
 
         try {
             const user = await this.userRepository.findOne({ email });
@@ -82,12 +91,12 @@ export default class AuthenticationController implements IAuthenticationControll
         }
     }
 
-    public async updatePassword({ password, token }: UpdatePasswordDto): Promise<void> {
+    public async updatePassword({ password, token }: UpdateUserPassword): Promise<void> {
         try {
             const { id } = this.decodeToken(token);
-            await this.userRepository.updateOne(Types.ObjectId(id), {
-                password: await hashPassword(password)
-            })
+            const user = await this.userRepository.findById(Types.ObjectId(id));
+            user.password = await hashPassword(password);
+            user.save();
         } catch (e) {
             console.warn('could not update password', e);
             throw e;
@@ -101,7 +110,7 @@ export default class AuthenticationController implements IAuthenticationControll
         return jwt.decode(token) as TokenContent;
     }
 
-    private createToken(user: UserLoginData, expiration: number = 0): TokenData {
+    private createToken(user: GetAdminUser, expiration: number = 0): TokenData {
         const expiresIn = expiration || (60 * 60 * 12); // 12 hours
         const secret = process.env.JWT_SECRET || 'secret';
         const dataStoredInToken = {

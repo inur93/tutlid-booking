@@ -3,35 +3,31 @@ import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import { IBankInformationController } from '../controllers/BankInformationController';
 import { IBookingController } from '../controllers/BookingController';
-import { IPriceMatrixController } from '../controllers/PriceMatrixController';
 import { IUserController } from '../controllers/UserController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
-import { UpdateBankInformation } from '../models/bankinformation/BankInformationViewModels';
-import { BookingStatus } from '../models/booking/BookingModels';
-import { ChangeBookingStatusDto } from '../models/booking/BookingViewModels';
-import { CreatePriceMatrix } from '../models/pricematrix/PriceMatrixViewModels';
-import { UserRole, UserStatus } from '../models/user/UserModels';
-import { UpdateUserRoleDto, UpdateUserStatusDto } from '../models/user/userViewModels';
-
+import { UpdateBankInformation } from '../models/bankinformation/UpdateBankInformation';
+import { ReservationStatus } from '../models/booking/ReservationStatus';
+import { UpdateBookingStatus } from '../models/booking/UpdateBookingStatus';
+import { UpdateUserRole } from '../models/user/UpdateUserRole';
+import { UpdateUserStatus } from '../models/user/UpdateUserStatus';
+import { UserRole } from '../models/user/UserRole';
+import { UserStatus } from '../models/user/UserStatus';
 
 export default class AdminRoute implements IRoute {
     public path = '/admin';
     public router = Router();
     private readonly userController: IUserController;
     private readonly bookingController: IBookingController;
-    private readonly priceMatrixController: IPriceMatrixController;
     private readonly bankInformationController: IBankInformationController;
 
     constructor({
         userController,
         bookingController,
-        priceMatrixController,
         bankInformationController }: IContainer) {
         this.userController = userController;
         this.bookingController = bookingController;
-        this.priceMatrixController = priceMatrixController;
         this.bankInformationController = bankInformationController;
         this.initializeRoutes();
     }
@@ -40,13 +36,11 @@ export default class AdminRoute implements IRoute {
         this.router.all(this.path, authMiddleware([UserRole.admin]))
             .get(`${this.path}/users`, this.getUsers)
             .get(`${this.path}/users/:id`, this.getUser)
-            .put(`${this.path}/users/:id/status`, validationMiddleware(UpdateUserStatusDto), this.changeUserStatus)
-            .put(`${this.path}/users/:id/role`, validationMiddleware(UpdateUserRoleDto), this.addUserRole)
+            .put(`${this.path}/users/:id/status`, validationMiddleware(UpdateUserStatus), this.changeUserStatus)
+            .put(`${this.path}/users/:id/role`, validationMiddleware(UpdateUserRole), this.addUserRole)
             .delete(`${this.path}/users/:id/role/:role`, this.removeUserRole)
             .get(`${this.path}/bookings`, authMiddleware([UserRole.admin]), this.getBookings)
-            .put(`${this.path}/bookings/:id/status`, validationMiddleware(ChangeBookingStatusDto), this.changeBookingStatus)
-            .post(`${this.path}/pricematrix`, validationMiddleware(CreatePriceMatrix), this.createPriceMatrix)
-            .delete(`${this.path}/pricematrix/:id`, this.deletePriceMatrix)
+            .put(`${this.path}/bookings/:id/status`, validationMiddleware(UpdateBookingStatus), this.changeBookingStatus)
             .get(`${this.path}/bankinformation`, this.getBankInformation)
             .put(`${this.path}/bankinformation/:id`, validationMiddleware(UpdateBankInformation), this.updateBankInformation);
     }
@@ -98,10 +92,10 @@ export default class AdminRoute implements IRoute {
             const query = request.query;
             const from = query.from ? new Date(Date.parse(query.from as string)) : undefined;
             const to = query.to ? new Date(Date.parse(query.to as string)) : undefined;
-            const status = query.status ? query.status as BookingStatus : undefined;
+            const status = query.status ? query.status as unknown as ReservationStatus : undefined;
             const count = query.count ? Number.parseInt(query.count as string) : undefined;
 
-            const bookings = await this.bookingController.get({
+            const bookings = await this.bookingController.search({
                 from, to, status, count
             }, request.user);
             response.send(bookings);
@@ -113,28 +107,12 @@ export default class AdminRoute implements IRoute {
 
     private readonly changeBookingStatus = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const booking = await this.bookingController.changeStatus(Types.ObjectId(request.params.id), request.body);
+            const booking = await this.bookingController.updateStatus(Types.ObjectId(request.params.id), request.body);
             response.send(booking);
         } catch (e) {
             next(e);
         }
 
-    }
-
-    private readonly createPriceMatrix = async (request: Request, response: Response, next: NextFunction) => {
-        try {
-            response.send(await this.priceMatrixController.create(request.body));
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    private readonly deletePriceMatrix = async (request: Request, response: Response, next: NextFunction) => {
-        try {
-            response.send(await this.priceMatrixController.delete(Types.ObjectId(request.params.id)));
-        } catch (e) {
-            next(e);
-        }
     }
 
     private readonly getBankInformation = async (_: Request, response: Response, next: NextFunction) => {

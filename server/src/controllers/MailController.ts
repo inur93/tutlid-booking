@@ -1,21 +1,27 @@
 import sendgrid from '@sendgrid/mail';
 import { format } from 'date-fns';
 import daLocale from 'date-fns/locale/da';
-import { BankInformation } from '../models/bankinformation/BankInformationModels';
-import { Booking } from '../models/booking/BookingModels';
-import { User } from '../models/user/UserModels';
+import { BankInformation } from '../models/bankinformation/BankInformation';
+import { Booking } from '../models/booking/Booking';
+import { User } from '../models/user/User';
 
+type BookingTemplateData = Pick<Booking, 'from' | 'to' | 'totalAmount' | 'currency'>
+type Email = {
+    email: string,
+    name: string
+}
 export interface IMailController {
-    sendReceipt(booking: Booking, user: User): Promise<void>
-    sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation): Promise<void>
-    sendRejection(booking: Booking, user: User): Promise<void>
+    sendReceipt(booking: BookingTemplateData, user: User): Promise<void>
+    sendConfirmation(booking: BookingTemplateData, user: User, bankInfo: BankInformation): Promise<void>
+    sendRejection(booking: BookingTemplateData, user: User): Promise<void>
     sendResetPassword(user: User, token: string): Promise<void>
+    sendAdminNewBooking(booking: BookingTemplateData, recipients: Email[]): Promise<void>
 }
 
 type SendOptions = {
     templateId: string,
     user: User,
-    booking?: Booking,
+    booking?: BookingTemplateData,
     bankInfo?: BankInformation,
     token?: string,
     resetPasswordLink?: string
@@ -32,8 +38,33 @@ export default class MailController implements IMailController {
             console.log('mail is disabled');
         }
     }
+    async sendAdminNewBooking(booking: BookingTemplateData, recipients: Email[]): Promise<void> {
+        if (!this.mailsEnabled) {
+            console.log('mails has been disabled');
+            return;
+        }
+        const sender = process.env.SG_SENDER
+        if (!sender) {
+            console.log('sender not specified. Cannot send email');
+            return;
+        }
+        const data = this.booking2templateData(booking);
+        try {
+            await sendgrid.send({
+                to: recipients,
+                from: sender,
+                subject: "Der er nye bookinger!",
+                text: "",
+                html: `
+                
+                `
+            })
+        } catch (e) {
+            console.log('could not send email', e.message, e);
+        }
+    }
 
-    private booking2templateData(booking?: Booking) {
+    private booking2templateData(booking?: BookingTemplateData) {
         if (!booking) {
             return {};
         }
@@ -44,11 +75,7 @@ export default class MailController implements IMailController {
             from,
             to,
             period: `${from} - ${to}`,
-            pplCount: `${booking.pplCount}`,
-            tubCount: `${booking.tubCount}`,
-            comment: `${booking.comment}`,
-            price: `${(booking.pricePpl || 0) + (booking.priceTub || 0)}`,
-            messageFromAdmin: `${booking.messageFromAdmin ? 'Besked fra udlåner:' : ''} ${booking.messageFromAdmin}`
+            price: `${booking.totalAmount} ${booking?.currency}`,
         }
     }
 
@@ -72,7 +99,7 @@ export default class MailController implements IMailController {
         }
     }
 
-    async sendReceipt(booking: Booking, user: User) {
+    async sendReceipt(booking: BookingTemplateData, user: User) {
         const templateId = process.env.SG_TEMPLATE_RECEIPT;
         if (!templateId) {
             console.log('template id for receipt email is not specified');
@@ -81,7 +108,7 @@ export default class MailController implements IMailController {
         await this.send({ templateId, user, booking })
     }
 
-    async sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation) {
+    async sendConfirmation(booking: BookingTemplateData, user: User, bankInfo: BankInformation) {
         const templateId = process.env.SG_TEMPLATE_CONFIRMED;
         if (!templateId) {
             console.log('template id for confirmation email is not specified');
@@ -90,7 +117,7 @@ export default class MailController implements IMailController {
         await this.send({ templateId, user, booking, bankInfo });
     }
 
-    async sendRejection(booking: Booking, user: User) {
+    async sendRejection(booking: BookingTemplateData, user: User) {
         const templateId = process.env.SG_TEMPLATE_REJECTED;
         if (!templateId) {
             console.log('template id for rejection email is not specified');

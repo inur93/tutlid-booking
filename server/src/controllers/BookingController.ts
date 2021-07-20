@@ -1,105 +1,110 @@
-import { Types } from 'mongoose';
+import { FilterQuery, Types } from 'mongoose';
 import { IContainer } from '../container';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
-import { AnonymousBooking, BasicBooking, Booking, BookingQuery, BookingStatus } from '../models/booking/BookingModels';
-import { ChangeBookingStatusDto, CreateBookingDto } from '../models/booking/BookingViewModels';
-import { User, UserRole } from '../models/user/UserModels';
+import { Booking, BookingDoc } from '../models/booking/Booking';
+import { CreateBooking } from '../models/booking/CreateBooking';
+import { GetAnonymousBooking } from '../models/booking/GetAnonymousBooking';
+import { GetBooking } from '../models/booking/GetBooking';
+import { ReservationStatus } from '../models/booking/ReservationStatus';
+import { User } from '../models/user/User';
+import { UserRole } from '../models/user/UserRole';
 import { IBookingRepository } from '../repositories/BookingRepository';
 import { IUserRepository } from '../repositories/UserRepository';
 import { shouldBeAnonymous } from '../utils/bookingFunctions';
 import Mapper from '../utils/Mapper';
 import { IBankInformationController } from './BankInformationController';
 import { IMailController } from './MailController';
-import { IPriceMatrixController } from './PriceMatrixController';
+import { IPriceController } from './PriceController';
 
 export interface IBookingController {
-    get(query: BookingQuery, user?: User): Promise<(BasicBooking | AnonymousBooking)[]>
-    create(dto: CreateBookingDto, user: User): Promise<BasicBooking>
-    changeStatus(id: Types.ObjectId, data: ChangeBookingStatusDto): Promise<BasicBooking>
-    delete(id: string, user: User): Promise<void>
+    search(query: FilterQuery<BookingDoc>, user?: User): Promise<(GetBooking | GetAnonymousBooking)[]>
+    create(dto: CreateBooking, user: User): Promise<GetBooking>
+    updateStatus(id: Types.ObjectId, status: ReservationStatus): Promise<GetBooking>
+    delete(id: Types.ObjectId, user: User): Promise<void>
 }
 export default class BookingController implements IBookingController {
 
     private readonly bookingRepository: IBookingRepository;
 
-    private readonly priceMatrixController: IPriceMatrixController;
     private readonly bankInformationController: IBankInformationController;
     private readonly userRepository: IUserRepository;
     private readonly mailController: IMailController;
-
+    private readonly priceController: IPriceController;
     constructor({
         bookingRepository,
-        priceMatrixController,
         bankInformationController,
+        priceController,
         userRepository,
         mailController
     }: IContainer) {
         this.bookingRepository = bookingRepository;
-        this.priceMatrixController = priceMatrixController;
         this.bankInformationController = bankInformationController;
         this.userRepository = userRepository;
         this.mailController = mailController;
+        this.priceController = priceController;
     }
 
-    public async get(query: BookingQuery, user?: User): Promise<(BasicBooking | AnonymousBooking)[]> {
+    public async search(query: FilterQuery<BookingDoc>, user?: User): Promise<(GetBooking | GetAnonymousBooking)[]> {
         const bookings = await this.bookingRepository.find(query)
         return bookings.map(x => {
             return shouldBeAnonymous(x, user) ?
-                Mapper.toAnonymousBooking(x) :
-                Mapper.toViewBasicBooking(x)
+                Mapper.toGetAnonymousBooking(x) :
+                Mapper.toGetBooking(x)
         });
     }
 
-    private async getById(id: string, user?: User): Promise<Booking> {
-        return this.bookingRepository.findById(Types.ObjectId(id));
+    private async getById(id: Types.ObjectId, user?: User): Promise<Booking> {
+        const booking = await this.bookingRepository.findById(id);
+        if (!booking) throw new Error(`Booking with id ${id} does not exist.`)
+        return booking;
     }
 
-    public async create(dto: CreateBookingDto, user: User): Promise<BasicBooking> {
-        const priceDetails = await this.priceMatrixController.calculatePrice(dto);
-
-        const booking = await this.bookingRepository.create(
+    public async create(booking: CreateBooking, user: User): Promise<GetBooking> {
+        const withPrice = await this.priceController.applyPrice(booking, user);
+        const created = await this.bookingRepository.create(
             {
-                from: new Date(dto.from),
-                to: new Date(dto.to),
-                pplCount: dto.pplCount,
-                tubCount: dto.tubCount,
-                comment: dto.comment,
-                bookedBy: user._id,
-                pricePpl: priceDetails.priceTotal,
-                priceTub: priceDetails.tubPriceTotal,
-                status: user.roles.includes(UserRole.admin) ? BookingStatus.accepted : BookingStatus.reserved
+                ...withPrice,
+                paidAmount: 0,
+                bookedBy: user._id!,
+                status: user.roles.includes(UserRole.admin) ? ReservationStatus.Accepted : ReservationStatus.Reserved
             }
         )
 
         if (!user.roles.includes(UserRole.admin)) {
-            await this.mailController.sendReceipt(booking, user);
+            await this.mailController.sendReceipt(withPrice, user);
         }
-        return Mapper.toViewBasicBooking(booking);
+        return Mapper.toGetBooking(created);
     }
 
-    public async changeStatus(id: Types.ObjectId, data: ChangeBookingStatusDto): Promise<BasicBooking> {
-        const booking = await this.bookingRepository.update(id, data);
-        const bookedBy = await this.userRepository.findById((booking.bookedBy as User)._id);
+    public async updateStatus(id: Types.ObjectId, status: ReservationStatus): Promise<GetBooking> {
 
+        const booking = await this.bookingRepository.findById(id);
+        if (!booking) throw new Error(`Booking with id ${id} does not exist.`);
+        booking.status = status;
+        booking.save();
+
+        const withUser = await booking.populate('bookedBy').execPopulate();
+        const bookedBy = withUser.bookedBy as User;
         if (!bookedBy.roles.includes(UserRole.admin)) {
-            if (booking.status === BookingStatus.accepted) {
+            if (status === ReservationStatus.Accepted) {
                 const bankInfo = await this.bankInformationController.current();
-                await this.mailController.sendConfirmation(booking, booking.bookedBy as User, bankInfo);
+                if (!bankInfo) throw new Error('No bank information is available.');
+                await this.mailController.sendConfirmation(booking, bookedBy, bankInfo);
             } else {
-                await this.mailController.sendRejection(booking, booking.bookedBy as User);
+                await this.mailController.sendRejection(booking, bookedBy);
             }
         }
-        return Mapper.toViewBasicBooking(booking);
+        return Mapper.toGetBooking(booking);
     }
 
-    public async delete(id: string, user: User) {
+    public async delete(id: Types.ObjectId, user: User) {
         const existing = await this.getById(id);
         const bookedBy = existing.bookedBy as User;
 
-        if (user._id.toHexString() !== bookedBy._id.toHexString()) {
+        if (String(user._id) !== String(bookedBy._id)) {
             throw new MissingPermissionsException();
         }
 
-        await this.bookingRepository.delete(Types.ObjectId(id));
+        await this.bookingRepository.delete(id);
     }
 }

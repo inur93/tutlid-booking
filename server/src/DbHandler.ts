@@ -19,11 +19,14 @@ export default class DbHandler implements IDbHandler {
         }
 
         try {
+            // await mongoose.connect("", {
+                
+            // })
             await mongoose.connect(options.uri, {
-                ssl: options.ssl,
+                // ssl: options.ssl,
                 dbName: options.dbName,
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
+                // useNewUrlParser: true,
+                // useUnifiedTopology: true,
                 useFindAndModify: false,
                 useCreateIndex: true
             })

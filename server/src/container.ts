@@ -3,29 +3,30 @@ import AuthenticationController, { IAuthenticationController } from './controlle
 import BankInformationController, { IBankInformationController } from './controllers/BankInformationController';
 import BookingController, { IBookingController } from './controllers/BookingController';
 import MailController, { IMailController } from './controllers/MailController';
-import PriceMatrixController, { IPriceMatrixController } from './controllers/PriceMatrixController';
+import { IPriceController, PriceController } from './controllers/PriceController';
 import UserController, { IUserController } from './controllers/UserController';
 import DbHandler, { IDbHandler } from './DbHandler';
 import BankInformationRepository, { IBankInformationRepository } from './repositories/BankInformationRepository';
 import BookingRepository, { IBookingRepository } from './repositories/BookingRepository';
-import PriceMatrixRepository, { IPriceMatrixRepository } from './repositories/PriceMatrixRepository';
+import { IPriceConfigurationRepository, PriceConfigurationRepository } from './repositories/PriceConfigurationRepository';
+import UnitRepository, { IUnitRepository } from './repositories/UnitRepository';
 import UserRepository, { IUserRepository } from './repositories/UserRepository';
 import AdminRoute from './routes/AdminRoute';
 import AuthRoute from './routes/AuthRoute';
 import BookingRoute from './routes/BookingRoute';
-import PriceMatrixRoute from './routes/PriceMatrixRoute';
 import UserRoute from './routes/UserRoute';
 
 export interface IContainer {
     dbHandler: IDbHandler
     userRepository: IUserRepository
     bookingRepository: IBookingRepository
-    priceMatrixRepository: IPriceMatrixRepository
     bankInformationRepository: IBankInformationRepository
+    unitRepository: IUnitRepository
+    priceConfigurationRepository: IPriceConfigurationRepository
 
     userController: IUserController
     bookingController: IBookingController
-    priceMatrixController: IPriceMatrixController
+    priceController: IPriceController,
     bankInformationController: IBankInformationController
     mailController: IMailController
 
@@ -35,7 +36,6 @@ export interface IContainer {
     adminRoute: AdminRoute,
     authRoute: AuthRoute,
     bookingRoute: BookingRoute,
-    priceMatrixRoute: PriceMatrixRoute,
     userRoute: UserRoute
 }
 
@@ -49,20 +49,20 @@ container.register({
     userRoute: asClass(UserRoute),
     authRoute: asClass(AuthRoute),
     bookingRoute: asClass(BookingRoute),
-    priceMatrixRoute: asClass(PriceMatrixRoute),
 
     //repos
     bankInformationRepository: asClass(BankInformationRepository),
     bookingRepository: asClass(BookingRepository),
-    priceMatrixRepository: asClass(PriceMatrixRepository),
     userRepository: asClass(UserRepository),
+    unitRepository: asClass(UnitRepository),
+    priceConfigurationRepository: asClass(PriceConfigurationRepository),
 
     //controllers
     authenticationController: asClass(AuthenticationController),
     bankInformationController: asClass(BankInformationController),
     bookingController: asClass(BookingController),
     mailController: asClass(MailController).singleton(),
-    priceMatrixController: asClass(PriceMatrixController),
+    priceController: asClass(PriceController),
     userController: asClass(UserController),
 
     //misc

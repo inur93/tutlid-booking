@@ -21,9 +21,7 @@
     /* Redirect output structure to the directory. */
     // "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "rootDirs": [
-      
       "./src",
-      "./test",
       "./@types"
     ],
     // "composite": true,                     /* Enable project compilation */
@@ -46,9 +44,9 @@
     // "strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
     "strictPropertyInitialization": true,
     /* Enable strict checking of property initialization in classes. */
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     /* Raise error on 'this' expressions with an implied 'any' type. */
-    "alwaysStrict": true,
+    "alwaysStrict": false,
     /* Parse in strict mode and emit "use strict" for each source file. */
 
     /* Additional Checks */

@@ -1,11 +1,11 @@
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
-import { UpdateBankInformation } from '../models/bankinformation/BankInformationViewModels';
-import { BankInformation } from '../models/bankinformation/BankInformationModels';
+import { UpdateBankInformation } from '../models/bankinformation/UpdateBankInformation';
+import { BankInformation } from '../models/bankinformation/BankInformation';
 import { IBankInformationRepository } from '../repositories/BankInformationRepository';
 
 export interface IBankInformationController {
-    current(): Promise<BankInformation>
+    current(): Promise<BankInformation | null>
     update(id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation>
 }
 class BankInformationController implements IBankInformationController {
@@ -15,8 +15,8 @@ class BankInformationController implements IBankInformationController {
         this.bankInformationRepository = bankInformationRepository;
     }
 
-    public async current(): Promise<BankInformation> {
-        return this.bankInformationRepository.current();
+    public async current(): Promise<BankInformation | null> {
+        return await this.bankInformationRepository.current();
     }
 
     public async update(id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation> {

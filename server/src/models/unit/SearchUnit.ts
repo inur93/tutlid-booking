@@ -1,0 +1,7 @@
+import { Unit } from "./Unit";
+
+export type SearchUnit = Pick<Unit, 'type' | '_id' | 'unavailable'>
+& Record<keyof Pick<Unit, 'name'>, string>
+& Record<keyof Pick<Unit, 'description'>, string>
+& Record<keyof Pick<Unit, 'addOnOptions'>, SearchUnit[]>
+

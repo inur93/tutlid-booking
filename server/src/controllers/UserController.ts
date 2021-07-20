@@ -1,95 +1,88 @@
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
-import NotFoundException from '../exceptions/NotFoundException';
-import { BasicUser, DetailedUser, UserRole, UserStatus } from '../models/user/UserModels';
-import { UpdateSelfDto } from '../models/user/userViewModels';
+import { GetAdminUser } from '../models/user/GetAdminUser';
+import { GetSelf } from '../models/user/GetSelf';
+import { UpdateSelf } from '../models/user/UpdateSelf';
+import { UserRole } from '../models/user/UserRole';
+import { UserStatus } from '../models/user/UserStatus';
 import { IUserRepository } from '../repositories/UserRepository';
 import Mapper from '../utils/Mapper';
 
 export interface IUserController {
-    get(status?: UserStatus): Promise<DetailedUser[]>
-    getById(id: Types.ObjectId): Promise<BasicUser>
-    getDetailsById(id: Types.ObjectId): Promise<DetailedUser>
-    getSelf(id: Types.ObjectId): Promise<DetailedUser>
-    update(id: Types.ObjectId, update: UpdateSelfDto): Promise<BasicUser>
-    changeStatus(id: Types.ObjectId, status: UserStatus): Promise<DetailedUser>
-    addRole(id: Types.ObjectId, role: UserRole): Promise<DetailedUser>
-    removeRole(id: Types.ObjectId, role: UserRole): Promise<DetailedUser>
+    get(status?: UserStatus): Promise<GetAdminUser[]>
+    getById(id: Types.ObjectId): Promise<GetSelf>
+    getDetailsById(id: Types.ObjectId): Promise<GetAdminUser>
+    getSelf(id: Types.ObjectId): Promise<GetSelf>
+    update(id: Types.ObjectId, update: UpdateSelf): Promise<GetSelf>
+    changeStatus(id: Types.ObjectId, status: UserStatus): Promise<GetAdminUser>
+    addRole(id: Types.ObjectId, role: UserRole): Promise<GetAdminUser>
+    removeRole(id: Types.ObjectId, role: UserRole): Promise<GetAdminUser>
 }
 export default class UserController implements IUserController {
     userRepository: IUserRepository;
     constructor({ userRepository }: IContainer) {
         this.userRepository = userRepository;
     }
-    public async get(status?: UserStatus): Promise<DetailedUser[]> {
+    public async get(status?: UserStatus): Promise<GetAdminUser[]> {
         const query: any = {};
         if (status) { query.status = status; }
-        const users = await this.userRepository.findMany({
+        const users = await this.userRepository.find({
             status
         })
-        return users.map(Mapper.toAdminViewUser);
+        return users.map(Mapper.toGetAdminUser);
     }
 
-    public async getById(id: Types.ObjectId): Promise<BasicUser> {
+    public async getById(id: Types.ObjectId): Promise<GetSelf> {
+        const user = await this.userRepository.findById(id);
+        return Mapper.toGetSelf(user);
+    }
+
+    public async getDetailsById(id: Types.ObjectId): Promise<GetAdminUser> {
+        const user = await this.userRepository.findById(id);
+        return Mapper.toGetAdminUser(user);
+    }
+
+    public async getSelf(id: Types.ObjectId): Promise<GetAdminUser> {
+        const user = await this.userRepository.findById(id);
+        return Mapper.toGetAdminUser(user);
+    }
+
+    public async update(id: Types.ObjectId, update: UpdateSelf): Promise<GetSelf> {
+        const user = await this.userRepository.findById(id);
+        await user.update(update).exec();
+        return Mapper.toGetSelf(user);
+    }
+
+    public async changeStatus(id: Types.ObjectId, status: UserStatus): Promise<GetAdminUser> {
 
         const user = await this.userRepository.findById(id);
 
-        if (!user) {
-            throw new NotFoundException(`user id ${id} was not found`);
+        user.status = status;
+        if (status === UserStatus.approved) {
+            if (!user.roles.includes(UserRole.basic)) {
+                user.roles.push(UserRole.basic)
+            }
+        } else {
+            user.roles = user.roles.filter(x => x != UserRole.basic && x != UserRole.admin)
         }
-
-        return Mapper.toViewBasicUser(await this.userRepository.findById(id));
+        await user.save();
+        return Mapper.toGetAdminUser(user);
     }
 
-    public async getDetailsById(id: Types.ObjectId): Promise<DetailedUser> {
-
+    public async addRole(id: Types.ObjectId, role: UserRole): Promise<GetAdminUser> {
         const user = await this.userRepository.findById(id);
-
-        if (!user) {
-            throw new NotFoundException(`user id ${id} was not found`);
+        if (!user.roles.includes(role)) {
+            user.roles.push(role);
+            await user.save();
         }
 
-        return Mapper.toAdminViewUser(await this.userRepository.findById(id));
+        return Mapper.toGetAdminUser(user);
     }
 
-    public async getSelf(id: Types.ObjectId): Promise<DetailedUser> {
+    public async removeRole(id: Types.ObjectId, role: UserRole): Promise<GetAdminUser> {
         const user = await this.userRepository.findById(id);
-
-        if (!user) {
-            throw new NotFoundException(`user id ${id} was not found`);
-        }
-
-        return Mapper.toDetailedUser(await this.userRepository.findById(id));
-    }
-
-    public async update(id: Types.ObjectId, update: UpdateSelfDto): Promise<BasicUser> {
-        const user = await this.userRepository.updateOne(id, update);
-        if (!user) {
-            throw new NotFoundException(`user id ${id} was not found`);
-        }
-        return Mapper.toViewBasicUser(user);
-    }
-
-    public async changeStatus(id: Types.ObjectId, status: UserStatus): Promise<DetailedUser> {
-
-        const update = {
-            status,
-            role: UserRole.basic
-        };
-
-        const user = await (status === UserStatus.approved ?
-            this.userRepository.addRole(id, update) :
-            this.userRepository.removeRole(id, update))
-        return Mapper.toAdminViewUser(user);
-    }
-
-    public async addRole(id: Types.ObjectId, role: UserRole): Promise<DetailedUser> {
-        const user = await this.userRepository.addRole(id, { role });
-        return Mapper.toAdminViewUser(user);
-    }
-
-    public async removeRole(id: Types.ObjectId, role: UserRole): Promise<DetailedUser> {
-        const user = await this.userRepository.removeRole(id, { role });
-        return Mapper.toAdminViewUser(user);
+        user.roles = user.roles.filter(x => x != role);
+        await user.save();
+        return Mapper.toGetAdminUser(user);
     }
 }

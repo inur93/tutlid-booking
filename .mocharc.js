@@ -1,4 +1,5 @@
 module.exports = {
+    type: "module",
     //rules and behaviour
     jobs:01, // 4,
     parallel: false, //true,

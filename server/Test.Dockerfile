@@ -9,4 +9,4 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-CMD ["yarn", "run", "test"]
+CMD ["yarn", "run", "test:debug"]

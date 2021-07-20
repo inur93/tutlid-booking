@@ -1,57 +1,35 @@
-import { Types } from "mongoose";
-import { Booking, BookingModel, BookingQuery as QueryBooking, CreateBooking, UpdateBooking } from "../models/booking/BookingModels";
+import { FilterQuery, QueryOptions, Types } from "mongoose";
+import Model, { BookingDoc } from "../models/booking/Booking";
+import { BaseRepository, IBaseRepository } from "./BaseRepository";
 
 
 
-export interface IBookingRepository {
-    create(booking: CreateBooking): Promise<Booking>
-    findById(id: Types.ObjectId): Promise<Booking>
-    find(query: QueryBooking): Promise<Booking[]>
-    update(_id: Types.ObjectId, update: UpdateBooking): Promise<Booking>
-    delete(_id: Types.ObjectId): Promise<void>
+export interface IBookingRepository extends IBaseRepository<BookingDoc> {
 }
 
-export default class BookingRepository implements IBookingRepository {
+export default class BookingRepository extends BaseRepository<BookingDoc> implements IBookingRepository {
 
-    async create(booking: CreateBooking): Promise<Booking> {
-        const created = await BookingModel.create(booking);
-        return BookingModel.findById(created._id);
+    constructor() {
+        super(Model)
     }
-    async findById(id: Types.ObjectId): Promise<Booking> {
-        return BookingModel
-            .findById(id)
-            .populate('bookedBy', {
-                fullName: true
+
+    async findById(id: Types.ObjectId): Promise<BookingDoc> {
+        // const res = await super.findById(id);
+        const res = await this.model.findById(id).populate({
+            path: 'bookedBy',
+            select: 'fullName'
+        });
+
+        if (!res) throw new Error(`Booking with id ${id} does not exist.`)
+        return res;
+    }
+
+    async find(query: FilterQuery<BookingDoc>, options?: QueryOptions): Promise<BookingDoc[]> {
+
+        return await this.model.find(query, undefined, options)
+            .populate({
+                path: 'bookedBy',
+                select: 'fullName'
             });
-    }
-    async find({ from, to, status, count }: QueryBooking): Promise<Booking[]> {
-        const query: any = {};
-        if (from) {
-            query.to = { $gte: from };
-        }
-        if (to) {
-            query.from = { $lte: to };
-        }
-        if (status) {
-            query.status = status;
-        }
-        return BookingModel
-            .find(query)
-            .sort({
-                from: 'ascending'
-            })
-            .limit(count || 1000) //1000 must be a reasonable limit
-            .populate('bookedBy', {
-                fullName: true
-            });
-    }
-
-    async update(_id: Types.ObjectId, update: UpdateBooking): Promise<Booking> {
-        await BookingModel.updateOne({ _id }, update);
-        return this.findById(_id);
-    }
-
-    async delete(_id: Types.ObjectId): Promise<void> {
-        return BookingModel.deleteOne({ _id });
     }
 }

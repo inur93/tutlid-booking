@@ -4,8 +4,8 @@ import { IUserController } from '../controllers/UserController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
-import { UpdateSelfDto } from '../models/user/userViewModels';
-import { UserRole } from '../models/user/UserModels';
+import { UpdateSelf } from '../models/user/UpdateSelf';
+import { UserRole } from '../models/user/UserRole';
 
 export default class UserRoute implements IRoute {
     public path = '/users';
@@ -20,7 +20,7 @@ export default class UserRoute implements IRoute {
     private initializeRoutes() {
         this.router.all(`${this.path}/self`, authMiddleware([UserRole.read]))
             .get(`${this.path}/self`, this.self)
-            .put(`${this.path}/self`, validationMiddleware(UpdateSelfDto), this.updateSelf);
+            .put(`${this.path}/self`, validationMiddleware(UpdateSelf), this.updateSelf);
     }
 
     private readonly updateSelf = async (request: Request, response: Response, next: NextFunction) => {
