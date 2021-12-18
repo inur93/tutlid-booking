@@ -2,7 +2,7 @@
 import { createStyles, Divider, Drawer as MUIDrawer, IconButton, List, makeStyles } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Role } from '../../api';
-import { useAuthUser } from '../../hooks/useAuthUser';
+import { useContainer } from '../../ioc';
 import LanguageSelector from '../shared/LanguageSelect';
 import { AdminMenuItem, GalleryMenuItem, HomeMenuItem, LoginMenuItem, LogoutMenuItem } from './MenuItems';
 const useStyles = makeStyles((theme) =>
@@ -26,12 +26,12 @@ type Props = {
 }
 export function Drawer({ open, handleClose }: Props) {
     const classes = useStyles();
-    const [user, actions] = useAuthUser();
+    const { authStore } = useContainer();
     const logout = async () => {
-        await actions.logout();
+        await authStore?.logout();
         handleClose();
     }
-    const isAdmin = user.hasRole(Role.admin);
+    
     return <MUIDrawer
         anchor='right'
         onClose={handleClose}
@@ -48,11 +48,11 @@ export function Drawer({ open, handleClose }: Props) {
         <List>
             <HomeMenuItem listItem onClick={handleClose} />
             <GalleryMenuItem listItem onClick={handleClose} />
-            {isAdmin && <AdminMenuItem listItem onClick={handleClose} />}
+            {authStore?.isAdmin && <AdminMenuItem listItem onClick={handleClose} />}
         </List>
         <Divider />
-        {user.isLoggedIn && <LogoutMenuItem listItem onClick={logout} />}
-        {!user.isLoggedIn && <LoginMenuItem listItem onClick={handleClose} />}
+        {authStore?.loggedIn && <LogoutMenuItem listItem onClick={logout} />}
+        {!authStore?.loggedIn && <LoginMenuItem listItem onClick={handleClose} />}
 
         <Divider />
         <LanguageSelector listItem onSelect={handleClose} />

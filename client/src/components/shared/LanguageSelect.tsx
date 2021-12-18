@@ -3,6 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@material-ui/icons/Language';
 import { setCurrentLanguage } from '../../i18n';
+import { observer } from 'mobx-react-lite';
+import { useLanguage } from '../../hooks/useLanguage';
 const useStyles = makeStyles((theme: Theme) =>
 ({
     root: {
@@ -15,11 +17,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type LanguageSelectorProps = {
     listItem?: boolean,
-    onSelect?: () => void
+    onSelect?: (lang: string) => void,
+    local?: boolean,
+    language?: string
 }
-export default function LanguageSelector({ listItem, onSelect }: LanguageSelectorProps) {
+const LanguageSelector = observer(({ language, listItem, onSelect, local }: LanguageSelectorProps) => {
     const classes = useStyles();
-    const { t, i18n } = useTranslation('common');
+    const { t } = useTranslation('common');
+    const [globalLanguage, setLanguage] = useLanguage();
     const options = [
         { key: 'da', value: t('common:languages.da') },
         { key: 'en', value: t('common:languages.en') }
@@ -28,21 +33,24 @@ export default function LanguageSelector({ listItem, onSelect }: LanguageSelecto
         name?: string | undefined;
         value: unknown;
     }>) => {
-        i18n.changeLanguage(event.target.value as string);
-        setCurrentLanguage(event.target.value as string);
-        onSelect && onSelect();
+        const lang = event.target.value as string;
+        if (!local) {
+            setLanguage(lang);
+            setCurrentLanguage(lang);
+        }
+        onSelect && onSelect(lang);
     }
-    const Selector = () => (
+    const Selector = observer(() => (
         <Select
             id="language-selector"
             className={classes.root}
-            value={i18n.language}
+            value={local ? language : globalLanguage}
             onChange={changeLanguage}
             disableUnderline={true}
         >
             {options.map(x => <MenuItem key={x.key} value={x.key}>{x.value}</MenuItem>)}
         </Select>
-    )
+    ));
     if (listItem) {
         return (<ListItem>
             <ListItemIcon>
@@ -52,4 +60,6 @@ export default function LanguageSelector({ listItem, onSelect }: LanguageSelecto
         </ListItem>)
     }
     return (<Selector />);
-}
+})
+
+export default LanguageSelector;

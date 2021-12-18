@@ -5,7 +5,8 @@ import { BaseApi } from "./baseApi";
 export class PriceMatrixApi extends BaseApi {
 
     constructor() {
-        super(true);
+        super();
+        this.secured = true;
     }
 
     async getAll(from?: Date) {

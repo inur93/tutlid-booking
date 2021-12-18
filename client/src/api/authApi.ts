@@ -5,7 +5,8 @@ import { RegisterData } from './index';
 export class AuthApi extends BaseApi {
 
     constructor() {
-        super(false);
+        super();
+        super.secured = true;
     }
 
     async login(loginData: LoginData) {

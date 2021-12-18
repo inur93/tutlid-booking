@@ -38,16 +38,17 @@ export default function PendingBookingsList({ bookings, changeStatus }: PendingB
         <List dense>
             {bookings.map(x => <PendingBookingListItem key={x._id} booking={x} onClick={handleAction} />)}
         </List>
-        {details && <MessageModal
+        <MessageModal
+            open={!!details}
             onClose={onCancel}
             onAccept={onAccept}
             cancelLabel={t('common:button.cancel')}
-            header={details.status === BookingStatus.accepted
+            header={details?.status === BookingStatus.accepted
                 ? t('app:pendingBookingsPanel.confirmationMsgHeader')
                 : t('app:pendingBookingsPanel.declineMsgHeader')}
-            fieldLabel={details.status === BookingStatus.accepted
+            fieldLabel={details?.status === BookingStatus.accepted
                 ? t('app:pendingBookingsPanel.confirmationMsgLabel')
                 : t('app:pendingBookingsPanel.declineMsgLabel')}
-            submitLabel={t('common:button.confirm')} />}
+            submitLabel={t('common:button.confirm')} />
     </Grid>);
 }

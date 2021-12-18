@@ -1,12 +1,9 @@
-
-import jwt from 'jsonwebtoken';
 import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
 import { Login } from '../models/auth/Login';
-import { TokenContent } from '../models/auth/TokenContent';
 import { TokenData } from '../models/auth/tokenData';
 import { CreateUser } from '../models/user/CreateUser';
 import { GetAdminUser } from '../models/user/GetAdminUser';
@@ -15,11 +12,12 @@ import { UpdateUserPassword } from '../models/user/UpdateUserPassword';
 import { UserRole } from '../models/user/UserRole';
 import { UserStatus } from '../models/user/UserStatus';
 import { IUserRepository } from '../repositories/UserRepository';
-import { comparePassword, hashPassword } from '../utils/security';
+import { comparePassword, createToken, decodeToken, hashPassword } from '../utils/security';
 import { IMailController } from './MailController';
 
 
 export interface IAuthenticationController {
+    refreshToken(user: GetAdminUser): Promise<TokenData>;
     register(data: CreateUser): Promise<TokenData>
     login({ email, password }: Login): Promise<TokenData>
     resetPassword({ email }: ResetUserPassword): Promise<void>
@@ -31,6 +29,9 @@ export default class AuthenticationController implements IAuthenticationControll
     constructor({ userRepository, mailController }: IContainer) {
         this.userRepository = userRepository;
         this.mailController = mailController;
+    }
+    public async refreshToken(user: GetAdminUser): Promise<TokenData> {
+        return createToken(user);
     }
     public async register({ email, password, fullName }: CreateUser): Promise<TokenData> {
 
@@ -51,7 +52,7 @@ export default class AuthenticationController implements IAuthenticationControll
         //make sure to get object with all fields populated
         const user = await this.userRepository.findById(_id);
 
-        return this.createToken(user)
+        return createToken(user)
     }
 
     public async login({ email, password }: Login): Promise<TokenData> {
@@ -72,7 +73,7 @@ export default class AuthenticationController implements IAuthenticationControll
             throw new MissingPermissionsException("Your account has not yet been approved");
         }
 
-        return this.createToken(user);
+        return createToken(user);
     }
 
 
@@ -81,7 +82,7 @@ export default class AuthenticationController implements IAuthenticationControll
         try {
             const user = await this.userRepository.findOne({ email });
             if (!user) return;
-            const tokenData = this.createToken(user, 60 * 60); // 1 hour
+            const tokenData = createToken(user, 60 * 60); // 1 hour
             console.log('token', tokenData.token);
             this.mailController.sendResetPassword(user, tokenData.token);
 
@@ -93,7 +94,7 @@ export default class AuthenticationController implements IAuthenticationControll
 
     public async updatePassword({ password, token }: UpdateUserPassword): Promise<void> {
         try {
-            const { id } = this.decodeToken(token);
+            const { id } = decodeToken(token);
             const user = await this.userRepository.findById(Types.ObjectId(id));
             user.password = await hashPassword(password);
             user.save();
@@ -103,26 +104,7 @@ export default class AuthenticationController implements IAuthenticationControll
         }
     }
 
-    private decodeToken(token: string): TokenContent {
-        if (!jwt.verify(token, process.env.JWT_SECRET || 'secret')) {
-            throw new Error('The token is no longer valid');
-        }
-        return jwt.decode(token) as TokenContent;
-    }
 
-    private createToken(user: GetAdminUser, expiration: number = 0): TokenData {
-        const expiresIn = expiration || (60 * 60 * 12); // 12 hours
-        const secret = process.env.JWT_SECRET || 'secret';
-        const dataStoredInToken = {
-            id: user._id,
-            email: user.email,
-            fullName: user.fullName
-        };
 
-        return {
-            expiresIn,
-            token: jwt.sign(dataStoredInToken, secret, { expiresIn }),
-            user
-        };
-    }
+
 }

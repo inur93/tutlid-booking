@@ -26,6 +26,20 @@
     "tableValidToLabel": "Udløber den",
     "header": "Prismatrice"
   },
+  "CreateUnit": {
+    "nameLabel": "Name",
+    "descriptionLabel": "Beskrivelse af enheden",
+    "isAddonLabel": "Er dette en tilføjelses enhed?",
+    "isAddonLabelHelp": "Hvis du angiver ja, vil denne enhed ikke kunne blive booket selvstændigt, men kun i forbindelse med en anden selvstændig enhed.",
+    "unavailabilityLabel": "Utilgængelig",
+    "unavailabilityLabelHelp": "Angiv en periode hvor denne enhed ikke er tilgængelig at booke."
+  },
+  "editUnit": {
+    "verifyDeletion": "Er du sikker på at du vil slette denne enhed?"
+  },
+  "ManageAddons": {
+    "header": ""
+  },
   "bookingInfo": {
     "description1": "Overnattende gæster: {{pplCount}}",
     "description2": "Pladser til varm pot: {{tubCount}}"
@@ -103,6 +117,9 @@
   "accessDenied": {
     "requireRoles": "Du mangler en af følgende roller {{requiredRoles}} for at tilgå denne side.",
     "requireLoginMsg": "Du skal logge ind for at tilgå denne side"
+  },
+  "AdminOverview": {
+    "unitsHeader": "Enheder"
   },
   "bookingsPage": {
     "pendingBookingsHeader": "Bookinger som afventer godkendelse",

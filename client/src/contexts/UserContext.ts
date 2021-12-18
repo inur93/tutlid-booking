@@ -9,6 +9,7 @@ export class AuthUser {
     }
 
     hasRole = (role: Role) => {
+        console.log('hasRole', role, this.user?.roles);
         return (this.user?.roles || []).includes(role);
     }
 

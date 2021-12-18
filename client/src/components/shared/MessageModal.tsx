@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } 
 import React, { useState } from 'react';
 
 type MessageModalProps = {
+    open: boolean,
     onClose: () => void,
     onAccept: (msg: string) => Promise<void>,
     submitLabel: string,
@@ -9,7 +10,7 @@ type MessageModalProps = {
     fieldLabel: string,
     header?: string
 }
-export default function MessageModal({ header, fieldLabel, cancelLabel, submitLabel, onClose, onAccept }: MessageModalProps) {
+export default function MessageModal({ open, header, fieldLabel, cancelLabel, submitLabel, onClose, onAccept }: MessageModalProps) {
     const [comment, setComment] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -18,7 +19,7 @@ export default function MessageModal({ header, fieldLabel, cancelLabel, submitLa
         await onAccept(comment);
         setLoading(false);
     }
-    return (<Dialog onClose={onClose} aria-labelledby="message-modal" open={true} fullWidth={true} maxWidth='sm'>
+    return (<Dialog onClose={onClose} aria-labelledby="message-modal" open={open} fullWidth={true} maxWidth='sm'>
         {header && <DialogTitle id="message-modal">{header}</DialogTitle>}
         <DialogContent>
             <TextField type="text"

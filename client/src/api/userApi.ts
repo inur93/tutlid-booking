@@ -3,7 +3,8 @@ import { BaseApi } from "./baseApi";
 export class UserApi extends BaseApi {
 
     constructor() {
-        super(true);
+        super();
+        super.secured = true;
     }
 
     async self() {

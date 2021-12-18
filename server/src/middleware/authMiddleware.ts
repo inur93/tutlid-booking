@@ -6,13 +6,14 @@ import MissingPermissionsException from '../exceptions/MissingPermissionsExcepti
 import { DataStoredInToken } from '../models/auth/dataStoredInToken';
 import UserModel from '../models/user/User';
 import { UserRole } from '../models/user/UserRole';
+import { getJwtSecret } from '../utils/security';
 
 function authMiddleware(requiredRoles: UserRole[] = []): RequestHandler {
     return async function (request: Request, _: Response, next: NextFunction): Promise<void> {
 
         const cookies = request.cookies;
         if (cookies && cookies.Authorization) {
-            const secret = process.env.JWT_SECRET || 'no_secret';
+            const secret = getJwtSecret();
             try {
                 const verificationResponse = jwt.verify(cookies.Authorization, secret) as DataStoredInToken;
                 const id = verificationResponse.id;
@@ -29,7 +30,6 @@ function authMiddleware(requiredRoles: UserRole[] = []): RequestHandler {
                     next(new InvalidAuthenticationTokenException());
                 }
             } catch (error) {
-                console.log('err', error);
                 next(new InvalidAuthenticationTokenException());
             }
         } else {

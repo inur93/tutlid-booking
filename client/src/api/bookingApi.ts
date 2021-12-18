@@ -2,11 +2,11 @@ import { format } from "date-fns";
 import { BookingStatus, CreateBooking, UpdateBooking } from ".";
 import { BaseApi } from "./baseApi";
 
-
 export class BookingApi extends BaseApi {
 
     constructor() {
-        super(true);
+        super();
+        super.secured = true;
     }
 
     async getBookings({ fromDate, toDate, status }: { fromDate?: Date, toDate?: Date, status?: BookingStatus }) {

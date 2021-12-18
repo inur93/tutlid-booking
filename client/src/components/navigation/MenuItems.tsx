@@ -69,72 +69,73 @@ export function GalleryMenuItem(props: MenuItemProps) {
 
 export function AdminMenuItem(props: MenuItemProps) {
     const { t } = useTranslation('common');
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const handleClose = () => setAnchorEl(null);
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+    return <MenuItem {...props} icon={<AdminIcon />} link='/admin' text={t('common:button.admin')} />
+    // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    // const handleClose = () => setAnchorEl(null);
+    // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
 
-    const options = [
-        {
-            link: '/admin/users',
-            icon: <UsersIcon />,
-            text: t('common:button.users')
-        },
-        {
-            link: '/admin/bookings',
-            icon: <BookingsIcon />,
-            text: t('common:button.bookings')
-        },
-        {
-            link: '/admin/finances',
-            icon: <FinanceIcon />,
-            text: t('common:button.bank')
-        }
-    ]
-    if (props.listItem) {
-        return <div>
-            <ListSubheader>
-                {t('common:button.admin')}
-            </ListSubheader>
-            <List disablePadding component='div'>
-                {options.map(x => <MenuItem
-                    key={x.link}
-                    nested
-                    listItem={props.listItem}
-                    onClick={props.onClick}
-                    icon={x.icon}
-                    link={x.link}
-                    text={x.text} />)}
-            </List>
-        </div>
-    }
-    return <div style={{ display: 'inline-block' }}>
-        <Button
-            startIcon={<AdminIcon />}
-            color='inherit'
-            aria-controls='admin-settings-menu'
-            aria-haspopup="true"
-            onClick={handleClick}>
-            {t('common:button.admin')}
-        </Button>
-        <Menu
-            id="admin-settings-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-        >
-            {options.map(x => <MuiMenuItem
-                key={x.link}
-                component={Link}
-                to={x.link}
-                onClick={handleClose}>
-                <ListItemIcon>
-                    {x.icon}
-                </ListItemIcon>
-                {x.text}
-            </MuiMenuItem>)}
-        </Menu>
-    </div>
+    // const options = [
+    //     {
+    //         link: '/admin/users',
+    //         icon: <UsersIcon />,
+    //         text: t('common:button.users')
+    //     },
+    //     {
+    //         link: '/admin/bookings',
+    //         icon: <BookingsIcon />,
+    //         text: t('common:button.bookings')
+    //     },
+    //     {
+    //         link: '/admin/finances',
+    //         icon: <FinanceIcon />,
+    //         text: t('common:button.bank')
+    //     }
+    // ]
+    // if (props.listItem) {
+    //     return <div>
+    //         <ListSubheader>
+    //             {t('common:button.admin')}
+    //         </ListSubheader>
+    //         <List disablePadding component='div'>
+    //             {options.map(x => <MenuItem
+    //                 key={x.link}
+    //                 nested
+    //                 listItem={props.listItem}
+    //                 onClick={props.onClick}
+    //                 icon={x.icon}
+    //                 link={x.link}
+    //                 text={x.text} />)}
+    //         </List>
+    //     </div>
+    // }
+    // return <div style={{ display: 'inline-block' }}>
+    //     <Button
+    //         startIcon={<AdminIcon />}
+    //         color='inherit'
+    //         aria-controls='admin-settings-menu'
+    //         aria-haspopup="true"
+    //         onClick={handleClick}>
+    //         {t('common:button.admin')}
+    //     </Button>
+    //     <Menu
+    //         id="admin-settings-menu"
+    //         anchorEl={anchorEl}
+    //         keepMounted
+    //         open={Boolean(anchorEl)}
+    //         onClose={handleClose}
+    //     >
+    //         {options.map(x => <MuiMenuItem
+    //             key={x.link}
+    //             component={Link}
+    //             to={x.link}
+    //             onClick={handleClose}>
+    //             <ListItemIcon>
+    //                 {x.icon}
+    //             </ListItemIcon>
+    //             {x.text}
+    //         </MuiMenuItem>)}
+    //     </Menu>
+    // </div>
 }
 
 export function LoginMenuItem(props: MenuItemProps) {

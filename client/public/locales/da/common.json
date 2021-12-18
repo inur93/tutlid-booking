@@ -16,14 +16,16 @@
     "register": "Tilmeld",
     "home": "Hjem",
     "gallery": "Billeder",
-    "users": "Brugere",
-    "bookings": "Bookinger",
-    "bank": "Økonomi",
     "admin": "Administration",
     "logout": "Log ud",
     "account": "Profil",
     "updatePassword": "Opdater kodeord",
-    "resetPassword": "Nulstil kodeord"
+    "resetPassword": "Nulstil kodeord",
+    "no": "Nej",
+    "yes": "Ja"
+  },
+  "prompt": {
+    "header": ""
   },
   "languages": {
     "da": "Dansk",

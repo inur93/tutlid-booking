@@ -28,7 +28,7 @@ export default class BookingRoute implements IRoute {
 
     private readonly get = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const q = JSON.parse(request.query.query as string) as FilterQuery<BookingDoc>;
+            const q = JSON.parse((request.query.query || "{}") as string) as FilterQuery<BookingDoc>;
             // const from = q.from ? new Date(Date.parse(q.from as string)) : undefined;
             // const to = q.to ? new Date(Date.parse(q.to as string)) : undefined;
             // const status = q.status ? q.status as unknown as ReservationStatus : undefined;

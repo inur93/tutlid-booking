@@ -3,11 +3,11 @@
 import { Button, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
 import { LockOpen } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Role } from '../../api';
-import { useAuthUser } from '../../hooks/useAuthUser';
+import { useContainer } from '../../ioc';
 import LanguageSelector from '../shared/LanguageSelect';
 import { AdminMenuItem, GalleryMenuItem, HomeMenuItem } from './MenuItems';
 
@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
 }));
 
 type Props = {}
-export function NavigationMenu({ }: Props) {
+const NavigationMenu = observer(({ }: Props) => {
     const classes = useStyles();
-    const [user, { logout }] = useAuthUser();
+    const { authStore } = useContainer();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const { t } = useTranslation('common');
@@ -37,16 +37,15 @@ export function NavigationMenu({ }: Props) {
     };
 
     const handleLogout = () => {
-        logout();
+        authStore?.logout();
         setAnchorEl(null);
     }
 
-    const isAdmin = user.hasRole(Role.admin);
     return (<div>
         <HomeMenuItem />
         <GalleryMenuItem />
-        {isAdmin && <AdminMenuItem />}
-        {user.isLoggedIn &&
+        {authStore?.isAdmin && <AdminMenuItem />}
+        {authStore?.loggedIn &&
             <Button aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -56,7 +55,7 @@ export function NavigationMenu({ }: Props) {
                 onClick={handleMenu}>
                 {t('common:button.account')}
             </Button>}
-        {!user.isLoggedIn && <Button className={classes.icon} component={Link} to='/login' startIcon={<LockOpen />}>
+        {!authStore?.loggedIn && <Button className={classes.icon} component={Link} to='/login' startIcon={<LockOpen />}>
             {t('common:button.login')}
         </Button>}
         <Menu
@@ -74,9 +73,14 @@ export function NavigationMenu({ }: Props) {
             open={open}
             onClose={handleClose}
         >
-            <MenuItem divider disabled >{user.fullName}</MenuItem>
+            <MenuItem divider disabled >{authStore?.fullName}</MenuItem>
             <MenuItem onClick={handleLogout}>{t('common:button.logout')}</MenuItem>
         </Menu>
         <LanguageSelector />
     </div>);
-}
+})
+
+export {
+    NavigationMenu
+};
+

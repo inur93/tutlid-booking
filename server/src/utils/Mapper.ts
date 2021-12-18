@@ -13,6 +13,7 @@ import { Translation } from "../models/common/Translation";
 import { BookingDoc } from "../models/booking/Booking";
 import { GetAnonymousBooking } from "../models/booking/GetAnonymousBooking";
 import { GetBooking } from "../models/booking/GetBooking";
+import { GetAdminGroupWithNames } from "../models/group/GetAdminGroupWithNames";
 
 
 export default class Mapper {
@@ -31,17 +32,17 @@ export default class Mapper {
         return (translation.find(x => x.language === language)
             || translation.find(x => true))?.content || ''
     }
-    static toSearchUnit({ _id, addOnOptions, name, type, unavailable, description }: UnitDoc | Unit, language: string): SearchUnit {
+    static toSearchUnit({ _id, addOnOptions, name, isAddon, unavailable, description }: UnitDoc | Unit, language: string): SearchUnit {
         return {
-            _id, type, unavailable,
+            _id, isAddon, unavailable,
             addOnOptions: addOnOptions.map(x => this.toSearchUnit(x as Unit, language)),
             description: this.translate(description, language),
             name: this.translate(name, language)
         }
     }
-    static toGetAdminUnit({ _id, addOnOptions, priceConfiguration, status, name, type, unavailable, description }: UnitDoc): GetAdminUnit {
+    static toGetAdminUnit({ _id, addOnOptions, priceConfiguration, status, name, isAddon, unavailable, description }: UnitDoc): GetAdminUnit {
         return {
-            _id, status, name, type, unavailable, description,
+            _id, status, name, isAddon, unavailable, description,
             priceConfiguration: priceConfiguration as GetAdminPriceConfiguration[],
             addOnOptions: addOnOptions as GetAdminAddOn[]
         };
@@ -61,6 +62,14 @@ export default class Mapper {
             _id,
             name,
             users: (users || []).map((x: Types.ObjectId | User) => x as Types.ObjectId)
+        }
+    }
+
+    static toGetAdminGroupWithNames({ _id, users, name }: GroupDoc): GetAdminGroupWithNames {
+        return {
+            _id,
+            name,
+            users: (users || []).map((x: Types.ObjectId | User) => x as User)
         }
     }
 

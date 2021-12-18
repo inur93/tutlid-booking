@@ -8,12 +8,12 @@ services:
     volumes:
       - ./data/mongo:/etc/mongo
       - mongodata:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo/init:/docker-entrypoint-initdb.d:ro
     networks: 
       - mongo
     
   mongo-express:
-    image: mongo-express
+    image: mongo-express:1.0.0-alpha.4
     restart: always
     depends_on:
       - mongo

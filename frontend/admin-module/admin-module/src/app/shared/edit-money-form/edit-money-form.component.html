@@ -1,0 +1,11 @@
+<!-- <form [formGroup]="moneyForm" (ngSubmit)="onFormSubmit"> -->
+
+<form [formGroup]="form">
+    <input type="number" formControlName="amount">
+    <input type="text" formControlName="currency">
+
+    <div *ngIf="(amount?.invalid || currency?.invalid)" class="alert">
+        Currency is wrong
+    </div>
+</form>
+<!-- </form> -->

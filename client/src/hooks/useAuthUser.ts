@@ -13,26 +13,27 @@ type UseAuthUserType = [
 ]
 
 
-export function useAuthUser(): UseAuthUserType {
-    const [user, setUser] = useContext(UserContext);
-    const [error, setError] = useState('');
+// export function useAuthUser(): UseAuthUserType {
+//     const [user, setUser] = useContext(UserContext);
+//     const [error, setError] = useState('');
 
-    const login = useCallback(async function login(loginInfo: LoginData) {
-        try {
-            setError('');
-            const response = await api.AuthApi.login(loginInfo);
-            setUser(new AuthUser(response.body));
-            return true;
-        } catch (e) {
-            setError(e.message);
-            return false;
-        }
-    }, [user]);
+//     const login = useCallback(async function login(loginInfo: LoginData) {
+//         try {
+//             setError('');
+//             const response = await api.AuthApi.login(loginInfo);
+//             setUser(new AuthUser(response.body));
+//             console.log('set user', response.body);
+//             return true;
+//         } catch (e) {
+//             setError(e.message);
+//             return false;
+//         }
+//     }, [user, setUser, setError]);
 
-    const logout = useCallback(async function logout() {
-        await api.AuthApi.logout();
-        setUser(new AuthUser());
-    }, [])
+//     const logout = useCallback(async function logout() {
+//         await api.AuthApi.logout();
+//         setUser(new AuthUser());
+//     }, [])
 
-    return [user, { login, logout }, error];
-}
+//     return [user, { login, logout }, error];
+// }

@@ -1,8 +1,12 @@
+import { IsNotEmpty, Length } from "class-validator";
 import { Schema } from "mongoose";
 
-export interface Translation {
-    language: string,
-    content: string
+export class Translation {
+    
+    @Length(2, 2)
+    language!: string
+    @IsNotEmpty()
+    content!: string
 }
 
 const TranslationSchemaFields: Record<keyof Translation, any> = {

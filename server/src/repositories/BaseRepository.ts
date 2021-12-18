@@ -1,5 +1,5 @@
 import { Document, DocumentDefinition, EnforceDocument, FilterQuery, Model, QueryOptions, Types } from "mongoose";
-import { applyPatch, Operation } from 'fast-json-patch';
+import { applyPatch, Operation, validate } from 'fast-json-patch';
 import NotFoundException from "../exceptions/NotFoundException";
 
 export interface IBaseRepository<T extends Document> {
@@ -24,7 +24,7 @@ export class BaseRepository<T extends Document> implements IBaseRepository<T> {
     }
     async findById(id: Types.ObjectId): Promise<EnforceDocument<T, {}>> {
         const res = await this.model.findById(id);
-        if(!res) throw new NotFoundException(`Record with id ${id} does not exist`);
+        if (!res) throw new NotFoundException(`Record with id ${id} does not exist`);
         return res;
     }
     async findOne(query: FilterQuery<T>): Promise<EnforceDocument<T, {}> | null> {
@@ -33,12 +33,14 @@ export class BaseRepository<T extends Document> implements IBaseRepository<T> {
     async patch(id: Types.ObjectId, ops: Operation[]): Promise<EnforceDocument<T, {}>> {
         const doc = await this.model.findById(id);
         if (!doc) throw new NotFoundException(`Record with id ${id} does not exist`);
+        const errors = validate(ops, doc);
+        console.log('patch error', {doc, errors});
         const updated = applyPatch(doc, ops, true).newDocument;
         updated.save();
         return updated;
     }
     async delete(id: Types.ObjectId): Promise<void> {
-        await this.model.deleteOne({ _id: id });
+        await this.model.deleteOne({ _id: id }).exec();
     }
 
 }

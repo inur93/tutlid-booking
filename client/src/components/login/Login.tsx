@@ -3,7 +3,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
-import { useAuthUser } from "../../hooks/useAuthUser";
+import { useContainer } from "../../ioc";
 import { Alert } from '../shared/Alert';
 import Panel from "../shared/Panel";
 
@@ -22,12 +22,12 @@ type LoginProps = {
     header?: string
 }
 export function Login({ onComplete, header }: LoginProps) {
-    const [, { login }, error] = useAuthUser();
+    const { authStore: store } = useContainer();
     const { t } = useTranslation(['app', 'common']);
     const handleLogin = async (values: any, helpers: FormikHelpers<any>) => {
-        const success = await login(values);
+        await store?.login(values.email, values.password);
         helpers.setSubmitting(false);
-        if (success && onComplete) onComplete();
+        if (store.loggedIn && onComplete) onComplete();
     }
     return (<Panel header={header}>
         <Formik initialValues={{
@@ -58,7 +58,7 @@ export function Login({ onComplete, header }: LoginProps) {
 
                     <Typography variant="body1" style={{ display: 'inline' }}>{t('app:login.forgotPasswordDescription')}</Typography>
                     <Link to='/reset-password'>{t('app:login.forgotPasswordLink')}</Link>
-                    {error && <Alert severity='error'>{error}</Alert>}
+                    {store?.error && <Alert severity='error'>{store.error}</Alert>}
                     <FormGroup>
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                             {t('common:button.login')}

@@ -1,5 +1,3 @@
-
-import { startOfToday } from "date-fns";
 import App from "./app";
 import container from "./container";
 import BankInformationModel from "./models/bankinformation/BankInformation";
@@ -26,10 +24,11 @@ validateEnv();
     const app = new App(
         [
             container.authRoute,
-            container.adminRoute,
             container.userRoute,
             container.bookingRoute,
-            container.adminRoute
+            container.adminRoute,
+            container.adminUnitRoute,
+            container.adminGroupRoute
         ],
     );
 

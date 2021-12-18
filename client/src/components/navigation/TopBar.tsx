@@ -2,6 +2,7 @@ import { AppBar, IconButton, Toolbar as MuiToolbar, Typography, useMediaQuery } 
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import classNames from "classnames";
+import { observer } from "mobx-react-lite";
 import React, { useState } from 'react';
 import { Drawer } from "./Drawer";
 import { NavigationMenu } from "./NavigationMenu";
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export function Navigation() {
+const TopBar = observer(() => {
     const classes = useStyles();
     const [showDrawer, setShowDrawer] = useState(false);
     const theme = useTheme();
@@ -47,4 +48,8 @@ export function Navigation() {
             {!isSmall && <NavigationMenu />}
         </MuiToolbar>
     </AppBar>)
+});
+
+export {
+    TopBar
 }

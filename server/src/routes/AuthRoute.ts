@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { IContainer } from '../container';
 import { IAuthenticationController } from '../controllers/AuthenticationController';
 import { IRoute } from '../interfaces/route.interface';
-
+import authMiddleware from '../middleware/authMiddleware';
 import validationMiddleware from '../middleware/validationMiddleware';
 import { Login } from '../models/auth/Login';
 import { TokenData } from '../models/auth/tokenData';
@@ -22,7 +22,8 @@ export default class AuthRoute implements IRoute {
     private initializeRoutes() {
         this.router.post(`${this.path}/login`, validationMiddleware(Login), this.login);
         this.router.get(`${this.path}/logout`, this.logout);
-        this.router.post(`${this.path}/register`, validationMiddleware(CreateUser), this.register)
+        this.router.post(`${this.path}/token/refresh`, authMiddleware(), this.refreshToken);
+        this.router.post(`${this.path}/register`, validationMiddleware(CreateUser), this.register);
         this.router.post(`${this.path}/reset-password`, validationMiddleware(ResetUserPassword), this.resetPassword)
         this.router.post(`${this.path}/update-password`, validationMiddleware(UpdateUserPassword), this.updatePassword)
     }
@@ -39,7 +40,17 @@ export default class AuthRoute implements IRoute {
         try {
             const token = await this.authenticationController.login(request.body);
             this.attachTokenAndCookie(response, token);
-            response.send(token.user);
+            response.send(token);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    private readonly refreshToken = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            const token = await this.authenticationController.refreshToken(request.user);
+            this.attachTokenAndCookie(response, token);
+            response.send(token);
         } catch (e) {
             next(e);
         }

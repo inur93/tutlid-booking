@@ -1,5 +1,7 @@
-const { should, use, expect } = require('chai');
-const chaiAsPromised = require("chai-as-promised");
+// const { should, use, expect } = require('chai');
+// const chaiAsPromised = require("chai-as-promised");
+import {should, use, expect} from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import faker from 'faker';
 import { before, describe, it } from 'mocha';
 import InvalidCredentialsException from '../../exceptions/InvalidCredentialsException';

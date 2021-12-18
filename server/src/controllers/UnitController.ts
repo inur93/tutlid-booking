@@ -13,6 +13,7 @@ import Mapper from "../utils/Mapper";
 
 
 export interface IUnitController {
+    adminGet(id: Types.ObjectId): Promise<GetAdminUnit>
     create(unit: CreateUnit): Promise<GetAdminUnit>
     addPriceConfiguration(id: Types.ObjectId, priceConfiguration: CreatePriceConfiguration): Promise<GetAdminUnit>
     delete(id: Types.ObjectId): Promise<void>
@@ -28,6 +29,12 @@ export class UnitController implements IUnitController {
     constructor({ unitRepository, priceConfigurationRepository }: IContainer) {
         this.repo = unitRepository;
         this.priceConfigRepo = priceConfigurationRepository;
+    }
+
+    async adminGet(id: Types.ObjectId): Promise<GetAdminUnit> {
+        const unit = await this.repo.getWithPriceConfig(id);
+
+        return Mapper.toGetAdminUnit(unit);
     }
 
 
@@ -51,11 +58,12 @@ export class UnitController implements IUnitController {
         unit.save();
         return Mapper.toGetAdminUnit(await this.repo.getWithPriceConfig(id));
     }
-    delete(id: Types.ObjectId): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: Types.ObjectId): Promise<void> {
+        await this.repo.delete(id);
     }
-    patch(id: Types.ObjectId, ops: Operation[]): Promise<GetAdminUnit> {
-        throw new Error("Method not implemented.");
+    async patch(id: Types.ObjectId, ops: Operation[]): Promise<GetAdminUnit> {
+        const updated = await this.repo.patch(id, ops);
+        return Mapper.toGetAdminUnit(updated);
     }
     async search(query: FilterQuery<Unit>, language: string): Promise<SearchUnit[]> {
         query.status = ItemStatus.Published;

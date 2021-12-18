@@ -1,11 +1,21 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { I18nContext } from 'react-i18next';
 import { HashRouter } from 'react-router-dom';
-import api from './api';
-import { Navigation } from './components/navigation/Navigation';
-import UserContext, { AuthUser } from './contexts/UserContext';
+import { AdminApi } from './api/adminApi';
+import { AuthApi } from './api/authApi';
+import { BookingApi } from './api/bookingApi';
+import { PriceMatrixApi } from './api/priceMatrixApi';
+import { UserApi } from './api/userApi';
+import { TopBar } from './components/navigation/TopBar';
+import i18n from './i18n';
+import { ContainerContext, DiContext } from './ioc';
 import { Routes } from './pages/Routes';
+import { AuthStore } from './stores/AuthStore';
+import { LocaleStore } from './stores/LocaleStore';
+import { UnitListStore } from './stores/UnitListStore';
+import { UnitStore } from './stores/UnitStore';
 
 const theme = createMuiTheme({
   palette: {
@@ -15,31 +25,39 @@ const theme = createMuiTheme({
     }
   }
 });
+const adminApi = new AdminApi();
+const authApi = new AuthApi();
+const bookingApi = new BookingApi();
+const priceMatrixApi = new PriceMatrixApi();
+const userApi = new UserApi();
+const authStore = new AuthStore(authApi, userApi);
+const localStore = new LocaleStore();
+const unitListStore = new UnitListStore(adminApi);
+const unitStore = new UnitStore(adminApi, unitListStore);
+
+const container: ContainerContext = {
+  adminApi,
+  authApi,
+  bookingApi,
+  priceMatrixApi,
+  userApi,
+  authStore,
+  localStore,
+  unitStore,
+  unitListStore
+}
 
 function App() {
-  const [user, setUser] = useState<AuthUser>(new AuthUser());
-  const handle = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const response = await api.UserApi.self();
-        setUser(new AuthUser(response.body));
-      } catch (e) {
-        setUser(new AuthUser());
-      }
-    }
-    loadUser();
-    handle.current = setInterval(loadUser, 1000 * 60 * 5);
-    return () => handle.current && clearInterval(handle.current);
-  }, [])
   return (
     <HashRouter>
-      <UserContext.Provider value={[user, setUser]}>
-        <MuiThemeProvider theme={theme}>
-          <Navigation />
-          <Routes />
-        </MuiThemeProvider>
-      </UserContext.Provider>
+      <DiContext.Provider value={container}>
+        <I18nContext.Provider value={{ i18n }}>
+          <MuiThemeProvider theme={theme}>
+            <TopBar />
+            <Routes />
+          </MuiThemeProvider>
+        </I18nContext.Provider>
+      </DiContext.Provider>
     </HashRouter>
   );
 }

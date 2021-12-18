@@ -46,7 +46,7 @@ export default function BankInformationForm({ }: BankInformationProps) {
         helpers.setSubmitting(false);
     }
 
-    if(error) return <p>{error}</p>
+    if (error) return <p>{error}</p>
     if (!bankInformation) return null;
 
     return (<Grid className={classes.root}>
@@ -83,7 +83,7 @@ export default function BankInformationForm({ }: BankInformationProps) {
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting || loading}>
                             {t('common:button.save')}
                         </Button>
-                        {error && <Alert severity='error'>{error}</Alert>}
+                        <Alert show={!!error} severity='error'>{error}</Alert>
                     </FormGroup>
                 </Form>)
             }

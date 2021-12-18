@@ -1,15 +1,22 @@
-import { ItemStatus } from "../common/ItemStatus";
+import { ArrayMinSize, Length, ValidateNested } from "class-validator";
 import { Period } from "../common/Period";
 import { Translation } from "../common/Translation";
-import { PriceConfiguration } from "../priceConfiguration/PriceConfiguration";
 import { Unit } from "./Unit";
-import { UnitType } from "./UnitType";
 // export type CreateUnit = 
 type _Type = Omit<Unit, '_id' | 'status' | 'addOnOptions' | 'priceConfiguration'>
 export class CreateUnit implements _Type {
 
+
+    @ArrayMinSize(1)
+    @ValidateNested({ each: true })
     public name!: Translation[];
+    
+    @ArrayMinSize(1)
+    @ValidateNested({ each: true })
     public description?: Translation[] | undefined;
-    public type!: UnitType;
+    
+    public isAddon!: boolean;
+
+    @ValidateNested({ each: true })
     public unavailable!: Period[];
 }

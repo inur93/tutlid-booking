@@ -2,14 +2,15 @@
 import superagent, { SuperAgentStatic } from 'superagent';
 import prefix from 'superagent-prefix';
 
+
 export abstract class BaseApi {
     secured: boolean;
     api: SuperAgentStatic;
     baseUrl: string;
 
-    constructor(secured?: boolean, baseUrl?: string) {
+    constructor() {
         this.baseUrl = '';// baseUrl || ("development" === process.env.NODE_ENV) ? "http://localhost:8000" : "";
-        this.secured = secured || false;
+        this.secured = false;
         this.api = superagent.agent()
             .use(prefix(this.baseUrl));
     }
@@ -35,8 +36,14 @@ export abstract class BaseApi {
             .send(body);
     }
 
+    patch(url: string, body: object) {
+        return this.api
+            .patch(url)
+            .send(body)
+    }
+
     handleError(e: any) {
-        if(!e || !e.response || !e.response.body){
+        if (!e || !e.response || !e.response.body) {
             return new Error('an unknown error occurred');
         }
         const { message, status } = e.response.body;

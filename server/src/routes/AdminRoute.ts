@@ -3,6 +3,8 @@ import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import { IBankInformationController } from '../controllers/BankInformationController';
 import { IBookingController } from '../controllers/BookingController';
+import { IGroupController } from '../controllers/GroupController';
+import { IUnitController } from '../controllers/UnitController';
 import { IUserController } from '../controllers/UserController';
 import { IRoute } from '../interfaces/route.interface';
 import authMiddleware from '../middleware/authMiddleware';
@@ -10,6 +12,7 @@ import validationMiddleware from '../middleware/validationMiddleware';
 import { UpdateBankInformation } from '../models/bankinformation/UpdateBankInformation';
 import { ReservationStatus } from '../models/booking/ReservationStatus';
 import { UpdateBookingStatus } from '../models/booking/UpdateBookingStatus';
+import { CreateUnit } from '../models/unit/CreateUnit';
 import { UpdateUserRole } from '../models/user/UpdateUserRole';
 import { UpdateUserStatus } from '../models/user/UpdateUserStatus';
 import { UserRole } from '../models/user/UserRole';
@@ -25,7 +28,8 @@ export default class AdminRoute implements IRoute {
     constructor({
         userController,
         bookingController,
-        bankInformationController }: IContainer) {
+        bankInformationController
+    }: IContainer) {
         this.userController = userController;
         this.bookingController = bookingController;
         this.bankInformationController = bankInformationController;
@@ -102,7 +106,6 @@ export default class AdminRoute implements IRoute {
         } catch (e) {
             next(e);
         }
-
     }
 
     private readonly changeBookingStatus = async (request: Request, response: Response, next: NextFunction) => {
@@ -112,7 +115,6 @@ export default class AdminRoute implements IRoute {
         } catch (e) {
             next(e);
         }
-
     }
 
     private readonly getBankInformation = async (_: Request, response: Response, next: NextFunction) => {

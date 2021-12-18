@@ -38,14 +38,17 @@ type Props = {
 }
 export function BasePage({ className, children, hideBackground, fullWidth }: Props) {
     const classes = useStyles();
-    
+
     return (<Grid className={classes.root} container justify='center'>
         {!hideBackground &&
             <div className={classes.imageContainer}>
                 <div className={classes.image}></div>
             </div>
         }
-        <Grid className={classNames(className, !fullWidth && classes.card)} item xs={fullWidth ? 12 : 11} md={fullWidth ? 12 : 8} lg={fullWidth ? 12 : 6}>
+        <Grid className={classNames(className, !fullWidth && classes.card)} item
+            xs={fullWidth ? 12 : 11}
+            md={fullWidth ? 12 : 10}
+            lg={fullWidth ? 12 : 8}>
             {children}
         </Grid>
     </Grid>)

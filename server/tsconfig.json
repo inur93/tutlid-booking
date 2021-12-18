@@ -22,7 +22,7 @@
     // "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "rootDirs": [
       "./src",
-      "./@types"
+      //"./@types"
     ],
     // "composite": true,                     /* Enable project compilation */
     // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */

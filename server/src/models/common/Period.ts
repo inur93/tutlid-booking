@@ -1,7 +1,8 @@
+import { IsDateString } from "class-validator";
 import { Schema } from "mongoose"
 
-export interface Period {
-    from?: Date,
+export class Period {
+    from?: Date
     to?: Date
 }
 

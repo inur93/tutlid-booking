@@ -11,11 +11,13 @@ const useStyles = makeStyles((theme: Theme) =>
 }));
 
 type AlertProps = {
+    show?: boolean,
     children: React.ReactNode,
     severity: 'success' | 'info' | 'warning' | 'error'
 }
-export function Alert({ children, severity }: AlertProps) {
+export function Alert({ show, children, severity }: AlertProps) {
     const classes = useStyles();
+    if (!show) return null;
     return (<MuiAlert severity={severity}>
         {children}
     </MuiAlert>);

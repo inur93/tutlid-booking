@@ -1,11 +1,15 @@
 import { format } from "date-fns";
+import { Response } from "superagent";
 import { BookingStatus, CreatePriceMatrix, Role, UserStatus } from ".";
+import { Unit } from "../types/Unit";
 import { BaseApi } from "./baseApi";
 import { BankInformation } from './index';
+
 export class AdminApi extends BaseApi {
 
     constructor() {
-        super(true);
+        super();
+        super.secured = true;
     }
     async getUsers(status?: UserStatus) {
         return await super.get(`/admin/users`).query({ status })
@@ -32,6 +36,25 @@ export class AdminApi extends BaseApi {
         return await super.get(`/admin/bookings`).query({
             from, count
         })
+    }
+
+    async findUnits() {
+        return await super.get(`/admin/units`);
+    }
+
+    async getUnit(id: string) {
+        return await super.get(`/admin/units/${id}`);
+    }
+
+    async createUnit(unit: Unit) {
+        return await super.post(`/admin/units`, unit);
+    }
+
+    async updateUnit(id: string, updates: any[]): Promise<Response> {
+        return await super.patch(`/admin/units/${id}`, updates);
+    }
+    async deleteUnit(id: string) {
+        return await super.del(`/admin/units/${id}`);
     }
 
     async changeBookingStatus(id: string, update: { status: BookingStatus, messageFromAdmin?: string }) {

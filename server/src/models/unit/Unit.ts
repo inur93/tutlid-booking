@@ -3,14 +3,13 @@ import { ItemStatus } from '../common/ItemStatus';
 import { Period, PeriodSchema } from '../common/Period';
 import { Translation, TranslationSchema } from '../common/Translation';
 import { PriceConfiguration } from '../priceConfiguration/PriceConfiguration';
-import { UnitType } from './UnitType';
 
 
 export interface Unit {
     _id: Types.ObjectId,
     name: Translation[],
     description?: Translation[],
-    type: UnitType,
+    isAddon: boolean,
     status: ItemStatus,
     priceConfiguration: Types.ObjectId[] | PriceConfiguration[],
     addOnOptions: Types.ObjectId[] | Unit[],
@@ -26,11 +25,9 @@ const UnitSchemaFields: Record<keyof Omit<Unit, '_id'>, any> = {
         type: [TranslationSchema],
         required: true
     },
-    type: {
-        type: String,
-        enum: UnitType,
-        default: UnitType.Simple,
-        required: true
+    isAddon: {
+        type: Boolean,
+        default: false,
     },
     status: {
         type: String,

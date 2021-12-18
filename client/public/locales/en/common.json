@@ -16,14 +16,16 @@
     "register": "Register",
     "home": "Home",
     "gallery": "Gallery",
-    "users": "Users",
-    "bookings": "Bookings",
-    "bank": "Finances",
     "admin": "Administration",
     "logout": "Logout",
     "account": "Account",
     "updatePassword": "Update Password",
-    "resetPassword": "Reset Password"
+    "resetPassword": "Reset Password",
+    "no": "",
+    "yes": ""
+  },
+  "prompt": {
+    "header": ""
   },
   "languages": {
     "da": "Dansk",

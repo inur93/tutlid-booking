@@ -19,6 +19,7 @@ export function formatQueryDate(date: Date) {
     return format(date, 'yyyy-MM-dd');
 }
 
-export function formatFormDate(date: Date): string {
+export function formatFormDate(date?: Date): string {
+    if(!date) return '';
     return format(date, 'yyyy-MM-dd');
 }
