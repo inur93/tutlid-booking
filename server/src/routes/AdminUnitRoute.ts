@@ -25,6 +25,10 @@ export default class AdminunitRoute implements IRoute {
             .get(`${this.path}/:id`, this.get)
             .patch(`${this.path}/:id`, this.update)
             .delete(`${this.path}/:id`, this.delete)
+            .get(`${this.path}/:unitId/unavailable`, this.getUnavailable)
+            .post(`${this.path}/:unitId/unavailable`, this.createUnavailable)
+            .put(`${this.path}/:unitId/unavailable/:id`, this.updateUnavailable)
+            .delete(`${this.path}/:unitId/unavailable/:id`, this.deleteUnavailable)
     }
 
     private readonly get = async (request: Request, response: Response, next: NextFunction) => {
@@ -67,5 +71,29 @@ export default class AdminunitRoute implements IRoute {
         } catch (e) {
             next(e);
         }
+    }
+
+    private readonly getUnavailable = async (request: Request, response: Response, next: NextFunction) => {
+        // try {
+        //     // await this.controller.
+        // }
+    }
+
+    private readonly createUnavailable = async (request: Request, response: Response, next: NextFunction) => {
+        // try {
+        //     // await this.controller.
+        // }
+    }
+
+    private readonly updateUnavailable = async (request: Request, response: Response, next: NextFunction) => {
+        // try {
+        //     // await this.controller.
+        // }
+    }
+
+    private readonly deleteUnavailable = async (request: Request, response: Response, next: NextFunction) => {
+        // try {
+        //     // await this.controller.
+        // }
     }
 }

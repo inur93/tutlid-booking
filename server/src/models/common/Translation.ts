@@ -20,4 +20,4 @@ const TranslationSchemaFields: Record<keyof Translation, any> = {
     }
 }
 
-export const TranslationSchema = new Schema(TranslationSchemaFields);
+export const TranslationSchema = new Schema(TranslationSchemaFields, {_id: false});

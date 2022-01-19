@@ -3,7 +3,7 @@ import { Period } from "../common/Period";
 import { Translation } from "../common/Translation";
 import { Unit } from "./Unit";
 // export type CreateUnit = 
-type _Type = Omit<Unit, '_id' | 'status' | 'addOnOptions' | 'priceConfiguration'>
+type _Type = Omit<Unit, '_id' | 'status' | 'addOns' | 'priceConfiguration'>
 export class CreateUnit implements _Type {
 
 

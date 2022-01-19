@@ -32,19 +32,19 @@ export default class Mapper {
         return (translation.find(x => x.language === language)
             || translation.find(x => true))?.content || ''
     }
-    static toSearchUnit({ _id, addOnOptions, name, isAddon, unavailable, description }: UnitDoc | Unit, language: string): SearchUnit {
+    static toSearchUnit({ _id, addOns, name, isAddon, unavailable, description }: UnitDoc | Unit, language: string): SearchUnit {
         return {
             _id, isAddon, unavailable,
-            addOnOptions: addOnOptions.map(x => this.toSearchUnit(x as Unit, language)),
+            addOns: addOns.map(x => this.toSearchUnit(x as Unit, language)),
             description: this.translate(description, language),
             name: this.translate(name, language)
         }
     }
-    static toGetAdminUnit({ _id, addOnOptions, priceConfiguration, status, name, isAddon, unavailable, description }: UnitDoc): GetAdminUnit {
+    static toGetAdminUnit({ _id, addOns, priceConfiguration, status, name, isAddon, unavailable, description }: UnitDoc): GetAdminUnit {
         return {
             _id, status, name, isAddon, unavailable, description,
             priceConfiguration: priceConfiguration as GetAdminPriceConfiguration[],
-            addOnOptions: addOnOptions as GetAdminAddOn[]
+            addOns: addOns as GetAdminAddOn[]
         };
     }
 

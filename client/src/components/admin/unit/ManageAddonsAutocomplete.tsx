@@ -55,11 +55,15 @@ export const ManageAddons = observer(({ store }: Props) => {
                 options={store.addOnOptions}
                 loading={store.optionsLoading}
                 disableCloseOnSelect
-                onChange={(e, value) => store.setAddonOptions(value)}
+                onChange={(e, value) => store.addOns = value.map(x => x._id ?? '')}
                 onOpen={() => store.loadOptions()}
-                getOptionSelected={(option) => {return true}}
-                
-                getOptionLabel={option => translate(option.name, store.language)}
+                value={store.addOnOptions}
+                defaultValue={store.addOnOptions}
+                getOptionSelected={(option) => {
+                    return true
+                }}
+
+                getOptionLabel={option => option.name}
                 renderOption={(option, { selected }) => (
                     <React.Fragment>
                         <Checkbox
@@ -68,7 +72,7 @@ export const ManageAddons = observer(({ store }: Props) => {
                             style={{ marginRight: 8 }}
                             checked={selected}
                         />
-                        {translate(option.name, store.language)}
+                        {option.name}
                     </React.Fragment>
                 )}
                 style={{ width: '100%' }}

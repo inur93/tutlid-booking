@@ -21,9 +21,13 @@ export function formData2unit({ name, description, ...data }: UnitFormData): Uni
 }
 
 function stripViewData(unit: Unit) {
+    const c = copy(unit);
     return {
-        ...copy(unit),
-        addOnOptions: unit.addOnOptions?.map(x => x._id) || [],
+        ...c,
+        //we need to set the value to undefined when array is empty.
+        //otherwise the patch request will be incorrect as it will try to add a value to the array
+        //instead of creating the array
+        addOns: (c.addOns?.length) ? c.addOns : undefined
     }
 }
 export function compare(src: Unit, target: Unit) {
@@ -36,6 +40,6 @@ export function emptyUnit(): Unit {
         status: ItemStatus.Draft,
         name: [],
         description: [],
-        addOnOptions: []
+        addOns: []
     }
 }

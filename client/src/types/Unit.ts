@@ -9,7 +9,7 @@ export type Unit = {
     description: Translation[],
     isAddon: boolean,
     status: ItemStatus,
-    addOnOptions: Unit[]
+    addOns: string[]
 }
 
 export type LocalizedUnit = Omit<Unit, 'name' | 'description'> & {
@@ -24,7 +24,7 @@ export type UnitFormData = {
     description: ObservableMap,
     isAddon: boolean,
     status: ItemStatus,
-    addOnOptions: Unit[]
+    addOns: string[]
 }
 
 export type CreateUnit = {

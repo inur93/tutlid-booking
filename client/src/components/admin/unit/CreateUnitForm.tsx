@@ -10,7 +10,7 @@ import LanguageSelector from '../../shared/LanguageSelect';
 import Prompt from '../../shared/Prompt';
 import { TextField } from '../../shared/TextField';
 import EditUnavailability from './EditUnavailability';
-import {ManageAddons} from './ManageAddons';
+import {ManageAddons} from './ManageAddonsDropdown';
 import { UnitUiStore } from './UnitUiStore';
 import { useHistory } from 'react-router';
 

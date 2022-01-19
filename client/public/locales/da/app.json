@@ -38,7 +38,8 @@
     "verifyDeletion": "Er du sikker på at du vil slette denne enhed?"
   },
   "ManageAddons": {
-    "header": ""
+    "header": "",
+    "dropdownLabel": "Tilføjelser"
   },
   "bookingInfo": {
     "description1": "Overnattende gæster: {{pplCount}}",

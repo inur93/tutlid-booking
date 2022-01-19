@@ -42,7 +42,7 @@ export class UnitController implements IUnitController {
         const created = await this.repo.create({
             ...unit,
             priceConfiguration: [],
-            addOnOptions: [],
+            addOns: [],
             status: ItemStatus.Draft
         });
         return Mapper.toGetAdminUnit(created);

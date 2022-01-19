@@ -53,24 +53,31 @@ export class UnitUiStore {
         }));
     }
 
-    public get addOnOptions(): Unit[] {
-        return this.unitListStore.units
+    public get addOnOptions(): LocalizedUnit[] {
+        return this.localizedUnits
             .filter(x => x.isAddon)
     }
 
-    public set addons(units: LocalizedUnit[]) {
-
+    public set addOns(units: string[]) {
+        this._form.addOns = units;
     }
 
-    public setAddonOptions(values: Unit[]) {
-        this._form.addOnOptions = values;
+    /**
+     * returns the selected addOn ids
+     */
+    public get addOns() {
+        return this._form.addOns;
+    }
+
+    public get selectedAddOns(): LocalizedUnit[] {
+        return this.addOnOptions.filter(x => x._id && this.addOns.includes(x._id));
     }
     // public get addons(){
 
     // }
 
     public loadOptions() {
-        this.unitListStore.load();
+        this.unitListStore?.load();
     }
 
     public get saving() {
@@ -127,8 +134,8 @@ export class UnitUiStore {
 
     public submit = (e: FormEvent): Promise<void> => {
         if (e) e.preventDefault();
-        const data  = formData2unit(this._form);
-        
+        const data = formData2unit(this._form);
+
         return this.unitStore.save(data)
             .then(action(() => {
                 if (!this.unitStore.error) {

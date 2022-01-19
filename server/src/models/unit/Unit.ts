@@ -12,7 +12,7 @@ export interface Unit {
     isAddon: boolean,
     status: ItemStatus,
     priceConfiguration: Types.ObjectId[] | PriceConfiguration[],
-    addOnOptions: Types.ObjectId[] | Unit[],
+    addOns: Types.ObjectId[] | Unit[],
     unavailable: Period[]
 }
 
@@ -34,7 +34,7 @@ const UnitSchemaFields: Record<keyof Omit<Unit, '_id'>, any> = {
         enum: ItemStatus,
         default: ItemStatus.Draft
     },
-    addOnOptions: {
+    addOns: {
         type: [Schema.Types.ObjectId],
         ref: 'Unit'
     },
