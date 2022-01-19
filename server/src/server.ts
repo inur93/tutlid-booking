@@ -14,7 +14,7 @@ validateEnv();
 (async () => {
     await container.dbHandler.connect({
         uri: process.env.MONGO_URI || 'invalid',
-        dbName: 'tutlid',
+        dbName: process.env.DB_NAME || 'tutlid',
         ssl: isProduction()
     });
 
