@@ -43,9 +43,9 @@ RUN yarn install --frozen-lockfile --production=true
 #RUN apk --no-cache -U upgrade
 
 # Copy js files and change ownership to user node. we copy only content from src/ folder as test/ folder is not necessary
-COPY --chown=node:node --from=server /server/build ./server
-
+COPY --chown=node:node --from=server /server/build /home/node/server
 COPY --chown=node:node --from=client /client/build ./public
 
-
-CMD ["node", "./server/server.js"]
+# this directory seems different when building on windows compared to unix
+# when on windows it should be ./server/server.js
+CMD ["node", "./server/src/server.js"]
