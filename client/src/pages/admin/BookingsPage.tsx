@@ -31,7 +31,7 @@ export default function BookingsPage() {
     }
 
     const count = numBookings > (upcomingBookings?.length || 5) ? upcomingBookings?.length : numBookings;
-    return (<ProtectedComponent requiredRoles={[Role.basic]}>
+    return (<ProtectedComponent requiredRoles={[Role.admin]}>
         <BasePage >
             <Panel>
                 <Typography variant='h6'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>

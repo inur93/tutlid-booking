@@ -8,7 +8,6 @@ import api, { Booking } from '../../api';
 import { usePrice } from '../../hooks/usePrice';
 import { formatFormDate } from '../../utils/dateFunctions';
 import { getFormdataById, str2isoDate } from '../../utils/formFunctions';
-import PriceTable from './PriceTable';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -136,7 +135,6 @@ export function CreateBooking({ onComplete, from, to }: CreateBookingProps) {
                     </Form>
                 )}
             </Formik>
-            <PriceTable priceInfo={price.priceMatrix} />
         </CardContent>
     </Card>)
 }

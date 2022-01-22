@@ -1,4 +1,7 @@
 {
+  "pendingBookings": {
+    "label": "{{name}} ({{count}} people)"
+  },
   "pendingBookingsPanel": {
     "confirmationMsgHeader": "Confirm booking",
     "declineMsgHeader": "Reject booking",

@@ -1,17 +1,18 @@
 
 import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import MissingPermissionsException from '../exceptions/MissingPermissionsException';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
 import TokenData, { TokenContent } from '../interfaces/tokenData.interface';
 import LogInDto from '../models/auth/loginDto';
-import { CreateUserDto, ResetPasswordDto, UpdatePasswordDto } from '../models/user/userViewModels';
 import { UserLoginData, UserStatus } from '../models/user/UserModels';
+import { CreateUserDto, ResetPasswordDto, UpdatePasswordDto } from '../models/user/userViewModels';
 import { IUserRepository } from '../repositories/UserRepository';
+import Mapper from '../utils/Mapper';
 import { comparePassword, hashPassword } from '../utils/security';
-import MailController, { IMailController } from './MailController';
-import { Types } from 'mongoose';
+import { IMailController } from './MailController';
 
 export interface IAuthenticationController {
     register(data: CreateUserDto): Promise<TokenData>
@@ -40,9 +41,11 @@ export default class AuthenticationController implements IAuthenticationControll
         });
 
         //make sure to get object with all fields populated
-        const user = await this.userRepository.findById(_id);
-
-        return this.createToken(user)
+        const userDoc = await this.userRepository.findById(_id);
+        if (!userDoc) {
+            throw new Error(`Something went wrong when creating the user`);
+        }
+        return this.createToken(Mapper.toUser(userDoc))
     }
 
     public async login({ email, password }: LogInDto): Promise<TokenData> {
@@ -57,23 +60,21 @@ export default class AuthenticationController implements IAuthenticationControll
             throw new InvalidCredentialsException();
         }
 
-        const user = await this.userRepository.findById(existingUser._id);
-
-        if (user.status !== UserStatus.approved) {
+        if (existingUser.status !== UserStatus.approved) {
             throw new MissingPermissionsException("Your account has not yet been approved");
         }
 
-        return this.createToken(user);
+        return this.createToken(Mapper.toUser(existingUser));
     }
 
 
     public async resetPassword({ email }: ResetPasswordDto): Promise<void> {
 
         try {
-            const user = await this.userRepository.findOne({ email });
-            if (!user) return;
+            const userDoc = await this.userRepository.findOne({ email });
+            if (!userDoc) return;
+            const user = Mapper.toUser(userDoc);
             const tokenData = this.createToken(user, 60 * 60); // 1 hour
-            console.log('token', tokenData.token);
             this.mailController.sendResetPassword(user, tokenData.token);
 
         } catch (e) {

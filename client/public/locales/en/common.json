@@ -1,7 +1,7 @@
 {
   "labels": {
-    "days": "{{count}} day",
-    "days_plural": "{{count}} days",
+    "days": "{{count}} night",
+    "days_plural": "{{count}} nights",
     "occupied": "Booked"
   },
   "button": {

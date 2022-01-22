@@ -28,7 +28,6 @@ function authMiddleware(requiredRoles: UserRole[] = []): RequestHandler {
                     next(new InvalidAuthenticationTokenException());
                 }
             } catch (error) {
-                console.log('err', error);
                 next(new InvalidAuthenticationTokenException());
             }
         } else {

@@ -1,7 +1,7 @@
 {
   "labels": {
-    "days": "{{count}} dag",
-    "days_plural": "{{count}} dage",
+    "days": "{{count}} nætter",
+    "days_plural": "{{count}} nætter",
     "occupied": "Optaget"
   },
   "button": {

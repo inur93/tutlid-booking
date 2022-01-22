@@ -10,11 +10,13 @@ export interface IMailController {
     sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation): Promise<void>
     sendRejection(booking: Booking, user: User): Promise<void>
     sendResetPassword(user: User, token: string): Promise<void>
+    sendAdminNotification(booking: Booking, admin: User): Promise<void>
 }
 
 type SendOptions = {
     templateId: string,
-    user: User,
+    receiver: User,
+    user?: User,
     booking?: Booking,
     bankInfo?: BankInformation,
     token?: string,
@@ -33,6 +35,10 @@ export default class MailController implements IMailController {
         }
     }
 
+    private adminBookingsUrl() {
+        return new URL("/#/admin/bookings", process.env.SG_WEBSITE_BASE_URL || 'http://localhost:3000').href;
+    }
+
     private booking2templateData(booking?: Booking) {
         if (!booking) {
             return {};
@@ -46,7 +52,7 @@ export default class MailController implements IMailController {
             period: `${from} - ${to}`,
             pplCount: `${booking.pplCount}`,
             tubCount: `${booking.tubCount}`,
-            comment: `${booking.comment}`,
+            comment: `${booking.comment || ''}`,
             price: `${(booking.pricePpl || 0) + (booking.priceTub || 0)}`,
             messageFromAdmin: `${booking.messageFromAdmin ? 'Besked fra udlåner:' : ''} ${booking.messageFromAdmin}`
         }
@@ -62,6 +68,16 @@ export default class MailController implements IMailController {
         }
     }
 
+    private admin2templateData(user?: User) {
+        if (!user) {
+            return {};
+        }
+        return {
+            adminFullname: `${user.fullName}`,
+            adminEmail: user.email
+        }
+    }
+
     private bank2tempalteData(bankInfo?: BankInformation) {
         if (!bankInfo) {
             return {};
@@ -73,42 +89,36 @@ export default class MailController implements IMailController {
     }
 
     async sendReceipt(booking: Booking, user: User) {
-        const templateId = process.env.SG_TEMPLATE_RECEIPT;
-        if (!templateId) {
-            console.log('template id for receipt email is not specified');
-            return;
-        }
-        await this.send({ templateId, user, booking })
+        const templateId = "SG_TEMPLATE_RECEIPT";
+        await this.send({ templateId, user, receiver: user, booking })
+    }
+
+    async sendAdminNotification(booking: Booking, admin: User) {
+        const templateId = "SG_TEMPLATE_ADMIN_NOTIFICATION";
+        await this.send({ templateId, receiver: admin, booking });
     }
 
     async sendConfirmation(booking: Booking, user: User, bankInfo: BankInformation) {
-        const templateId = process.env.SG_TEMPLATE_CONFIRMED;
-        if (!templateId) {
-            console.log('template id for confirmation email is not specified');
-            return;
-        }
-        await this.send({ templateId, user, booking, bankInfo });
+        const templateId = "SG_TEMPLATE_CONFIRMED";
+        await this.send({ templateId, user, receiver: user, booking, bankInfo });
     }
 
     async sendRejection(booking: Booking, user: User) {
-        const templateId = process.env.SG_TEMPLATE_REJECTED;
-        if (!templateId) {
-            console.log('template id for rejection email is not specified');
-            return;
-        }
-        await this.send({ templateId, user, booking });
+        const templateId = "SG_TEMPLATE_REJECTED";
+        await this.send({ templateId, user, receiver: user, booking });
     }
 
     async sendResetPassword(user: User, token: string) {
-        const templateId = process.env.SG_TEMPLATE_RESET_PASSWORD;
-        if (!templateId) {
-            console.log('template id for rejection email is not specified');
-            return;
-        }
-        await this.send({ templateId, user, token, resetPasswordLink: process.env.RESET_PASSWORD_LINK });
+        const templateId = "SG_TEMPLATE_RESET_PASSWORD";
+        await this.send({ templateId, user, receiver: user, token, resetPasswordLink: process.env.RESET_PASSWORD_LINK });
     }
 
-    private async send({ templateId, user, booking, bankInfo, token, resetPasswordLink }: SendOptions) {
+    private async send({ templateId, user, receiver, booking, bankInfo, token, resetPasswordLink }: SendOptions) {
+        const template = process.env[templateId];
+        if (!template) {
+            console.log(`template missing for ${templateId}`);
+            return;
+        }
         if (!this.mailsEnabled) {
             console.log('mails has been disabled');
             return;
@@ -119,16 +129,16 @@ export default class MailController implements IMailController {
             return;
         }
 
-        console.log('sending email', templateId, booking, user, bankInfo);
         try {
             await sendgrid.send({
-                to: user.email,
+                to: receiver.email,
                 from: sender,
-                templateId: templateId,
+                templateId: template,
                 dynamicTemplateData: {
                     ...this.booking2templateData(booking),
                     ...this.user2templateData(user),
                     ...this.bank2tempalteData(bankInfo),
+                    bookingsUrl: this.adminBookingsUrl(),
                     token: token,
                     resetPasswordLink: resetPasswordLink
                 }

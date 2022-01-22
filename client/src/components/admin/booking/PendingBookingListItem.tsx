@@ -35,11 +35,11 @@ export function PendingBookingListItem({ booking, onClick }: Props) {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const handleAction = (status: BookingStatus) => () => onClick(booking._id, status);
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation('app');
     const from = formatDate(booking.from, i18n.language);
     const to = formatDate(booking.to, i18n.language);
 
-    const primary = `${booking.bookedBy.fullName} (${booking.pplCount || booking.tubCount} people)`;
+    const primary = t('app:pendingBookings.label', { replace: { name: booking.bookedBy.fullName, count: booking.pplCount || booking.tubCount } });
     const secondary = `${from} - ${to}`;
 
     return <ListItem>

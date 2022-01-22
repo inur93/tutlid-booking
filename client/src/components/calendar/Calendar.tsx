@@ -6,6 +6,7 @@ import { Calendar as BaseCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useTranslation } from 'react-i18next';
 import { Booking } from '../../api';
+import { bookingCalendarTitle } from '../../utils/bookingFunctions';
 const locales = {
     'da': da,
     'en': enGB
@@ -49,7 +50,7 @@ type CalendarProps = {
 }
 export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }: CalendarProps) {
     const classes = useStyles();
-    const {t, i18n} = useTranslation('app');
+    const {t, i18n} = useTranslation(['app', 'common']);
     const handleRangeChange = (range: any) => {
         if (onRangeChange) {
             onRangeChange({
@@ -93,7 +94,7 @@ export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }:
             }
         }}
 
-        titleAccessor={(booking) => `${booking.bookedBy.fullName} (${booking.pplCount || booking.tubCount})`}
+        titleAccessor={(booking) => bookingCalendarTitle(booking, t)}
         startAccessor={(booking) => booking.from}
         endAccessor={(booking) => booking.to}
         allDayAccessor={() => true}

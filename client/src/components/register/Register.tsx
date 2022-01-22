@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardHeader, createStyles, Fade, FormGroup, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
+import { Button, createStyles, Fade, FormGroup, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
 import { Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
@@ -102,10 +102,10 @@ export default function RegisterUser({ header }: RegisterUserProps) {
         {error && <Alert severity='error'>{error}</Alert>}
         {user.isLoggedIn &&
             <Alert severity='success'>
-                {t('register.loggedinMsg', { name: user.fullName })}
+                {t('app:register.loggedinMsg', { name: user.fullName })}
 
-                {!user.approvedByAdmin ? <p>{t('register.missingAdminApproval')}</p> : ' '}
-                <Link to='/'>{t('register.gotoHomePage')}</Link>
+                {!user.approvedByAdmin ? <p>{t('app:register.missingAdminApproval')}</p> : ' '}
+                <Link to='/'>{t('app:register.gotoHomePage')}</Link>
             </Alert>
         }
     </Panel>);

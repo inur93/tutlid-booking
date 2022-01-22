@@ -23,7 +23,6 @@ export function useData<T>(loader: () => Promise<Response>): [DataType<T>, DataA
         setError('');
         try {
             const response = await loader();
-            console.log('result', response.body);
             setData(response.body);
         } catch (e) {
             console.log('error', e);

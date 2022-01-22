@@ -1,30 +1,29 @@
 import { Types } from "mongoose";
-import { Booking, BookingModel, BookingQuery as QueryBooking, CreateBooking, UpdateBooking } from "../models/booking/BookingModels";
+import { BookingDoc, BookingModel, BookingQuery as QueryBooking, CreateBooking, UpdateBooking } from "../models/booking/BookingModels";
 
 
 
 export interface IBookingRepository {
-    create(booking: CreateBooking): Promise<Booking>
-    findById(id: Types.ObjectId): Promise<Booking>
-    find(query: QueryBooking): Promise<Booking[]>
-    update(_id: Types.ObjectId, update: UpdateBooking): Promise<Booking>
+    create(booking: CreateBooking): Promise<BookingDoc>
+    findById(id: Types.ObjectId): Promise<BookingDoc | null>
+    find(query: QueryBooking): Promise<BookingDoc[]>
+    update(_id: Types.ObjectId, update: UpdateBooking): Promise<BookingDoc>
     delete(_id: Types.ObjectId): Promise<void>
 }
 
 export default class BookingRepository implements IBookingRepository {
 
-    async create(booking: CreateBooking): Promise<Booking> {
-        const created = await BookingModel.create(booking);
-        return BookingModel.findById(created._id);
+    async create(booking: CreateBooking): Promise<BookingDoc> {
+        return BookingModel.create(booking);
     }
-    async findById(id: Types.ObjectId): Promise<Booking> {
+    async findById(id: Types.ObjectId): Promise<BookingDoc | null> {
         return BookingModel
             .findById(id)
             .populate('bookedBy', {
                 fullName: true
             });
     }
-    async find({ from, to, status, count }: QueryBooking): Promise<Booking[]> {
+    async find({ from, to, status, count }: QueryBooking): Promise<BookingDoc[]> {
         const query: any = {};
         if (from) {
             query.to = { $gte: from };
@@ -46,9 +45,13 @@ export default class BookingRepository implements IBookingRepository {
             });
     }
 
-    async update(_id: Types.ObjectId, update: UpdateBooking): Promise<Booking> {
+    async update(_id: Types.ObjectId, update: UpdateBooking): Promise<BookingDoc> {
         await BookingModel.updateOne({ _id }, update);
-        return this.findById(_id);
+        const updated = await this.findById(_id);
+        if (!updated) {
+            throw new Error(`could not update booking. ${_id} was not found`);
+        }
+        return updated;
     }
 
     async delete(_id: Types.ObjectId): Promise<void> {

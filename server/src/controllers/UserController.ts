@@ -38,7 +38,7 @@ export default class UserController implements IUserController {
             throw new NotFoundException(`user id ${id} was not found`);
         }
 
-        return Mapper.toViewBasicUser(await this.userRepository.findById(id));
+        return Mapper.toViewBasicUser(user);
     }
 
     public async getDetailsById(id: Types.ObjectId): Promise<DetailedUser> {
@@ -49,7 +49,7 @@ export default class UserController implements IUserController {
             throw new NotFoundException(`user id ${id} was not found`);
         }
 
-        return Mapper.toAdminViewUser(await this.userRepository.findById(id));
+        return Mapper.toAdminViewUser(user);
     }
 
     public async getSelf(id: Types.ObjectId): Promise<DetailedUser> {
@@ -59,7 +59,7 @@ export default class UserController implements IUserController {
             throw new NotFoundException(`user id ${id} was not found`);
         }
 
-        return Mapper.toDetailedUser(await this.userRepository.findById(id));
+        return Mapper.toDetailedUser(user);
     }
 
     public async update(id: Types.ObjectId, update: UpdateSelfDto): Promise<BasicUser> {
