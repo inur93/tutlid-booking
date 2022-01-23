@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@4.7.0
+  cypress: cypress-io/cypress@1
 jobs:
   test-server:
     executor: node/default
@@ -48,7 +49,7 @@ jobs:
       - run: node ./scripts/waitForDeploymentCompletion.js appName=<< parameters.app >> password=${CAPTAIN_PASSWORD} cwd=/home/circleci/project/node_modules/.bin
 
 workflows:
-  node-tests:
+  test-and-deploy:
     jobs:
       - test-server
       - deploy:
@@ -66,13 +67,27 @@ workflows:
           app: test-tutlid-booking
           requires:
             - "deploy test"
+      - cypress/run:
+          name: run integration tests
+          executor: cypress/base-14
+          working_directory: cypress
+          yarn: true
+          env: 'CYPRESS_BASE_URL=${CY_BASE_URL},user_email=${CY_USER_EMAIL},user_password=${CY_USER_PASSWORD}',admin_email=${CY_ADMIN_EMAIL},admin_password=${CY_ADMIN_PASSWORD}'
+          record: true
+          requires:
+            - "verify test"
       - approve-deployment:
           type: approval
           requires:
-            - "verify test"
+            - "run integration tests"
       - deploy:
           name: deploy production
           token: $APP_TOKEN
           app: tutlid-booking
           requires: 
             - "approve-deployment"
+      - verify:
+          name: verify production
+          app: tutlid-booking
+          requires:
+            - "deploy production"

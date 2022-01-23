@@ -58,7 +58,7 @@ export function Login({ onComplete, header }: LoginProps) {
 
                     <Typography variant="body1" style={{ display: 'inline' }}>{t('app:login.forgotPasswordDescription')}</Typography>
                     <Link to='/reset-password'>{t('app:login.forgotPasswordLink')}</Link>
-                    {error && <Alert severity='error'>{error}</Alert>}
+                    {error && <Alert severity='error'>{t(error)}</Alert>}
                     <FormGroup>
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                             {t('common:button.login')}

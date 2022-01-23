@@ -14,6 +14,8 @@ export class AuthApi extends BaseApi {
         } catch (e) {
             const { status } = e.response.body;
             switch (status) {
+                case 401:
+                    throw new Error('common:error.invalidCredentials')
                 default:
                     throw super.handleError(e);
 

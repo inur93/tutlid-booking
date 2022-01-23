@@ -56,7 +56,7 @@ export function NavigationMenu({ }: Props) {
                 onClick={handleMenu}>
                 {t('common:button.account')}
             </Button>}
-        {!user.isLoggedIn && <Button className={classes.icon} component={Link} to='/login' startIcon={<LockOpen />}>
+        {!user.isLoggedIn && <Button data-cy='login-header-btn' className={classes.icon} component={Link} to='/login' startIcon={<LockOpen />}>
             {t('common:button.login')}
         </Button>}
         <Menu

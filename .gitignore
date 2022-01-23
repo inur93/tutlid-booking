@@ -4,7 +4,7 @@
 *.iml
 
 # dependencies
-/node_modules
+**/node_modules
 
 # testing
 /coverage
@@ -19,6 +19,7 @@
 .env.test.local
 .env.production.local
 *.env
+*.env.json
 
 *.log
 src/main/webapp/

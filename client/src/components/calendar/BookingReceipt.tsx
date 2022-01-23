@@ -22,7 +22,7 @@ export default function BookingReceipt({ onClose, booking }: BookingReceiptProps
     const to = formatDate(booking.to, i18n.language);
     return (<Card>
         <CardContent>
-            <Typography variant='body1'>
+            <Typography data-cy='receipt-message' variant='body1'>
                 {t('app:bookingReceipt.details', {
                     pplCount: booking.pplCount,
                     tubCount: booking.tubCount,

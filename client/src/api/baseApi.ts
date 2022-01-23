@@ -37,7 +37,7 @@ export abstract class BaseApi {
 
     handleError(e: any) {
         if(!e || !e.response || !e.response.body){
-            return new Error('an unknown error occurred');
+            return new Error('common:error.unknown');
         }
         const { message, status } = e.response.body;
         console.error(status, message);

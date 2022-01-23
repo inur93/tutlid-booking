@@ -104,7 +104,7 @@
     "header": "You dont have permission to access this page"
   },
   "accessDenied": {
-    "requireRoles": "You need one of the following roles {{requiredRoles}} to access this page.",
+    "requireRoles": "You need one of the following roles: {{roles}}, to access this page.",
     "requireLoginMsg": "You need to login to access this page"
   },
   "bookingsPage": {

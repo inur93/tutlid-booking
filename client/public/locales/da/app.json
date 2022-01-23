@@ -104,7 +104,7 @@
     "header": "Du har ikke adgang til denne side"
   },
   "accessDenied": {
-    "requireRoles": "Du mangler en af følgende roller {{requiredRoles}} for at tilgå denne side.",
+    "requireRoles": "Du mangler en af følgende roller: {{roles}}, for at tilgå denne side.",
     "requireLoginMsg": "Du skal logge ind for at tilgå denne side"
   },
   "bookingsPage": {

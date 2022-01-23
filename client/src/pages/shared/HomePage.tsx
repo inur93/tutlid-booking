@@ -35,15 +35,15 @@ export function HomePage() {
                     <Typography variant='h3' component='h1'>Tutlið booking</Typography>
                     <Typography variant='body1'>{t('app:homePage.greeting')}</Typography>
                     <br />
-                    <Button variant='contained' color='primary' component={Link} to='/login'>{t('common:button.login')}</Button>{' '}
-                    <Button variant='contained' color='primary' component={Link} to='/register'>{t('common:button.register')}</Button>
+                    <Button data-cy='login-btn' variant='contained' color='primary' component={Link} to='/login'>{t('common:button.login')}</Button>{' '}
+                    <Button data-cy='register-btn' variant='contained' color='primary' component={Link} to='/register'>{t('common:button.register')}</Button>
                 </Panel>
                 <Panel >
                     <div className={classes.gallery}>
                         <GalleryPreview />
                     </div>
                     <Typography variant='body1'>{t('app:homePage.gallery')}</Typography>
-                    <Button variant='contained' color='primary' component={Link} to={'/gallery'}>
+                    <Button data-cy='gallery-btn' variant='contained' color='primary' component={Link} to={'/gallery'}>
                         {t('common:button.gallery')}
                     </Button>
                 </Panel>

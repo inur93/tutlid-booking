@@ -32,13 +32,13 @@ export default function ProtectedComponent({ requiredRoles, children }: Props) {
     return (<Grid container justify='center'>
         <Grid className={classes.root} item xs={12} md={8} lg={6}>
             <Typography variant="h4">{t('AccessDenied.header')}</Typography>
-            {user.isLoggedIn && <Typography variant="body1">
-                {t('app:accessDenied.requireRoles', { roles: requiredRoles.join(', ') })}
+            {user.isLoggedIn && <Typography data-cy="protected-component-label" variant="body1">
+                {t('app:accessDenied.requireRoles', { roles: requiredRoles.map(x => `"${x}"`).join(', ') })}
             </Typography>}
-            {!user.isLoggedIn && <Typography variant="body1">
+            {!user.isLoggedIn && <Typography data-cy="protected-component-label" variant="body1">
                 {t('app:accessDenied.requireLoginMsg')}
             </Typography>}
-            {!user.isLoggedIn && <Button color='primary' variant='contained' onClick={() => setShowLogin(true)}>
+            {!user.isLoggedIn && <Button data-cy='login-btn' color='primary' variant='contained' onClick={() => setShowLogin(true)}>
                 {t('common:button.login')}
             </Button>}
         </Grid>

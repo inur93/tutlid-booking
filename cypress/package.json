@@ -1,0 +1,17 @@
+{
+  "license": "WTFPL",
+  "author": {
+    "name": "Rúni Egholm Vørmadal",
+    "email": "runivormadal@gmail.com",
+    "url": "https://github.com/inur93/tutlid-booking"
+  },
+  "devDependencies": {
+    "cypress": "^9.3.1"
+  },
+  "scripts": {
+    "start": "cypress open"
+  },
+  "dependencies": {
+    "date-fns": "^2.28.0"
+  }
+}
