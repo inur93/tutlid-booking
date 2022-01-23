@@ -14,7 +14,7 @@ validateEnv();
 (async () => {
     await container.dbHandler.connect({
         uri: process.env.MONGO_URI || 'invalid',
-        dbName: process.env.DB_NAME || 'tutlid',
+        // dbName: process.env.DB_NAME || 'tutlid',
         ssl: isProduction()
     });
 
@@ -30,7 +30,8 @@ validateEnv();
             container.userRoute,
             container.bookingRoute,
             container.adminRoute,
-            container.priceMatrixRoute
+            container.priceMatrixRoute,
+            
         ],
     );
 

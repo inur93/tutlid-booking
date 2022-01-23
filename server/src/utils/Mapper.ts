@@ -1,3 +1,4 @@
+import { BankInformation, BankInformationDoc } from "../models/bankinformation/BankInformationModels";
 import { Booking, BasicBooking, AnonymousBooking, BookingDoc } from "../models/booking/BookingModels";
 import { DetailedUser, User, BasicUser, UserDoc } from "../models/user/UserModels";
 
@@ -29,5 +30,9 @@ export default class Mapper {
 
     static toAdminViewUser({ _id, fullName, status, email, deleted, roles }: UserDoc): DetailedUser {
         return { _id, fullName, status, email, deleted, roles }
+    }
+
+    static toBankInformation({ _id, accountNo, regNo }: BankInformationDoc): BankInformation {
+        return { _id, accountNo, regNo };
     }
 }

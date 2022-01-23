@@ -1,3 +1,4 @@
+import { fail } from 'assert';
 import chai, { expect } from 'chai';
 import chaiAsPromised from "chai-as-promised";
 import { before, describe, it } from 'mocha';
@@ -44,6 +45,9 @@ describe('bankinformation.controller', () => {
         it('regNo and accountNo exist', async () => {
 
             const info = await controller.current();
+            if(!info){
+                fail('info should contain data');
+            }
             expect(info.accountNo).to.eq(testBankInfo.accountNo);
             expect(info.regNo).to.eq(testBankInfo.regNo);
         })

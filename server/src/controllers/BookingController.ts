@@ -108,7 +108,9 @@ export default class BookingController implements IBookingController {
         if (!bookedBy.roles.includes(UserRole.admin)) {
             if (bookingDoc.status === BookingStatus.accepted) {
                 const bankInfo = await this.bankInformationController.current();
-                await this.mailController.sendConfirmation(booking, bookedBy as User, bankInfo);
+                if (bankInfo) {
+                    await this.mailController.sendConfirmation(booking, bookedBy as User, Mapper.toBankInformation(bankInfo));
+                }
             } else {
                 await this.mailController.sendRejection(booking, bookedBy as User);
             }
@@ -124,7 +126,7 @@ export default class BookingController implements IBookingController {
         }
         const bookedBy = existing.bookedBy as User;
 
-        if (user._id !== bookedBy._id) {
+        if (user._id.toHexString() !== bookedBy._id.toHexString()) {
             throw new MissingPermissionsException();
         }
 

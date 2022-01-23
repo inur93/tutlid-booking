@@ -1,35 +1,34 @@
 import { Types } from "mongoose";
-import { CreatePriceMatrix, PriceMatrix, PriceMatrixModel, QueryPriceMatrix } from "../models/pricematrix/PriceMatrixModels";
+import { CreatePriceMatrix, PriceMatrix, PriceMatrixDoc, PriceMatrixModel, QueryPriceMatrix } from "../models/pricematrix/PriceMatrixModels";
 
 
 export interface IPriceMatrixRepository {
-    create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrix>
-    getLatest(): Promise<PriceMatrix>
-    findValidPriceMatrix(date: Date): Promise<PriceMatrix>
-    find(from?: Date): Promise<PriceMatrix[]>
-    findOne(query: QueryPriceMatrix): Promise<PriceMatrix>
-    updateValidTo(_id: Types.ObjectId, validTo?: Date): Promise<PriceMatrix>
+    create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrixDoc>
+    getLatest(): Promise<PriceMatrixDoc | null>
+    findValidPriceMatrix(date: Date): Promise<PriceMatrixDoc | null>
+    find(from?: Date): Promise<PriceMatrixDoc[]>
+    findOne(query: QueryPriceMatrix): Promise<PriceMatrixDoc | null>
+    updateValidTo(_id: Types.ObjectId, validTo?: Date): Promise<PriceMatrixDoc | null>
     delete(_id: Types.ObjectId): Promise<void>
 }
 
 export default class PriceMatrixRepository implements IPriceMatrixRepository {
 
-    async create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrix> {
-        const created = await PriceMatrixModel.create(priceMatrix);
-        return PriceMatrixModel.findById(created._id);
+    async create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrixDoc> {
+        return await PriceMatrixModel.create(priceMatrix);
     }
-    async updateValidTo(_id: Types.ObjectId, validTo?: Date): Promise<PriceMatrix> {
+    async updateValidTo(_id: Types.ObjectId, validTo?: Date): Promise<PriceMatrixDoc | null> {
         return PriceMatrixModel.findOneAndUpdate({
             _id
         }, { validTo });
     }
 
-    async getLatest(): Promise<PriceMatrix> {
+    async getLatest(): Promise<PriceMatrixDoc | null> {
         return PriceMatrixModel.findOne({
             validTo: undefined
         })
     }
-    async findValidPriceMatrix(date: Date): Promise<PriceMatrix> {
+    async findValidPriceMatrix(date: Date): Promise<PriceMatrixDoc | null> {
         return PriceMatrixModel.findOne({
             validFrom: { $lte: date },
             $or: [
@@ -39,7 +38,7 @@ export default class PriceMatrixRepository implements IPriceMatrixRepository {
             ]
         }).exec()
     }
-    async find(from?: Date): Promise<PriceMatrix[]> {
+    async find(from?: Date): Promise<PriceMatrixDoc[]> {
         if (from) {
             return PriceMatrixModel.find({
                 $or: [
@@ -57,7 +56,7 @@ export default class PriceMatrixRepository implements IPriceMatrixRepository {
         }
     }
 
-    async findOne(query: QueryPriceMatrix): Promise<PriceMatrix> {
+    async findOne(query: QueryPriceMatrix): Promise<PriceMatrixDoc | null> {
         if (query._id) return PriceMatrixModel.findById(query._id);
         return PriceMatrixModel.findOne(query).exec();
     }

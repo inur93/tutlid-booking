@@ -3,14 +3,14 @@ import { Types } from 'mongoose';
 import { IContainer } from '../container';
 import { CreateBookingDto } from '../models/booking/BookingViewModels';
 import { CreatePriceMatrix } from '../models/pricematrix/PriceMatrixViewModels';
-import { PriceMatrix } from '../models/pricematrix/PriceMatrixModels';
+import { PriceMatrix, PriceMatrixDoc } from '../models/pricematrix/PriceMatrixModels';
 import { IPriceMatrixRepository } from '../repositories/PriceMatrixRepository';
 import { BookingWithPrice } from '../models/booking/BookingModels';
 
 export interface IPriceMatrixController {
-    get(from?: Date): Promise<PriceMatrix[]>
+    get(from?: Date): Promise<PriceMatrixDoc[]>
     calculatePrice(booking: CreateBookingDto): Promise<BookingWithPrice>
-    create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrix>
+    create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrixDoc>
     delete(id: Types.ObjectId): Promise<void>
 }
 class PriceMatrixController {
@@ -19,7 +19,7 @@ class PriceMatrixController {
     constructor({ priceMatrixRepository }: IContainer) {
         this.priceMatrixRepository = priceMatrixRepository;
     }
-    public async get(from?: Date): Promise<PriceMatrix[]> {
+    public async get(from?: Date): Promise<PriceMatrixDoc[]> {
         return this.priceMatrixRepository.find(from);
     }
     public async calculatePrice(booking: CreateBookingDto): Promise<BookingWithPrice> {
@@ -39,7 +39,7 @@ class PriceMatrixController {
         }
     }
 
-    public async create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrix> {
+    public async create(priceMatrix: CreatePriceMatrix): Promise<PriceMatrixDoc> {
         const latest = await this.priceMatrixRepository.getLatest();
         if (latest) {
             await this.priceMatrixRepository.updateValidTo(latest._id, priceMatrix.validFrom)
@@ -49,6 +49,9 @@ class PriceMatrixController {
 
     public async delete(_id: Types.ObjectId): Promise<void> {
         const toDelete = await this.priceMatrixRepository.findOne({ _id });
+        if(!toDelete){
+            throw new Error(`No price matrix with id ${_id} exists.`);
+        }
         const toUpdate = await this.priceMatrixRepository.findOne({ validTo: toDelete.validFrom });
         if (toUpdate) {
             await this.priceMatrixRepository.updateValidTo(toUpdate._id, toDelete.validTo);

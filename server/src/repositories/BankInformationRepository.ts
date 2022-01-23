@@ -1,18 +1,22 @@
 import { Types } from 'mongoose';
-import { BankInformation, BankInformationModel, UpdateBankInformation } from "../models/bankinformation/BankInformationModels";
+import { BankInformationDoc, BankInformationModel, UpdateBankInformation } from "../models/bankinformation/BankInformationModels";
 
 
 export interface IBankInformationRepository {
-    current(): Promise<BankInformation>
-    update(_id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation>
+    current(): Promise<BankInformationDoc | null>
+    update(_id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformationDoc>
 }
 
 export default class BankInformationRepository implements IBankInformationRepository {
-    async current(): Promise<BankInformation> {
+    async current(): Promise<BankInformationDoc | null> {
         return BankInformationModel.findOne({});
     }
-    async update(_id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformation> {
+    async update(_id: Types.ObjectId, update: UpdateBankInformation): Promise<BankInformationDoc> {
         await BankInformationModel.updateOne({ _id }, update);
-        return BankInformationModel.findById(_id);
+        const updated = await BankInformationModel.findById(_id);
+        if (!updated) {
+            throw new Error(`could not update booking. ${_id} was not found`);
+        }
+        return updated;
     }
 }

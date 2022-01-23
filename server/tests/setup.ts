@@ -18,11 +18,9 @@ export async function setupTest(): Promise<SetupData> {
 
     await mongo.start();
     const uri = await mongo.getUri();
-    const dbName = await mongo.getDbName();
 
     const dbHandler = new DbHandler();
     await dbHandler.connect({
-        dbName,
         uri,
         ssl: false
     });

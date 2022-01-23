@@ -6,7 +6,7 @@ export interface IDbHandler {
 }
 type MongoOptions = {
     uri: string,
-    dbName: string,
+    dbName?: string,
     ssl: boolean
 }
 export default class DbHandler implements IDbHandler {
