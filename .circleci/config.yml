@@ -72,7 +72,7 @@ workflows:
           executor: cypress/base-14
           working_directory: cypress
           yarn: true
-          env: 'CYPRESS_BASE_URL=${CY_BASE_URL},user_email=${CY_USER_EMAIL},user_password=${CY_USER_PASSWORD}',admin_email=${CY_ADMIN_EMAIL},admin_password=${CY_ADMIN_PASSWORD}'
+          env: 'CYPRESS_BASE_URL=${CY_BASE_URL},user_email=${CY_USER_EMAIL},user_password=${CY_USER_PASSWORD},admin_email=${CY_ADMIN_EMAIL},admin_password=${CY_ADMIN_PASSWORD}'
           record: true
           requires:
             - "verify test"
