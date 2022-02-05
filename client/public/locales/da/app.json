@@ -72,8 +72,7 @@
     "emailPlaceholder": "Email",
     "passwordLabel": "Adgangskode",
     "passwordPlaceholder": "Adgangskode",
-    "forgotPasswordDescription": "Hvis du har glemt din adgangskode, så klik ",
-    "forgotPasswordLink": "her",
+    "forgotPassword": "Har du glemt dit kodeord?",
     "header": "Login"
   },
   "loginModal": {
@@ -108,6 +107,7 @@
     "requireLoginMsg": "Du skal logge ind for at tilgå denne side"
   },
   "bookingsPage": {
+    "title": "Bookinger",
     "pendingBookingsHeader": "Bookinger som afventer godkendelse",
     "upcomingBookingsHeader": "Næste booking",
     "upcomingBookingsHeader_plural": "De næste {{count}} bookinger",

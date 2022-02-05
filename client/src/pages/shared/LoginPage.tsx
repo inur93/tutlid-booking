@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { Login } from "../../components/login/Login";
 import { useAuthUser } from "../../hooks/useAuthUser";
-import { BasePage } from "../BasePage";
+import { SlimPage } from "../BasePage";
 
 export function LoginPage() {
     const [user] = useAuthUser();
@@ -15,7 +15,7 @@ export function LoginPage() {
             router.push('/');
         }
     }, [user]);
-    return <BasePage>
+    return <SlimPage>
         <Login header={t('app:login.header')} />
-    </BasePage>
+    </SlimPage>
 }

@@ -6,7 +6,7 @@ import UserList from '../../components/admin/user/UserList';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { useData } from '../../hooks/useData';
-import { BasePage } from '../BasePage';
+import { SlimPage } from '../BasePage';
 
 export function UsersPage() {
     const { t } = useTranslation('app');
@@ -18,7 +18,7 @@ export function UsersPage() {
         await reloadNewUsers();
     }
     const showNewUsers = !!(newUsers && newUsers.length && !newUsersloading);
-    return (<BasePage>
+    return (<SlimPage>
         <ProtectedComponent requiredRoles={[Role.admin]}>
             <Panel>
                 {showNewUsers &&
@@ -33,5 +33,5 @@ export function UsersPage() {
                     </Grid>}
             </Panel>
         </ProtectedComponent>
-    </BasePage>)
+    </SlimPage>)
 }

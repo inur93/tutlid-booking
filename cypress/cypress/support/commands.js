@@ -10,11 +10,15 @@
 //
 //
 const { format } = require('date-fns')
-// -- This is a parent command --
 Cypress.Commands.add('login', (email, password) => {
     cy.request('POST', '/auth/login', {
-        email, password
+        email: email || Cypress.env('user_email'),
+        password: password || Cypress.env('user_password')
     })
+})
+
+Cypress.Commands.add('setLanguage', (language) => {
+    cy.window().its('localStorage').invoke('setItem', 'language', language);
 })
 
 Cypress.Commands.add('typeLogin', (email, password) => {
@@ -23,7 +27,6 @@ Cypress.Commands.add('typeLogin', (email, password) => {
 })
 
 Cypress.Commands.add('typeDate', { prevSubject: true }, (subject, date) => {
-
     return cy.wrap(subject).type(format(date, 'yyyy-MM-dd'));
 })
 //

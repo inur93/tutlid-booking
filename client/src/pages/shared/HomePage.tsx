@@ -5,7 +5,7 @@ import { BookingCalendar } from '../../components/calendar/BookingCalendar';
 import { GalleryPreview } from '../../components/gallery/GalleryPreview';
 import Panel from '../../components/shared/Panel';
 import { useAuthUser } from '../../hooks/useAuthUser';
-import { BasePage } from '../BasePage';
+import { UltraWidePage, WidePage } from '../BasePage';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,29 +26,31 @@ export function HomePage() {
     const [user] = useAuthUser();
     const { t } = useTranslation(['app', 'common']);
 
-    return <BasePage fullWidth={user.isLoggedIn} >
-        {user.isLoggedIn && <BookingCalendar />}
+    if (user.isLoggedIn) {
+        return <UltraWidePage>
+            <BookingCalendar />
+        </UltraWidePage>
+    }
 
-        {!user.isLoggedIn &&
-            <div className={classes.wrapper}>
-                <Panel>
-                    <Typography variant='h3' component='h1'>Tutlið booking</Typography>
-                    <Typography variant='body1'>{t('app:homePage.greeting')}</Typography>
-                    <br />
-                    <Button data-cy='login-btn' variant='contained' color='primary' component={Link} to='/login'>{t('common:button.login')}</Button>{' '}
-                    <Button data-cy='register-btn' variant='contained' color='primary' component={Link} to='/register'>{t('common:button.register')}</Button>
-                </Panel>
-                <Panel >
-                    <div className={classes.gallery}>
-                        <GalleryPreview />
-                    </div>
-                    <Typography variant='body1'>{t('app:homePage.gallery')}</Typography>
-                    <Button data-cy='gallery-btn' variant='contained' color='primary' component={Link} to={'/gallery'}>
-                        {t('common:button.gallery')}
-                    </Button>
-                </Panel>
-            </div>
-        }
-    </BasePage>
+    return <WidePage>
+        <div className={classes.wrapper}>
+            <Panel>
+                <Typography variant='h1' component='h1'>Tutlið booking</Typography>
+                <Typography variant='body1'>{t('app:homePage.greeting')}</Typography>
+                <br />
+                <Button data-cy='login-btn' variant='contained' color='primary' component={Link} to='/login'>{t('common:button.login')}</Button>{' '}
+                <Button data-cy='register-btn' variant='contained' color='primary' component={Link} to='/register'>{t('common:button.register')}</Button>
+            </Panel>
+            <Panel >
+                <div className={classes.gallery}>
+                    <GalleryPreview />
+                </div>
+                <Typography variant='body1'>{t('app:homePage.gallery')}</Typography>
+                <Button data-cy='gallery-btn' variant='contained' color='primary' component={Link} to={'/gallery'}>
+                    {t('common:button.gallery')}
+                </Button>
+            </Panel>
+        </div>
+    </WidePage>
 
 }

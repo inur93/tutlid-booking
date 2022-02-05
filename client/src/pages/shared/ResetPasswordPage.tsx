@@ -1,8 +1,8 @@
 import ResetPassword from "../../components/reset-password/ResetPassword";
-import { BasePage } from "../BasePage";
+import { SlimPage } from "../BasePage";
 
 export function ResetPasswordPage() {
-    return <BasePage>
+    return <SlimPage>
         <ResetPassword />
-    </BasePage>
+    </SlimPage>
 }

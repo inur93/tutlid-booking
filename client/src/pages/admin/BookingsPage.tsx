@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, Grid, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import api, { Booking, BookingStatus, Role } from '../../api';
 import BookingList from '../../components/admin/booking/BookingList';
 import PendingBookingsList from '../../components/admin/booking/PendingBookingsList';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { useBookings } from '../../hooks/useBookings';
-import { BasePage } from '../BasePage';
 import { useData } from '../../hooks/useData';
-import { useEffect } from 'react';
+import { SlimPage } from '../BasePage';
 
 export default function BookingsPage() {
     const [{ bookings }, { load: loadBookings }] = useBookings(false, BookingStatus.reserved);
@@ -32,12 +31,13 @@ export default function BookingsPage() {
 
     const count = numBookings > (upcomingBookings?.length || 5) ? upcomingBookings?.length : numBookings;
     return (<ProtectedComponent requiredRoles={[Role.admin]}>
-        <BasePage >
+        <SlimPage>
             <Panel>
-                <Typography variant='h6'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>
+                <Typography variant='h1'>{t('app:bookingsPage.title')}</Typography>
+                <Typography variant='h2'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>
                 <PendingBookingsList bookings={bookings} changeStatus={changeBookingStatus} />
 
-                <Typography variant='h6'>{t('app:bookingsPage.upcomingBookingsHeader', { count })}</Typography>
+                <Typography variant='h2'>{t('app:bookingsPage.upcomingBookingsHeader', { count })}</Typography>
                 {(!loadingUpcomingBookings && upcomingBookings && !upcomingBookings.length) &&
                     <Typography variant='body1'>{t('app:bookingsPage.noUpcomingBookingsLabel')}</Typography>}
                 <BookingList bookings={upcomingBookings || []} />
@@ -49,6 +49,6 @@ export default function BookingsPage() {
                     }
                 </Grid>
             </Panel>
-        </BasePage>
+        </SlimPage>
     </ProtectedComponent>);
 }

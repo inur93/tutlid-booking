@@ -1,4 +1,4 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+import { createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
@@ -8,6 +8,25 @@ import UserContext, { AuthUser } from './contexts/UserContext';
 import { Routes } from './pages/Routes';
 
 const theme = createMuiTheme({
+  typography: {
+    h1: {
+      fontSize: '2.25rem',
+      fontWeight: 400
+    },
+    h2: {
+      fontSize: '1.75rem'
+    }
+  },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        a: {
+          color: green[500],
+          'text-decoration': 'none'
+        }
+      }
+    }
+  },
   palette: {
     primary: {
       main: green[500],
@@ -36,6 +55,7 @@ function App() {
     <HashRouter>
       <UserContext.Provider value={[user, setUser]}>
         <MuiThemeProvider theme={theme}>
+          <CssBaseline />
           <Navigation />
           <Routes />
         </MuiThemeProvider>

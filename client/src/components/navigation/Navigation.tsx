@@ -29,7 +29,7 @@ export function Navigation() {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
-    return (<AppBar position="static" className={classes.root}>
+    return (<AppBar position="fixed" className={classes.root}>
         <MuiToolbar>
             <Typography variant="h6" className={classes.title}>
                 Tutlið

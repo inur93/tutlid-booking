@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogTitle, Typography } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 import { Login } from "./Login";
 
@@ -10,7 +10,9 @@ export function LoginModal({ onClose }: LoginModalProps) {
     const { t } = useTranslation('app');
     return (
         <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={true}>
-            <DialogTitle id="simple-dialog-title">{t('app:loginModal.header')}</DialogTitle>
+            <DialogTitle id="simple-dialog-title">
+                <Typography variant="h1">{t('app:loginModal.header')}</Typography>
+                </DialogTitle>
             <Login onComplete={onClose} />
         </Dialog>);
 }

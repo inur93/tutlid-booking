@@ -28,9 +28,5 @@
   "languages": {
     "da": "Dansk",
     "en": "Engelsk"
-  },
-  "error": {
-    "unknown": "En ukendt fejl er opstået",
-    "invalidCredentials": "Email eller kodeord er forkert"
   }
 }

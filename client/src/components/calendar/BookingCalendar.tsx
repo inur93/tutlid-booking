@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Booking } from '../../api';
 import { useBookings } from '../../hooks/useBookings';
 import { Alert } from '../shared/Alert';
@@ -10,7 +10,6 @@ import { CreateBookingModal } from './CreateBookingModal';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            height: 'calc(100vh - 90px)',
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
             marginTop: theme.spacing(2)
@@ -25,7 +24,14 @@ export function BookingCalendar() {
     const [showCreate, setShowCreate] = useState(false);
     const [defaultFrom, setDefaultFrom] = useState(new Date());
     const [defaultTo, setDefaultTo] = useState(new Date());
-    
+    const container = useRef<HTMLDivElement>(null);
+    const [height, setHeight] = useState(0);
+
+    useEffect(() => {
+        if (container.current) {
+            setHeight(container.current.parentElement!.offsetHeight - container.current.offsetTop + container.current.parentElement!.offsetTop);
+        }
+    }, [container])
     const handleSelectSlot = ({ start, end }: Range) => {
         setDefaultFrom(start);
         setDefaultTo(end);
@@ -41,7 +47,7 @@ export function BookingCalendar() {
         load();
     }
     return (
-        <div className={classes.root}>
+        <div ref={container} className={classes.root} style={{ height }}>
             {showCreate && <CreateBookingModal from={defaultFrom} to={defaultTo} onClose={handleCloseModal} />}
             {current && <BookingInfoModal booking={current} onClose={handleCloseModal} />}
 

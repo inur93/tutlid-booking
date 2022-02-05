@@ -31,7 +31,7 @@ export default function ProtectedComponent({ requiredRoles, children }: Props) {
 
     return (<Grid container justify='center'>
         <Grid className={classes.root} item xs={12} md={8} lg={6}>
-            <Typography variant="h4">{t('AccessDenied.header')}</Typography>
+            <Typography variant="h1">{t('AccessDenied.header')}</Typography>
             {user.isLoggedIn && <Typography data-cy="protected-component-label" variant="body1">
                 {t('app:accessDenied.requireRoles', { roles: requiredRoles.map(x => `"${x}"`).join(', ') })}
             </Typography>}

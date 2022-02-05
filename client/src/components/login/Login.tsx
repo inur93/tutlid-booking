@@ -1,21 +1,24 @@
-import { Button, FormGroup, TextField, Typography } from "@material-ui/core";
+import { Button, FormGroup, TextField } from "@material-ui/core";
 import { Form, Formik, FormikHelpers } from 'formik';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useAuthUser } from "../../hooks/useAuthUser";
 import { Alert } from '../shared/Alert';
 import Panel from "../shared/Panel";
 
-let schema = yup.object().shape({
-    email: yup
-        .string()
-        .email()
-        .required(),
-    password: yup
-        .string()
-        .required()
-})
+const getSchema = (t: TFunction<string[]>) => {
+
+    return yup.object().shape({
+        email: yup
+            .string()
+            .email(t('validation:email'))
+            .required(t('validation:required')),
+        password: yup
+            .string()
+            .required(t('validation:required'))
+    })
+}
 
 type LoginProps = {
     onComplete?: () => void,
@@ -34,13 +37,15 @@ export function Login({ onComplete, header }: LoginProps) {
             email: '',
             password: ''
         }}
-            validationSchema={schema}
+            validationSchema={getSchema(t)}
             onSubmit={handleLogin}>
             {({ isSubmitting, errors, touched, handleChange, values: { email, password } }) => (
-                <Form>
+                <Form noValidate>
                     <FormGroup>
                         <TextField type="email"
                             name="email"
+                            error={!!(errors.email && touched.email)}
+                            helperText={touched.email ? errors.email : ''}
                             label={t('app:login.emailLabel')}
                             placeholder={t('app:login.emailPlaceholder')}
                             variant='outlined'
@@ -56,16 +61,16 @@ export function Login({ onComplete, header }: LoginProps) {
                             onChange={handleChange} />
                     </FormGroup>
 
-                    <Typography variant="body1" style={{ display: 'inline' }}>{t('app:login.forgotPasswordDescription')}</Typography>
-                    <Link to='/reset-password'>{t('app:login.forgotPasswordLink')}</Link>
                     {error && <Alert severity='error'>{t(error)}</Alert>}
                     <FormGroup>
+
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                             {t('common:button.login')}
                         </Button>
                         <Button component={Link} to='/register' variant='outlined' color='secondary' onClick={onComplete}>
                             {t('common:button.register')}
                         </Button>
+                        <Link to='/reset-password'>{t('app:login.forgotPassword')}</Link>
                     </FormGroup>
                 </Form>)
             }

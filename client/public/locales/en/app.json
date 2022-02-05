@@ -72,8 +72,7 @@
     "emailPlaceholder": "Email",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Password",
-    "forgotPasswordDescription": "If you forgot your password, click ",
-    "forgotPasswordLink": "here",
+    "forgotPassword": "Forgot your password?",
     "header": "Login"
   },
   "loginModal": {
@@ -108,6 +107,7 @@
     "requireLoginMsg": "You need to login to access this page"
   },
   "bookingsPage": {
+    "title": "Bookings",
     "pendingBookingsHeader": "Bookings await approval",
     "upcomingBookingsHeader": "The next booking",
     "upcomingBookingsHeader_plural": "The next {{count}} bookings",

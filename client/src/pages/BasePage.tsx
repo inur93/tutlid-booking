@@ -5,6 +5,14 @@ import { ReactNode } from 'react';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            height: '100vh',
+            overflow: 'hidden'
+        },
+        container: {
+            marginTop: theme.spacing(10),
+            maxHeight: `calc(100% - ${theme.spacing(10)}px)`,
+            overflowY: 'auto',
+            overflowX: 'hidden'
         },
         card: {
             marginTop: theme.spacing(2),
@@ -33,21 +41,43 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
     children: ReactNode,
     hideBackground?: boolean,
-    fullWidth?: boolean,
     className?: string
 }
-export function BasePage({ className, children, hideBackground, fullWidth }: Props) {
+function BasePage({ className, children, hideBackground }: Props) {
     const classes = useStyles();
-    
-    return (<Grid className={classes.root} container justify='center'>
+
+    return (<Grid className={classNames(classes.root, className)} container justify='center'>
         {!hideBackground &&
             <div className={classes.imageContainer}>
                 <div className={classes.image}></div>
             </div>
         }
-        <Grid className={classNames(className, !fullWidth && classes.card)} item xs={fullWidth ? 12 : 11} md={fullWidth ? 12 : 8} lg={fullWidth ? 12 : 6}>
-            {children}
+        <Grid item container justify='center' xs={12} className={classes.container}>
+        {children}
         </Grid>
     </Grid>)
+}
 
+export function UltraWidePage({ children, ...props }: Props) {
+    return <BasePage {...props}>
+        <Grid item xs={11}>
+            {children}
+        </Grid>
+    </BasePage>
+}
+
+export function WidePage({ children, ...props }: Props) {
+    return <BasePage {...props}>
+        <Grid item xs={11} md={8} lg={6}>
+            {children}
+        </Grid>
+    </BasePage>
+}
+
+export function SlimPage({ children, ...props }: Props) {
+    return <BasePage {...props}>
+        <Grid item xs={8} sm={6} md={4} lg={3}>
+            {children}
+        </Grid>
+    </BasePage>
 }
