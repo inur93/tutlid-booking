@@ -10,7 +10,6 @@
     "save": "Gem",
     "create": "Opret",
     "delete": "Slet",
-    "new": "Ny",
     "add": "Tilføj",
     "close": "Luk",
     "login": "Login",
@@ -25,7 +24,8 @@
     "account": "Profil",
     "register": "Tilmeld",
     "updatePassword": "Opdater kodeord",
-    "resetPassword": "Nulstil kodeord"
+    "resetPassword": "Nulstil kodeord",
+    "new": "Ny"
   },
   "languages": {
     "da": "Dansk",

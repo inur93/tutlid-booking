@@ -1,7 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { GalleryPreview } from '../../components/gallery/GalleryPreview';
+import { Gallery } from '../../components/gallery/Gallery';
 import { ButtonContainer } from '../../components/shared/ButtonContainer';
 import Panel from '../../components/shared/Panel';
 import { Spacer } from '../../components/shared/Spacer';
@@ -34,7 +34,7 @@ export function HomePage() {
             </Panel>
             <Spacer />
             <Panel >
-                <GalleryPreview />
+                <Gallery />
                 <Spacer />
                 <Typography variant='body1'>{t('app:homePage.gallery')}</Typography>
                 <Spacer />

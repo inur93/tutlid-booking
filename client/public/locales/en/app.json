@@ -24,10 +24,10 @@
     "emptyDescription": "There is currently no price configured. Click on the button below the setup a pricematrix. The configured price will be used when users are creating a booking as well as being part of the confirmation email.",
     "currentPriceMatrixTabLabel": "Current",
     "tablePriceLabel": "Price / Person / Night",
-    "tablePriceTubLabel": "Hot Tub Price / Person",
     "tableValidFromLabel": "Valid From",
     "tableValidToLabel": "Expires at",
-    "header": "Price Matrix"
+    "header": "Price Matrix",
+    "tablePriceTubLabel": "Hot Tub Price / Person"
   },
   "bookingInfo": {
     "description1": "Overnight guests: {{pplCount}}",
@@ -37,9 +37,9 @@
     "header": "Booking Information"
   },
   "bookingReceipt": {
-    "title": "Receipt",
     "details": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
+    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
+    "title": "Receipt"
   },
   "calendar": {
     "todayLabel": "Today",
@@ -47,19 +47,15 @@
     "previousLabel": "Previos"
   },
   "createBooking": {
+    "title": "New Booking",
     "fromLabel": "From",
     "toLabel": "To",
     "pplCountLabel": "Number of people",
     "pplCountPlaceholder": "Number of people",
-    "tubCountLabel": "Number of people using hot tub",
-    "tubCountPlaceholder": "Number of people using hot tub",
     "commentLabel": "Message for the owners",
     "commentPlaceholder": "Message for the owners",
-    "title": "New Booking"
-  },
-  "createBookingModal": {
-    "receiptHeader": "Receipt",
-    "createHeader": "New Booking"
+    "tubCountLabel": "Number of people using hot tub",
+    "tubCountPlaceholder": "Number of people using hot tub"
   },
   "priceTable": {
     "descriptionLabel": "Description",
@@ -134,5 +130,9 @@
   },
   "registerPage": {
     "header": "Register"
+  },
+  "createBookingModal": {
+    "receiptHeader": "Receipt",
+    "createHeader": "New Booking"
   }
 }

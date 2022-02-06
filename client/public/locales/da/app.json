@@ -24,10 +24,10 @@
     "emptyDescription": "Der findes ingen priser i øjeblikket. Klik på 'Tilføj' for at oprette.",
     "currentPriceMatrixTabLabel": "Nuværende",
     "tablePriceLabel": "Pris / Person / Nat",
-    "tablePriceTubLabel": "Pris for varm pot / Person",
     "tableValidFromLabel": "Gyldig fra",
     "tableValidToLabel": "Udløber den",
-    "header": "Prismatrice"
+    "header": "Prismatrice",
+    "tablePriceTubLabel": "Pris for varm pot / Person"
   },
   "bookingInfo": {
     "description1": "Overnattende gæster: {{pplCount}}",
@@ -37,9 +37,9 @@
     "header": "Booking information"
   },
   "bookingReceipt": {
-    "title": "Kvittering",
     "details": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
+    "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
+    "title": "Kvittering"
   },
   "calendar": {
     "todayLabel": "I dag",
@@ -47,19 +47,15 @@
     "previousLabel": "Forrige"
   },
   "createBooking": {
+    "title": "Ny booking",
     "fromLabel": "Fra",
     "toLabel": "Til",
     "pplCountLabel": "Antal personer",
     "pplCountPlaceholder": "Antal personer",
-    "tubCountLabel": "Pladser til den varme pot",
-    "tubCountPlaceholder": "Pladser til den varme pot",
     "commentLabel": "Besked til ejerne",
     "commentPlaceholder": "Besked til ejerne",
-    "title": "Ny booking"
-  },
-  "createBookingModal": {
-    "receiptHeader": "Kvittering",
-    "createHeader": "Ny booking"
+    "tubCountLabel": "Pladser til den varme pot",
+    "tubCountPlaceholder": "Pladser til den varme pot"
   },
   "priceTable": {
     "descriptionLabel": "Beskrivelse",
@@ -134,5 +130,9 @@
   },
   "registerPage": {
     "header": "Opret bruger"
+  },
+  "createBookingModal": {
+    "receiptHeader": "Kvittering",
+    "createHeader": "Ny booking"
   }
 }

@@ -1,11 +1,11 @@
 import { Route, Switch } from 'react-router-dom';
-import { Gallery } from '../components/gallery/Gallery';
 import BookingsPage from './admin/BookingsPage';
 import { FinancePage } from './admin/FinancePage';
 import { UserDetailsPage } from './admin/UserDetailsPage';
 import { UsersPage } from './admin/UsersPage';
 import { CreateBookingPage } from './bookings/CreateBookingPage';
 import { CalendarPage } from './shared/CalendarPage';
+import { GalleryPage } from './shared/GalleryPage';
 import { HomePage } from './shared/HomePage';
 import { LoginPage } from './shared/LoginPage';
 import { RegisterPage } from './shared/RegisterPage';
@@ -22,7 +22,7 @@ export function Routes() {
         <Route path="/admin/bookings" component={BookingsPage} />
         <Route path="/admin/finances" component={FinancePage} />
         <Route path="/reset-password" component={ResetPasswordPage} />
-        <Route path="/gallery" component={Gallery} />
+        <Route path="/gallery" component={GalleryPage} />
         <Route path="/" component={HomePage} />
     </Switch>)
 }

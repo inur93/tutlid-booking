@@ -10,7 +10,6 @@
     "save": "Save",
     "create": "Create",
     "delete": "Delete",
-    "new": "New",
     "add": "Add",
     "close": "Close",
     "login": "Login",
@@ -25,7 +24,8 @@
     "account": "Account",
     "register": "Register",
     "updatePassword": "Update Password",
-    "resetPassword": "Reset Password"
+    "resetPassword": "Reset Password",
+    "new": "New"
   },
   "languages": {
     "da": "Dansk",
