@@ -1,8 +1,6 @@
-import { Avatar, CardContent, CardHeader, createStyles, Grid, makeStyles, Theme, Card, Typography, CardActions } from '@material-ui/core';
+import { Avatar, Card, CardActions, CardContent, CardHeader, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
-import { useState } from 'react';
 import api, { User } from '../../../api';
-import { AdminApi } from '../../../api/adminApi';
 import { useData } from '../../../hooks/useData';
 import UserRoles from './UserRoles';
 

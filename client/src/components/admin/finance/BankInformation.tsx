@@ -6,18 +6,7 @@ import * as yup from 'yup';
 import api, { BankInformation } from '../../../api';
 import { useData } from '../../../hooks/useData';
 import { Alert } from '../../shared/Alert';
-
-const useStyles = makeStyles((theme: Theme) =>
-({
-    root: {
-        '& .MuiTextField-root,& .MuiButtonBase-root': {
-            marginBottom: theme.spacing(2)
-        },
-        '& h6': {
-            marginBottom: theme.spacing(1)
-        }
-    },
-}));
+import { ButtonContainer } from '../../shared/ButtonContainer';
 
 type BankInformationProps = {}
 
@@ -34,7 +23,6 @@ function getSchema(t: TFunction<string[]>) {
     })
 }
 export default function BankInformationForm({ }: BankInformationProps) {
-    const classes = useStyles();
     const { t } = useTranslation(['app', 'common']);
     const [{ error, loading, data: bankInformation }, reload] = useData<BankInformation>(() => api.AdminApi.getBankInformation());
     const schema = getSchema(t);
@@ -46,10 +34,10 @@ export default function BankInformationForm({ }: BankInformationProps) {
         helpers.setSubmitting(false);
     }
 
-    if(error) return <p>{error}</p>
+    if (error) return <p>{error}</p>
     if (!bankInformation) return null;
 
-    return (<Grid className={classes.root}>
+    return (<Grid>
         <Formik initialValues={{
             regNo: bankInformation?.regNo,
             accountNo: bankInformation?.accountNo
@@ -58,33 +46,33 @@ export default function BankInformationForm({ }: BankInformationProps) {
             onSubmit={handleUpdate}>
             {({ isSubmitting, errors, touched, handleChange, values: { regNo, accountNo } }) => (
                 <Form>
-                    <FormGroup>
-                        <TextField type="text"
-                            name="regNo"
-                            label={t('app:bankInformation.regNoLabel')}
-                            placeholder={t('app:bankInformation.regNoPlaceholder')}
-                            variant='outlined'
-                            error={Boolean(errors.regNo)}
-                            value={regNo}
-                            helperText={errors.regNo ? errors.regNo : ''}
-                            onChange={handleChange} />
+                    <TextField type="text"
+                        name="regNo"
+                        label={t('app:bankInformation.regNoLabel')}
+                        placeholder={t('app:bankInformation.regNoPlaceholder')}
+                        variant='outlined'
+                        fullWidth
+                        error={Boolean(errors.regNo)}
+                        value={regNo}
+                        helperText={errors.regNo ? errors.regNo : ''}
+                        onChange={handleChange} />
 
-                        <TextField type="text"
-                            name="accountNo"
-                            label={t('app:bankInformation.accountNoLabel')}
-                            placeholder={t('app:bankInformation.accountNoPlaceholder')}
-                            variant='outlined'
-                            error={Boolean(errors.accountNo)}
-                            value={accountNo}
-                            helperText={errors.accountNo ? errors.accountNo : ''}
-                            onChange={handleChange} />
-                    </FormGroup>
-                    <FormGroup>
+                    <TextField type="text"
+                        name="accountNo"
+                        label={t('app:bankInformation.accountNoLabel')}
+                        fullWidth
+                        placeholder={t('app:bankInformation.accountNoPlaceholder')}
+                        variant='outlined'
+                        error={Boolean(errors.accountNo)}
+                        value={accountNo}
+                        helperText={errors.accountNo ? errors.accountNo : ''}
+                        onChange={handleChange} />
+                    <ButtonContainer right>
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting || loading}>
                             {t('common:button.save')}
                         </Button>
-                        {error && <Alert severity='error'>{error}</Alert>}
-                    </FormGroup>
+                    </ButtonContainer>
+                    {error && <Alert severity='error'>{error}</Alert>}
                 </Form>)
             }
         </Formik>

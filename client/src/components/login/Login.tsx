@@ -1,11 +1,13 @@
-import { Button, FormGroup, TextField } from "@material-ui/core";
+import { Button, TextField, Typography } from "@material-ui/core";
 import { Form, Formik, FormikHelpers } from 'formik';
-import { TFunction, useTranslation } from 'react-i18next';
+import { TFunction, Trans, useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useAuthUser } from "../../hooks/useAuthUser";
 import { Alert } from '../shared/Alert';
+import { ButtonContainer } from "../shared/ButtonContainer";
 import Panel from "../shared/Panel";
+import { Spacer } from "../shared/Spacer";
 
 const getSchema = (t: TFunction<string[]>) => {
 
@@ -41,37 +43,37 @@ export function Login({ onComplete, header }: LoginProps) {
             onSubmit={handleLogin}>
             {({ isSubmitting, errors, touched, handleChange, values: { email, password } }) => (
                 <Form noValidate>
-                    <FormGroup>
-                        <TextField type="email"
-                            name="email"
-                            error={!!(errors.email && touched.email)}
-                            helperText={touched.email ? errors.email : ''}
-                            label={t('app:login.emailLabel')}
-                            placeholder={t('app:login.emailPlaceholder')}
-                            variant='outlined'
-                            value={email}
-                            onChange={handleChange} />
+                    <Typography variant='body1'>
+                        <Trans i18nKey="app:login.register" components={[<Link to='/register'></Link>]}></Trans>
+                    </Typography>
+                    <Spacer />
+                    <TextField type="email"
+                        fullWidth
+                        name="email"
+                        error={!!(errors.email && touched.email)}
+                        helperText={touched.email ? errors.email : ''}
+                        label={t('app:login.emailLabel')}
+                        placeholder={t('app:login.emailPlaceholder')}
+                        variant='outlined'
+                        value={email}
+                        onChange={handleChange} />
 
-                        <TextField type="password"
-                            name="password"
-                            label={t('app:login.passwordLabel')}
-                            placeholder={t('app:login.passwordPlaceholder')}
-                            variant='outlined'
-                            value={password}
-                            onChange={handleChange} />
-                    </FormGroup>
+                    <TextField type="password"
+                        fullWidth
+                        name="password"
+                        label={t('app:login.passwordLabel')}
+                        placeholder={t('app:login.passwordPlaceholder')}
+                        variant='outlined'
+                        value={password}
+                        onChange={handleChange} />
 
+                    <Link to='/reset-password'>{t('app:login.forgotPassword')}</Link>
                     {error && <Alert severity='error'>{t(error)}</Alert>}
-                    <FormGroup>
-
+                    <ButtonContainer right>
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                             {t('common:button.login')}
                         </Button>
-                        <Button component={Link} to='/register' variant='outlined' color='secondary' onClick={onComplete}>
-                            {t('common:button.register')}
-                        </Button>
-                        <Link to='/reset-password'>{t('app:login.forgotPassword')}</Link>
-                    </FormGroup>
+                    </ButtonContainer>
                 </Form>)
             }
         </Formik>

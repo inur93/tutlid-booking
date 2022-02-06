@@ -8,19 +8,16 @@ import { Booking } from '../../../api';
 import { isAnonymous } from '../../../utils/bookingFunctions';
 import { formatDate } from '../../../utils/dateFunctions';
 
-
 const useStyles = makeStyles((theme: Theme) =>
 ({
     badge: {
         marginRight: theme.spacing(1)
     }
-
 }));
 
 type Props = {
     booking: Booking
 }
-
 
 export function BookingListItem({ booking }: Props) {
     const classes = useStyles();

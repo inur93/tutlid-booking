@@ -18,12 +18,17 @@ const theme = createMuiTheme({
     }
   },
   overrides: {
+    MuiTextField: {
+      root: {
+        marginBottom: '0.75rem'
+      }
+    },
     MuiCssBaseline: {
       '@global': {
         a: {
           color: green[500],
           'text-decoration': 'none'
-        }
+        },
       }
     }
   },

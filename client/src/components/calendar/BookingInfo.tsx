@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, makeStyles, Theme } from '@material-ui/core';
+import { Button, Card, CardContent } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import api, { Booking } from '../../api';
@@ -6,19 +6,12 @@ import { useAuthUser } from '../../hooks/useAuthUser';
 import { formatDate } from '../../utils/dateFunctions';
 import { Alert } from '../shared/Alert';
 
-const useStyles = makeStyles((theme: Theme) =>
-({
-    'root': {
-    }
-}));
-
 export type BookingInfoProps = {
     onClose: () => void,
     booking: Booking
 }
 
 export default function BookingInfo({ onClose, booking }: BookingInfoProps) {
-    const classes = useStyles();
     const [user] = useAuthUser();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);

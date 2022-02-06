@@ -5,18 +5,21 @@ import BankInformation from '../../components/admin/finance/BankInformation';
 import PriceMatrix from '../../components/admin/finance/PriceMatrix';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
+import { Spacer } from '../../components/shared/Spacer';
 import { SlimPage } from '../BasePage';
 
 export function FinancePage() {
     const { t } = useTranslation('app');
-    return (<ProtectedComponent requiredRoles={[Role.admin]}>
-        <SlimPage>
+    return (<SlimPage>
+        <ProtectedComponent requiredRoles={[Role.admin]}>
             <Panel>
-                <Typography variant='h6'>{t('app:bankInformation.header')}</Typography>
+                <Typography variant='h2'>{t('app:bankInformation.header')}</Typography>
+                <Spacer />
                 <BankInformation />
-                <Typography variant="h6">{t('app:priceMatrix.header')}</Typography>
+                <Spacer />
+                <Typography variant="h2">{t('app:priceMatrix.header')}</Typography>
                 <PriceMatrix />
             </Panel>
-        </SlimPage>
-    </ProtectedComponent>)
+        </ProtectedComponent>
+    </SlimPage >)
 }

@@ -1,19 +1,12 @@
-import { makeStyles, Table, TableBody, TableCell, TableHead, TableRow, Theme } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BookingPriceInfo } from '../../api';
-
-const useStyles = makeStyles((theme: Theme) =>
-({
-    'root': {
-    }
-}));
 
 type PriceTableProps = {
     priceInfo?: BookingPriceInfo
 }
 export default function PriceTable({ priceInfo }: PriceTableProps) {
-    const classes = useStyles();
     const { t } = useTranslation('app');
 
     const priceQty = priceInfo ? `${priceInfo.pplCount} x ${priceInfo.days}` : '-';

@@ -17,8 +17,8 @@ describe('Create Bookings as normal user', () => {
     })
 
     it('create normal booking single person', () => {
-        // first day in calendar
-        cy.get('.rbc-day-bg').first().click();
+        // last day in calendar - previously we used first day but this does not always work
+        cy.get('.rbc-day-bg').last().click();
         cy.get('input[name=from]').typeDate(startOfToday());
         cy.get('input[name=to]').typeDate(startOfTomorrow());
         cy.get('input[name=pplCount]').type(1);

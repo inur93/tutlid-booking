@@ -23,12 +23,12 @@ export function UsersPage() {
             <Panel>
                 {showNewUsers &&
                     <Grid>
-                        <Typography variant='h6'>{t('app:newUserPanel.header')}</Typography>
+                        <Typography variant='h2'>{t('app:newUserPanel.header')}</Typography>
                         <NewUserList users={newUsers || []} changeStatus={updateStatus} />
                     </Grid>}
                 {!loading &&
                     <Grid>
-                        <Typography variant='h6'>{t('app:usersPage.usersHeader')}</Typography>
+                        <Typography variant='h2'>{t('app:usersPage.usersHeader')}</Typography>
                         <UserList users={users || []} />
                     </Grid>}
             </Panel>

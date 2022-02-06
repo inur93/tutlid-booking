@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             minHeight: '10rem',
             '& .MuiTextField-root,& .MuiButtonBase-root': {
-                marginBottom: theme.spacing(2)
+                // marginBottom: theme.spacing(2)
             }
         },
         header: {
@@ -34,7 +34,7 @@ export default function Panel({ header, children, elevation, smallHeader, classN
 
     return (<Card className={classes.root} elevation={elevation || 0}>
         <CardContent className={classnames(classes.content, className)}>
-            {header && <Typography className={classes.header} variant={smallHeader ? "h6" : "h1"}>{header}</Typography>}
+            {header && <Typography className={classes.header} variant={smallHeader ? "h2" : "h1"}>{header}</Typography>}
             {children}
         </CardContent>
     </Card>)

@@ -34,15 +34,12 @@ type Props = {
 function MenuItem({ onClick, listItem, text, link, icon, nested }: Props) {
     const classes = useStyles();
     if (listItem) {
-
         return (
             <ListItem className={classNames(nested && classes.nested)} button component={Link} to={link} onClick={onClick}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
             </ListItem>
         )
-
-
     }
     return (<Button className={classes.icon}
         onClick={onClick}

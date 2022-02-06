@@ -68,6 +68,7 @@
     "totalLabel": "Total"
   },
   "login": {
+    "register": "Har du endnu ikke fået en konto? <0>tilmeld dig her</0>",
     "emailLabel": "Email",
     "emailPlaceholder": "Email",
     "passwordLabel": "Adgangskode",

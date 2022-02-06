@@ -30,25 +30,26 @@ export default function BookingsPage() {
     }
 
     const count = numBookings > (upcomingBookings?.length || 5) ? upcomingBookings?.length : numBookings;
-    return (<ProtectedComponent requiredRoles={[Role.admin]}>
+    return (
         <SlimPage>
-            <Panel>
-                <Typography variant='h1'>{t('app:bookingsPage.title')}</Typography>
-                <Typography variant='h2'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>
-                <PendingBookingsList bookings={bookings} changeStatus={changeBookingStatus} />
+            <ProtectedComponent requiredRoles={[Role.admin]}>
+                <Panel>
+                    <Typography variant='h1'>{t('app:bookingsPage.title')}</Typography>
+                    <Typography variant='h2'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>
+                    <PendingBookingsList bookings={bookings} changeStatus={changeBookingStatus} />
 
-                <Typography variant='h2'>{t('app:bookingsPage.upcomingBookingsHeader', { count })}</Typography>
-                {(!loadingUpcomingBookings && upcomingBookings && !upcomingBookings.length) &&
-                    <Typography variant='body1'>{t('app:bookingsPage.noUpcomingBookingsLabel')}</Typography>}
-                <BookingList bookings={upcomingBookings || []} />
-                <Grid container justify='center'>
-                    {numBookings <= (upcomingBookings?.length || 0) &&
-                        <Button color='primary' variant='outlined' onClick={() => setNumBookings((c) => c + 5)} >
-                            {t('app:bookingsPage.loadMore')}
-                        </Button>
-                    }
-                </Grid>
-            </Panel>
-        </SlimPage>
-    </ProtectedComponent>);
+                    <Typography variant='h2'>{t('app:bookingsPage.upcomingBookingsHeader', { count })}</Typography>
+                    {(!loadingUpcomingBookings && upcomingBookings && !upcomingBookings.length) &&
+                        <Typography variant='body1'>{t('app:bookingsPage.noUpcomingBookingsLabel')}</Typography>}
+                    <BookingList bookings={upcomingBookings || []} />
+                    <Grid container justify='center'>
+                        {numBookings <= (upcomingBookings?.length || 0) &&
+                            <Button color='primary' variant='outlined' onClick={() => setNumBookings((c) => c + 5)} >
+                                {t('app:bookingsPage.loadMore')}
+                            </Button>
+                        }
+                    </Grid>
+                </Panel>
+            </ProtectedComponent>
+        </SlimPage>);
 }

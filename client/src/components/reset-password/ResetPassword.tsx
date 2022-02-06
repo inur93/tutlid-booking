@@ -1,6 +1,6 @@
 
 
-import { Button, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@material-ui/core";
+import { Button, IconButton, InputAdornment, TextField, Typography } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Form, Formik, FormikHelpers } from 'formik';
 import queryString from 'query-string';
@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import * as yup from 'yup';
 import api from "../../api";
 import { Alert } from '../shared/Alert';
+import { ButtonContainer } from "../shared/ButtonContainer";
 import Panel from "../shared/Panel";
 
 let resetFormSchema = yup.object().shape({
@@ -45,36 +46,35 @@ export function UpdatePasswordForm({ t, error, complete, handleUpdatePassword }:
         onSubmit={handleUpdatePassword}>
         {({ isSubmitting, errors, touched, handleChange, values: { password } }) => (
             <Form>
-                <FormGroup>
-                    <TextField type={showPassword ? "text" : "password"}
-                        name="password"
-                        label={t('app:resetPassword.passwordLabel')}
-                        placeholder={t('app:resetPassword.passwordPlaceholder')}
-                        variant='outlined'
-                        error={Boolean(errors.password)}
-                        helperText={errors.password ? errors.password : ''}
-                        value={password}
-                        onChange={handleChange}
-                        InputProps={{ // <-- This is where the toggle button is added.
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={() => setShowPassword(val => !val)}
-                                    >
-                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }} />
-                </FormGroup>
-                <FormGroup>
+                <TextField type={showPassword ? "text" : "password"}
+                    fullWidth
+                    name="password"
+                    label={t('app:resetPassword.passwordLabel')}
+                    placeholder={t('app:resetPassword.passwordPlaceholder')}
+                    variant='outlined'
+                    error={Boolean(errors.password)}
+                    helperText={errors.password ? errors.password : ''}
+                    value={password}
+                    onChange={handleChange}
+                    InputProps={{ // <-- This is where the toggle button is added.
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => setShowPassword(val => !val)}
+                                >
+                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }} />
+                <ButtonContainer right>
                     <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                         {t('common:button.updatePassword')}
                     </Button>
-                    {error && <Alert severity='error'>{error}</Alert>}
-                    {complete && <Alert severity='success' >{t('app:resetPassword.passwordUpdateMessage')}</Alert>}
-                </FormGroup>
+                </ButtonContainer>
+                {error && <Alert severity='error'>{error}</Alert>}
+                {complete && <Alert severity='success' >{t('app:resetPassword.passwordUpdateMessage')}</Alert>}
             </Form>)
         }
     </Formik>
@@ -86,24 +86,25 @@ export function ResetPasswordForm({ handleResetPassword, error, complete, t }: R
         onSubmit={handleResetPassword}>
         {({ isSubmitting, errors, touched, handleChange, values: { email } }) => (
             <Form>
-                <FormGroup>
-                    <TextField type="email"
-                        name="email"
-                        label={t('app:resetPassword.emailLabel')}
-                        placeholder={t('app:resetPassword.emailPlaceholder')}
-                        variant='outlined'
-                        value={email}
-                        error={Boolean(errors.email)}
-                        helperText={errors.email ? errors.email : ''}
-                        onChange={handleChange} />
-                </FormGroup>
-                <FormGroup>
+                <TextField type="email"
+                    fullWidth
+                    name="email"
+                    label={t('app:resetPassword.emailLabel')}
+                    placeholder={t('app:resetPassword.emailPlaceholder')}
+                    variant='outlined'
+                    value={email}
+                    error={Boolean(errors.email)}
+                    helperText={errors.email ? errors.email : ''}
+                    onChange={handleChange} />
+
+                <ButtonContainer right>
                     <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                         {t('common:button.resetPassword')}
                     </Button>
-                    {error && <Alert severity='error'>{error}</Alert>}
-                    {complete && <Alert severity='success' >{t('app:resetPassword.completeMessage')}</Alert>}
-                </FormGroup>
+                </ButtonContainer>
+                {error && <Alert severity='error'>{error}</Alert>}
+                {complete && <Alert severity='success' >{t('app:resetPassword.completeMessage')}</Alert>}
+
             </Form>)
         }
     </Formik>

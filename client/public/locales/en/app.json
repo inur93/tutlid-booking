@@ -68,6 +68,7 @@
     "totalLabel": "Total"
   },
   "login": {
+    "register": "Don't have an account yet? <0>register here</0>",
     "emailLabel": "Email",
     "emailPlaceholder": "Email",
     "passwordLabel": "Password",

@@ -5,27 +5,12 @@ import { CreatePriceMatrix as CreatePriceMatrixModel } from '../../../api';
 import { usePriceMatrices } from '../../../hooks/usePriceMatrices';
 import { formatDate } from '../../../utils/dateFunctions';
 import { ButtonContainer } from '../../shared/ButtonContainer';
+import { Spacer } from '../../shared/Spacer';
 import CreatePriceMatrix from './CreatePriceMatrix';
 import { PriceMatrixTable } from './PriceMatrixTable';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '& .MuiTextField-root': {
-                marginBottom: theme.spacing(1)
-            }
-        },
-        button: {
-            marginTop: theme.spacing(2)
-        },
-        form: {
-            marginTop: theme.spacing(2)
-        }
-    }));
-
 type PriceMatrixProps = {}
 export default function PriceMatrix({ }: PriceMatrixProps) {
-    const classes = useStyles();
     const { t, i18n } = useTranslation(['common', 'app']);
     const [{ priceMatrices, current }, { create, delete: deletePm }] = usePriceMatrices();
     const [tab, setTab] = useState(0);
@@ -67,16 +52,17 @@ export default function PriceMatrix({ }: PriceMatrixProps) {
                 </div>
             })
         }
+        <Spacer />
         <Collapse in={show}>
             <CreatePriceMatrix onCancel={() => setShow(false)} onCreate={handleCreate} />
         </Collapse>
-        <ButtonContainer>
+        <ButtonContainer right>
             {!!(!show && priceMatrices?.length) &&
-                <Button className={classes.button} variant="contained" color="secondary" onClick={() => deletePm(priceMatrices[tab]._id)}>
+                <Button variant="contained" color="secondary" onClick={() => deletePm(priceMatrices[tab]._id)}>
                     {t('common:button.delete')}
                 </Button>}
             {!show &&
-                <Button className={classes.button} variant={"contained"} color="primary" onClick={() => setShow(v => !v)}>
+                <Button variant={"contained"} color="primary" onClick={() => setShow(v => !v)}>
                     {t('common:button.add')}
                 </Button>
             }
