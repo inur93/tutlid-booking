@@ -38,7 +38,7 @@ export function HomePage() {
                 <Spacer />
                 <Typography variant='body1'>{t('app:homePage.gallery')}</Typography>
                 <Spacer />
-                <ButtonContainer>
+                <ButtonContainer >
                     <Button data-cy='gallery-btn' variant='contained' color='primary' component={Link} to={'/gallery'}>
                         {t('common:button.gallery')}
                     </Button>
