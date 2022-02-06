@@ -4,7 +4,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Role } from '../../api';
 import { useAuthUser } from '../../hooks/useAuthUser';
 import LanguageSelector from '../shared/LanguageSelect';
-import { AdminMenuItem, GalleryMenuItem, HomeMenuItem, LoginMenuItem, LogoutMenuItem } from './MenuItems';
+import { AdminMenuItem, CalendarMenuItem, GalleryMenuItem, HomeMenuItem, LoginMenuItem, LogoutMenuItem } from './MenuItems';
 const useStyles = makeStyles((theme) =>
     createStyles({
         drawerHeader: {
@@ -47,6 +47,7 @@ export function Drawer({ open, handleClose }: Props) {
         <Divider />
         <List>
             <HomeMenuItem listItem onClick={handleClose} />
+            {user.isLoggedIn && <CalendarMenuItem listItem onClick={handleClose} />}
             <GalleryMenuItem listItem onClick={handleClose} />
             {isAdmin && <AdminMenuItem listItem onClick={handleClose} />}
         </List>

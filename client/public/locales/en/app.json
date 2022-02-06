@@ -37,7 +37,9 @@
     "header": "Booking Information"
   },
   "bookingReceipt": {
-    "details": "Your booking for {{pplCount}} overnight guests and {{tubCount}} spots for the hot tub in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
+    "title": "Receipt",
+    "details": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
+    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
   },
   "calendar": {
     "todayLabel": "Today",
@@ -52,7 +54,8 @@
     "tubCountLabel": "Number of people using hot tub",
     "tubCountPlaceholder": "Number of people using hot tub",
     "commentLabel": "Message for the owners",
-    "commentPlaceholder": "Message for the owners"
+    "commentPlaceholder": "Message for the owners",
+    "title": "New Booking"
   },
   "createBookingModal": {
     "receiptHeader": "Receipt",
@@ -106,6 +109,10 @@
   "accessDenied": {
     "requireRoles": "You need one of the following roles: {{roles}}, to access this page.",
     "requireLoginMsg": "You need to login to access this page"
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "noBookings": "You have currently no plans of visiting the summer house"
   },
   "bookingsPage": {
     "title": "Bookings",

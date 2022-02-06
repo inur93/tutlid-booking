@@ -1,22 +1,24 @@
-import { Button, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { BookingCalendar } from '../../components/calendar/BookingCalendar';
 import { GalleryPreview } from '../../components/gallery/GalleryPreview';
 import { ButtonContainer } from '../../components/shared/ButtonContainer';
 import Panel from '../../components/shared/Panel';
 import { Spacer } from '../../components/shared/Spacer';
+import MyBookings from '../../components/user/MyBookings';
 import { useAuthUser } from '../../hooks/useAuthUser';
-import { UltraWidePage, WidePage } from '../BasePage';
+import { SlimPage, WidePage } from '../BasePage';
 
 export function HomePage() {
     const [user] = useAuthUser();
     const { t } = useTranslation(['app', 'common']);
 
     if (user.isLoggedIn) {
-        return <UltraWidePage>
-            <BookingCalendar />
-        </UltraWidePage>
+        return <SlimPage>
+            <Panel>
+                <MyBookings />
+            </Panel>
+        </SlimPage>
     }
 
     return <WidePage>

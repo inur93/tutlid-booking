@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { Role } from '../../api';
 import { useAuthUser } from '../../hooks/useAuthUser';
 import LanguageSelector from '../shared/LanguageSelect';
-import { AdminMenuItem, GalleryMenuItem, HomeMenuItem } from './MenuItems';
+import { AdminMenuItem, CalendarMenuItem, GalleryMenuItem, HomeMenuItem } from './MenuItems';
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -44,6 +44,7 @@ export function NavigationMenu({ }: Props) {
     const isAdmin = user.hasRole(Role.admin);
     return (<div>
         <HomeMenuItem />
+        {user.isLoggedIn && <CalendarMenuItem />}
         <GalleryMenuItem />
         {isAdmin && <AdminMenuItem />}
         {user.isLoggedIn &&

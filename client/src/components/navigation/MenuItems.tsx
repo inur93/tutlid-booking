@@ -1,4 +1,5 @@
 import { Button, List, ListItem, ListItemIcon, ListItemText, ListSubheader, makeStyles, Menu, MenuItem as MuiMenuItem, Theme } from "@material-ui/core";
+import { CalendarToday } from "@material-ui/icons";
 import FinanceIcon from '@material-ui/icons/AccountBalance';
 import BookingsIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/HomeRounded';
@@ -57,6 +58,11 @@ export type MenuItemProps = {
 export function HomeMenuItem(props: MenuItemProps) {
     const { t } = useTranslation('common');
     return <MenuItem {...props} icon={<HomeIcon />} link='/' text={t('common:button.home')} />
+}
+
+export function CalendarMenuItem(props: MenuItemProps) {
+    const { t } = useTranslation('common');
+    return <MenuItem {...props} icon={<CalendarToday />} link='/calendar' text={t('common:button.calendar')} />
 }
 
 export function GalleryMenuItem(props: MenuItemProps) {

@@ -37,7 +37,9 @@
     "header": "Booking information"
   },
   "bookingReceipt": {
-    "details": "Din booking for {{pplCount}} gæster og {{tubCount}} til den varme pot i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
+    "title": "Kvittering",
+    "details": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
+    "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
   },
   "calendar": {
     "todayLabel": "I dag",
@@ -52,7 +54,8 @@
     "tubCountLabel": "Pladser til den varme pot",
     "tubCountPlaceholder": "Pladser til den varme pot",
     "commentLabel": "Besked til ejerne",
-    "commentPlaceholder": "Besked til ejerne"
+    "commentPlaceholder": "Besked til ejerne",
+    "title": "Ny booking"
   },
   "createBookingModal": {
     "receiptHeader": "Kvittering",
@@ -106,6 +109,10 @@
   "accessDenied": {
     "requireRoles": "Du mangler en af følgende roller: {{roles}}, for at tilgå denne side.",
     "requireLoginMsg": "Du skal logge ind for at tilgå denne side"
+  },
+  "myBookings": {
+    "title": "Mine bookinger",
+    "noBookings": "Du har p.t. ingen planlagte besøg i sommerhuset."
   },
   "bookingsPage": {
     "title": "Bookinger",

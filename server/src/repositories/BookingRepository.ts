@@ -23,7 +23,7 @@ export default class BookingRepository implements IBookingRepository {
                 fullName: true
             });
     }
-    async find({ from, to, status, count }: QueryBooking): Promise<BookingDoc[]> {
+    async find({ from, to, status, count, user }: QueryBooking): Promise<BookingDoc[]> {
         const query: any = {};
         if (from) {
             query.to = { $gte: from };
@@ -33,6 +33,9 @@ export default class BookingRepository implements IBookingRepository {
         }
         if (status) {
             query.status = status;
+        }
+        if (user) {
+            query.bookedBy = Types.ObjectId(user);
         }
         return BookingModel
             .find(query)

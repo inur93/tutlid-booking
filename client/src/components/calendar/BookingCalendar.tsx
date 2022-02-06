@@ -29,7 +29,15 @@ export function BookingCalendar() {
 
     useEffect(() => {
         if (container.current) {
-            setHeight(container.current.parentElement!.offsetHeight - container.current.offsetTop + container.current.parentElement!.offsetTop);
+            setHeight(
+                // height of parent component
+                container.current.parentElement!.offsetHeight 
+                // subtract this elements offset from the top
+                - container.current.offsetTop 
+                // and add the parents offset from the top to correct any padding and margins
+                + container.current.parentElement!.offsetTop
+                // subtract arbitrary value to have an offset from the bottom
+                - 16);
         }
     }, [container])
     const handleSelectSlot = ({ start, end }: Range) => {

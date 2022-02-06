@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Booking } from '../../api';
@@ -13,17 +13,16 @@ export default function BookingReceipt({ onClose, booking }: BookingReceiptProps
     const { t, i18n } = useTranslation(['app', 'common']);
     const from = formatDate(booking.from, i18n.language);
     const to = formatDate(booking.to, i18n.language);
-    return (<Card>
-        <CardContent>
-            <Typography data-cy='receipt-message' variant='body1'>
-                {t('app:bookingReceipt.details', {
-                    pplCount: booking.pplCount,
-                    tubCount: booking.tubCount,
-                    from, to,
-                })}
-            </Typography>
+    return (<div>
+        <Typography data-cy='receipt-message' variant='body1'>
+            {t('app:bookingReceipt.details', {
+                count: booking.pplCount,
+                from, to,
+            })}
+        </Typography>
 
-            <Button variant='contained' color='primary' onClick={onClose}>{t('common:button.close')}</Button>
-        </CardContent>
-    </Card>);
+        <Button variant='contained' color='primary' onClick={onClose}>
+            {t('common:button.close')}
+        </Button>
+    </div>);
 }

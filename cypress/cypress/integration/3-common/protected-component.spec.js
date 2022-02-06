@@ -11,7 +11,7 @@
 // please read our getting started guide:
 // https://on.cypress.io/introduction-to-cypress
 
-describe('protected page', () => {
+describe('protected component', () => {
     beforeEach(() => {
         // Cypress starts out with a blank slate for each test
         // so we must tell it to visit our website with the `cy.visit()` command.

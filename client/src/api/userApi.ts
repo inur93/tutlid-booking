@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { BaseApi } from "./baseApi";
 
 export class UserApi extends BaseApi {
@@ -8,6 +9,12 @@ export class UserApi extends BaseApi {
 
     async self() {
         return await super.get('/users/self');
+    }
+
+    async myBookings(fromDate?: Date, toDate?: Date) {
+        const from = fromDate ? format(fromDate, 'yyyy-MM-dd') : undefined;
+        const to = toDate ? format(toDate, 'yyyy-MM-dd') : undefined;
+        return await super.get('/users/self/bookings').query({ from, to });
     }
 
 }

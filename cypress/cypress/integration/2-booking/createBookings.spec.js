@@ -13,16 +13,13 @@ const { startOfToday, startOfTomorrow, format} = require('date-fns')
 describe('Create Bookings as normal user', () => {
     beforeEach(() => {
         cy.login(Cypress.env('user_email'), Cypress.env('user_password'));
-        cy.visit('/');
+        cy.visit('/#/bookings/create');
     })
 
     it('create normal booking single person', () => {
-        // last day in calendar - previously we used first day but this does not always work
-        cy.get('.rbc-day-bg').last().click();
         cy.get('input[name=from]').typeDate(startOfToday());
         cy.get('input[name=to]').typeDate(startOfTomorrow());
         cy.get('input[name=pplCount]').type(1);
-        cy.get('input[name=tubCount]').type(1);
         cy.get('[name=comment]').type('This is a test from cypress');
 
         cy.intercept('POST', '/bookings').as('createBooking');
@@ -30,10 +27,9 @@ describe('Create Bookings as normal user', () => {
 
         cy.wait('@createBooking').its('response.statusCode').should('eq', 200);
 
-        cy.get('#create-booking-title h2').should('have.text', 'Kvittering');
+        cy.contains('h1', 'Kvittering');
         cy.get('[data-cy=receipt-message]')
-            .should('contain.text', 'Din booking for 1 gæster')
-            .and('contain.text', '1 til den varme pot')
+            .should('contain.text', 'Din booking for 1 gæst')
             .and('contain.text', `perioden ${format(startOfToday(), 'd')}`)
             .and('contain.text', `til ${format(startOfTomorrow(), 'd')}`)
     })
