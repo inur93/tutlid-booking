@@ -67,7 +67,7 @@ export default function BankInformationForm({ }: BankInformationProps) {
                         value={accountNo}
                         helperText={errors.accountNo ? errors.accountNo : ''}
                         onChange={handleChange} />
-                    <ButtonContainer right>
+                    <ButtonContainer>
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting || loading}>
                             {t('common:button.save')}
                         </Button>

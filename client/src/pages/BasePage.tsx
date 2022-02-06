@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         imageContainer: {
             position: 'absolute',
-            height: '100%',
+            height: '100vh',
             width: '100vw',
             opacity: 0.6,
             top: 0,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         image: {
             backgroundImage: 'url("/images/tutlid-view.jpg")',
-            height: '100%',
+            height: '100vh',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover'
@@ -76,7 +76,7 @@ export function WidePage({ children, ...props }: Props) {
 
 export function SlimPage({ children, ...props }: Props) {
     return <BasePage {...props}>
-        <Grid item xs={8} sm={6} md={4} lg={3}>
+        <Grid item xs={11} sm={8} md={6} lg={4}>
             {children}
         </Grid>
     </BasePage>

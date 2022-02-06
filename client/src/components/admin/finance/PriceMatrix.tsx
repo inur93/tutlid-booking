@@ -56,7 +56,7 @@ export default function PriceMatrix({ }: PriceMatrixProps) {
         <Collapse in={show}>
             <CreatePriceMatrix onCancel={() => setShow(false)} onCreate={handleCreate} />
         </Collapse>
-        <ButtonContainer right>
+        <ButtonContainer>
             {!!(!show && priceMatrices?.length) &&
                 <Button variant="contained" color="secondary" onClick={() => deletePm(priceMatrices[tab]._id)}>
                     {t('common:button.delete')}

@@ -80,7 +80,7 @@ export default function RegisterUser({ header }: RegisterUserProps) {
                             helperText={touched.password ? errors.password : ''}
                             onChange={handleChange} />
 
-                        <ButtonContainer right>
+                        <ButtonContainer>
                             <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                                 {t('common:button.register')}
                             </Button>

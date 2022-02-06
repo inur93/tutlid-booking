@@ -69,7 +69,7 @@ export function Login({ onComplete, header }: LoginProps) {
 
                     <Link to='/reset-password'>{t('app:login.forgotPassword')}</Link>
                     {error && <Alert severity='error'>{t(error)}</Alert>}
-                    <ButtonContainer right>
+                    <ButtonContainer>
                         <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                             {t('common:button.login')}
                         </Button>

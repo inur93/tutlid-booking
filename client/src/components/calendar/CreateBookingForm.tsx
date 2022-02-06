@@ -92,7 +92,7 @@ export function CreateBookingForm({ onComplete, from, to }: CreateBookingProps) 
                     value={comment}
                     helperText={errors.comment ? errors.comment : ''} />
 
-                <ButtonContainer right>
+                <ButtonContainer>
                     <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                         {t('common:button.create')}
                     </Button>

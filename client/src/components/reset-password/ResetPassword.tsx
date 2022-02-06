@@ -68,7 +68,7 @@ export function UpdatePasswordForm({ t, error, complete, handleUpdatePassword }:
                             </InputAdornment>
                         )
                     }} />
-                <ButtonContainer right>
+                <ButtonContainer>
                     <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                         {t('common:button.updatePassword')}
                     </Button>
@@ -97,7 +97,7 @@ export function ResetPasswordForm({ handleResetPassword, error, complete, t }: R
                     helperText={errors.email ? errors.email : ''}
                     onChange={handleChange} />
 
-                <ButtonContainer right>
+                <ButtonContainer>
                     <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
                         {t('common:button.resetPassword')}
                     </Button>

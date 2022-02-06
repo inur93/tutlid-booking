@@ -19,7 +19,7 @@ export default function MyBookings({ }: MyBookingsProps) {
         {(data && !data.length && !loading) && <Typography variant='body1'>{t('app:myBookings.noBookings')}</Typography>}
         {data && <BookingList bookings={data} />}
         <Spacer />
-        <ButtonContainer right>
+        <ButtonContainer>
             <Button color='primary' variant='contained' component={Link} to="/bookings/create">{t('common:button.new')}</Button>
         </ButtonContainer>
     </Grid>);

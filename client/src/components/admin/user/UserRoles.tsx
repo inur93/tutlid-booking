@@ -28,9 +28,10 @@ export default function ({ roles }: Props) {
         console.info('You clicked the Chip.');
     };
 
+    const primaryRole = roles.slice(roles.length - 1);
     return (
         <div className={classes.root}>
-            {roles.map(x => <Chip key={x} size="small" label={x} color="primary" />)}
+            {primaryRole.map(x => <Chip key={x} size="small" label={x} color="primary" />)}
         </div>
     );
 }
