@@ -26,7 +26,7 @@ const arg = (key) => {
         console.log('password is not specified');
         return;
     }
-    console.log('cwd', cwd);
+
     const check = (retryCount) => {
         exec(
             // 'caprover',
@@ -34,25 +34,17 @@ const arg = (key) => {
             `--caproverPassword ${password} ` +
             "--path /user/apps/appDefinitions --method GET --data \"{}\"",
             {
-                // cwd: cwd,
-                // shell: '/bin/bash',
                 env: {
                     "PATH": process.env.PATH + ':' + cwd
                 }
             },
             (error, stdout, stderr) => {
                 if (error) {
-                    console.log(`error. message is not shown to avoid showing passwords etc`);
-                    console.log(error) //TODO remove - temp solution
-                    // throw new Error("could not verify app " + appName);
-                    return;
+                    throw new Error("could not verify app " + appName);
                 }
 
                 if (stderr) {
-                    console.log(`error. message is not shown to avoid showing passwords etc`);
-                    console.log(stderr) //TODO remove - temp solution
-                    // throw new Error("could not verify app " + appName);
-                    return;
+                    throw new Error("could not verify app " + appName);
                 }
 
                 console.log('running...');
@@ -69,9 +61,6 @@ const arg = (key) => {
                     const currentVersion = appDef.deployedVersion;
                     const latestVersion = appDef.versions[appDef.versions.length - 1].version;
 
-                    // console.log('appdef', appDef);
-                    // console.log('version', appDef.versions[appDef.versions.length - 1]);
-
                     if (currentVersion === latestVersion) {
                         console.log('deploy was successful.');
                         return;
@@ -81,7 +70,7 @@ const arg = (key) => {
                         throw new Error(`timeout... current version is ${currentVersion} and latest version is ${latestVersion}`);
                     }
 
-                    if(!appDef.isAppBuilding) {
+                    if (!appDef.isAppBuilding) {
                         throw new Error('Deployment failed. see captain logs for more info');
                     }
                     if (currentVersion !== latestVersion) {

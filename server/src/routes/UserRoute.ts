@@ -50,7 +50,6 @@ export default class UserRoute implements IRoute {
             const q = request.query;
             const from = q.from ? new Date(Date.parse(q.from as string)) : undefined;
             const to = q.to ? new Date(Date.parse(q.to as string)) : undefined;
-            console.log('request', request, request.user);
             const user = request.user._id;
             const bookings = await this.bookingController.get({ from, to, user });
             response.send(bookings);

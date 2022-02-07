@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2)
         },
         content: {
+            //if not max-width, the image gallery for example will go out of bounds
+            maxWidth: '100%',
             flex: '1 1 auto',
         }
     }),

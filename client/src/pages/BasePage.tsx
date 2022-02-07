@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             height: '100vh',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            paddingBottom: theme.spacing(2)
         },
         container: {
             marginTop: theme.spacing(10),

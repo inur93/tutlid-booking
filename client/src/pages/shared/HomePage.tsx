@@ -34,7 +34,7 @@ export function HomePage() {
             </Panel>
             <Spacer />
             <Panel >
-                <Gallery />
+                <Gallery autoPlay hideNav/>
                 <Spacer />
                 <Typography variant='body1'>{t('app:homePage.gallery')}</Typography>
                 <Spacer />

@@ -36,8 +36,7 @@ export function BookingCalendar() {
                 - container.current.offsetTop 
                 // and add the parents offset from the top to correct any padding and margins
                 + container.current.parentElement!.offsetTop
-                // subtract arbitrary value to have an offset from the bottom
-                - 16);
+                );
         }
     }, [container])
     const handleSelectSlot = ({ start, end }: Range) => {
