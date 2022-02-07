@@ -1,9 +1,11 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import api, { Booking, BookingStatus, Role } from '../../api';
 import BookingList from '../../components/admin/booking/BookingList';
 import PendingBookingsList from '../../components/admin/booking/PendingBookingsList';
+import { ButtonContainer } from '../../components/shared/ButtonContainer';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { useBookings } from '../../hooks/useBookings';
@@ -49,6 +51,9 @@ export default function BookingsPage() {
                             </Button>
                         }
                     </Grid>
+                    <ButtonContainer left>
+                        <Button color='primary' component={Link} to='/admin'>{t('common:button.back')}</Button>
+                    </ButtonContainer>
                 </Panel>
             </ProtectedComponent>
         </SlimPage>);

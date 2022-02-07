@@ -1,4 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
+import AdminPage from './admin/AdminPage';
 import BookingsPage from './admin/BookingsPage';
 import { FinancePage } from './admin/FinancePage';
 import { UserDetailsPage } from './admin/UserDetailsPage';
@@ -21,6 +22,7 @@ export function Routes() {
         <Route path="/admin/users" component={UsersPage} />
         <Route path="/admin/bookings" component={BookingsPage} />
         <Route path="/admin/finances" component={FinancePage} />
+        <Route path='/admin' component={AdminPage} />
         <Route path="/reset-password" component={ResetPasswordPage} />
         <Route path="/gallery" component={GalleryPage} />
         <Route path="/" component={HomePage} />

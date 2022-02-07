@@ -110,6 +110,18 @@
     "title": "Mine bookinger",
     "noBookings": "Du har p.t. ingen planlagte besøg i sommerhuset."
   },
+  "adminPage": {
+    "users": "Brugere",
+    "usersAction": "{{count}} brugere afventer godkendelse",
+    "usersAction_zero": "Ingen handling nødvendig",
+    "usersAction_plural": "{{count}} brugere afventer godkendelse",
+    "bookings": "Bookinger",
+    "bookingsAction": "{{count}} bookinger afventer godkendelse",
+    "bookingsAction_zero": "Ingen handling nødvendig",
+    "bookingsAction_plural": "{{count}} bookinger afventer godkendelse",
+    "finances": "Økonomi",
+    "title": "Administration"
+  },
   "bookingsPage": {
     "title": "Bookinger",
     "pendingBookingsHeader": "Bookinger som afventer godkendelse",

@@ -16,16 +16,17 @@
     "home": "Home",
     "calendar": "Calendar",
     "gallery": "Gallery",
+    "admin": "Administration",
     "users": "Users",
     "bookings": "Bookings",
     "bank": "Finances",
-    "admin": "Administration",
     "logout": "Logout",
     "account": "Account",
     "register": "Register",
     "updatePassword": "Update Password",
     "resetPassword": "Reset Password",
-    "new": "New"
+    "new": "New",
+    "back": "Back"
   },
   "languages": {
     "da": "Dansk",

@@ -110,6 +110,18 @@
     "title": "My Bookings",
     "noBookings": "You have currently no plans of visiting the summer house"
   },
+  "adminPage": {
+    "users": "Users",
+    "usersAction": "{{count}} users require your action",
+    "usersAction_plural": "{{count}} users require your action",
+    "usersAction_zero": "No action required",
+    "bookings": "Bookings",
+    "bookingsAction": "{{count}} bookings require your action",
+    "bookingsAction_plural": "{{count}} bookings require your action",
+    "bookingsAction_zero": "No action required",
+    "finances": "Finances",
+    "title": "Administration"
+  },
   "bookingsPage": {
     "title": "Bookings",
     "pendingBookingsHeader": "Bookings await approval",

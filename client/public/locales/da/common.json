@@ -16,16 +16,17 @@
     "home": "Hjem",
     "calendar": "Kalender",
     "gallery": "Billeder",
+    "admin": "Administration",
     "users": "Brugere",
     "bookings": "Bookinger",
     "bank": "Økonomi",
-    "admin": "Administration",
     "logout": "Log ud",
     "account": "Profil",
     "register": "Tilmeld",
     "updatePassword": "Opdater kodeord",
     "resetPassword": "Nulstil kodeord",
-    "new": "Ny"
+    "new": "Ny",
+    "back": "Tilbage"
   },
   "languages": {
     "da": "Dansk",
