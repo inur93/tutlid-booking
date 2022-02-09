@@ -113,14 +113,14 @@
   "adminPage": {
     "users": "Brugere",
     "usersAction": "{{count}} brugere afventer godkendelse",
-    "usersAction_zero": "Ingen handling nødvendig",
     "usersAction_plural": "{{count}} brugere afventer godkendelse",
     "bookings": "Bookinger",
     "bookingsAction": "{{count}} bookinger afventer godkendelse",
-    "bookingsAction_zero": "Ingen handling nødvendig",
     "bookingsAction_plural": "{{count}} bookinger afventer godkendelse",
     "finances": "Økonomi",
-    "title": "Administration"
+    "title": "Administration",
+    "usersAction_zero": "Ingen handling nødvendig",
+    "bookingsAction_zero": "Ingen handling nødvendig"
   },
   "bookingsPage": {
     "title": "Bookinger",

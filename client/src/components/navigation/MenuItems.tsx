@@ -1,10 +1,10 @@
-import { Button, List, ListItem, ListItemIcon, ListItemText, ListSubheader, makeStyles, Menu, MenuItem as MuiMenuItem, Theme } from "@material-ui/core";
+import { Button, ListItem, ListItemIcon, ListItemText, makeStyles, Theme } from "@material-ui/core";
 import { CalendarToday } from "@material-ui/icons";
 import classNames from "classnames";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { FinanceIcon, BookingsIcon, HomeIcon, ImageIcon, LoginIcon, LogoutIcon, UsersIcon, AdminIcon } from "../shared/Icons";
+import { AdminIcon, HomeIcon, ImageIcon, LoginIcon, LogoutIcon } from "../shared/Icons";
 
 const useStyles = makeStyles((theme: Theme) =>
 ({
@@ -75,5 +75,5 @@ export function LoginMenuItem(props: MenuItemProps) {
 
 export function LogoutMenuItem(props: MenuItemProps) {
     const { t } = useTranslation('common');
-    return <MenuItem {...props} icon={<LogoutIcon />} link='/login' text={t('common:button.logout')} />
+    return <MenuItem {...props} icon={<LogoutIcon />} link='/logout' text={t('common:button.logout')} />
 }

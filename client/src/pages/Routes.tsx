@@ -4,17 +4,19 @@ import BookingsPage from './admin/BookingsPage';
 import { FinancePage } from './admin/FinancePage';
 import { UserDetailsPage } from './admin/UserDetailsPage';
 import { UsersPage } from './admin/UsersPage';
+import { LoginPage } from './auth/LoginPage';
+import { LogoutPage } from './auth/LogoutPage';
+import { ResetPasswordPage } from './auth/ResetPasswordPage';
 import { CreateBookingPage } from './bookings/CreateBookingPage';
-import { CalendarPage } from './shared/CalendarPage';
-import { GalleryPage } from './shared/GalleryPage';
-import { HomePage } from './shared/HomePage';
-import { LoginPage } from './shared/LoginPage';
-import { RegisterPage } from './shared/RegisterPage';
-import { ResetPasswordPage } from './shared/ResetPasswordPage';
+import { CalendarPage } from './CalendarPage';
+import { GalleryPage } from './GalleryPage';
+import { HomePage } from './HomePage';
+import { RegisterPage } from './RegisterPage';
 
 export function Routes() {
     return (<Switch>
         <Route path="/login" component={LoginPage} />
+        <Route path="/logout" component={LogoutPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/bookings/create" component={CreateBookingPage} />

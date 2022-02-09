@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { Login } from "../../components/login/Login";
-import { useAuthUser } from "../../hooks/useAuthUser";
-import { SlimPage } from "../BasePage";
+import { Login } from '../../components/login/Login';
+import { useAuthUser } from '../../hooks/useAuthUser';
+import { SlimPage } from '../shared/BasePage';
 
 export function LoginPage() {
     const [user] = useAuthUser();

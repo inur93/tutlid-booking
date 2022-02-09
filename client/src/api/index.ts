@@ -4,7 +4,6 @@ import { BookingApi } from "./bookingApi";
 import { PriceMatrixApi } from './priceMatrixApi';
 import { UserApi } from "./userApi";
 
-const isDummy = process.env.DUMMY === 'true';
 export default {
     AuthApi: new AuthApi(),
     BookingApi: new BookingApi(),
@@ -12,7 +11,6 @@ export default {
     AdminApi: new AdminApi(),
     PriceMatrixApi: new PriceMatrixApi()
 }
-
 
 //models
 export type LoginData = {

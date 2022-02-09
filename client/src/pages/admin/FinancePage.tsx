@@ -6,7 +6,7 @@ import PriceMatrix from '../../components/admin/finance/PriceMatrix';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { Spacer } from '../../components/shared/Spacer';
-import { SlimPage } from '../BasePage';
+import { SlimPage } from '../shared/BasePage';
 
 export function FinancePage() {
     const { t } = useTranslation('app');

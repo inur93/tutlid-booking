@@ -26,11 +26,8 @@ type Props = {
 }
 export function Drawer({ open, handleClose }: Props) {
     const classes = useStyles();
-    const [user, actions] = useAuthUser();
-    const logout = async () => {
-        await actions.logout();
-        handleClose();
-    }
+    const [user] = useAuthUser();
+
     const isAdmin = user.hasRole(Role.admin);
     return <MUIDrawer
         anchor='right'
@@ -52,7 +49,7 @@ export function Drawer({ open, handleClose }: Props) {
             {isAdmin && <AdminMenuItem listItem onClick={handleClose} />}
         </List>
         <Divider />
-        {user.isLoggedIn && <LogoutMenuItem listItem onClick={logout} />}
+        {user.isLoggedIn && <LogoutMenuItem listItem onClick={handleClose} />}
         {!user.isLoggedIn && <LoginMenuItem listItem onClick={handleClose} />}
 
         <Divider />

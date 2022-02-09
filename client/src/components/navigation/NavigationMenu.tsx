@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {}
 export function NavigationMenu({ }: Props) {
     const classes = useStyles();
-    const [user, { logout }] = useAuthUser();
+    const [user] = useAuthUser();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const { t } = useTranslation('common');
@@ -35,11 +35,6 @@ export function NavigationMenu({ }: Props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const handleLogout = () => {
-        logout();
-        setAnchorEl(null);
-    }
 
     const isAdmin = user.hasRole(Role.admin);
     return (<div>
@@ -76,7 +71,7 @@ export function NavigationMenu({ }: Props) {
             onClose={handleClose}
         >
             <MenuItem divider disabled >{user.fullName}</MenuItem>
-            <MenuItem onClick={handleLogout}>{t('common:button.logout')}</MenuItem>
+            <MenuItem component={Link} to='/logout' onClick={handleClose}>{t('common:button.logout')}</MenuItem>
         </Menu>
         <LanguageSelector />
     </div>);

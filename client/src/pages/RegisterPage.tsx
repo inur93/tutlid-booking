@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import RegisterUser from "../../components/register/Register";
-import { SlimPage } from "../BasePage";
+import RegisterUser from '../components/register/Register';
+import { SlimPage } from './shared/BasePage';
 
 export function RegisterPage() {
     const { t } = useTranslation('app');

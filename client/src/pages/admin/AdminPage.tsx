@@ -9,7 +9,7 @@ import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { useBookings } from '../../hooks/useBookings';
 import { useData } from '../../hooks/useData';
-import { SlimPage } from '../BasePage';
+import { SlimPage } from '../shared/BasePage';
 export default function AdminPage() {
     const { t } = useTranslation('app');
     const [{ bookings }] = useBookings(false, BookingStatus.reserved);

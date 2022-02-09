@@ -8,7 +8,7 @@ import { ButtonContainer } from '../../components/shared/ButtonContainer';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { useData } from '../../hooks/useData';
-import { SlimPage } from '../BasePage';
+import { SlimPage } from '../shared/BasePage';
 
 export function UsersPage() {
     const { t } = useTranslation(['app', 'common']);

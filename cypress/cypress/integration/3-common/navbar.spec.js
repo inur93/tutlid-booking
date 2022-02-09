@@ -11,94 +11,136 @@
 // https://on.cypress.io/introduction-to-cypress
 describe('Navigation bar', () => {
 
+    const viewports = [
+        //width, height, afterOpenPage
+        [550, 750, () => { cy.get('button[aria-label="open drawer"]').click() }],
+        [1920, 1080, () => { }]
+    ]
+    const users = [
+        //name, beforeEach
+        ['as anonymous user', () => { }],
+        ['as basic user', () => { cy.login(); }],
+        ['as admin user', () => { cy.login(Cypress.env('admin_email'), Cypress.env('admin_password')); }]
+    ];
 
-    context('as anonymous user', () => {
-        beforeEach(() => {
-            cy.visit('/');
-        })
+    const links = [
+        //name, selector, user1, user2, user3
+        ['has home link', 'a[href="#/"]', true, true, true],
+        ['has gallery link', 'a[href="#/gallery"]', true, true, true],
+        ['has login link', 'a[href="#/login"]', true, false, false],
+        ['has admin button', 'a[href="#/admin"]', false, false, true]
+    ]
 
-        it('has home link', () => {
-            cy.get('a[href="#/"]').should('exist');
-        })
+    const buttons = [
+        //name, selector, text, skipViewports, user1, user2, user3
+        ['has account button', 'button', 'Profil', [0], false, true, true],
+        ['has language selector', '#language-selector', 'Dansk', [], true, true, true]
+    ]
 
-        it('has gallery link', () => {
-            cy.get('a[href="#/gallery"]').should('exist');
-        })
+    viewports.forEach(([width, height, afterOpenPage], viewport) => {
+        context(`viewport (${width},${height})`, () => {
+            beforeEach(() => {
+                cy.viewport(width, height);
 
-        it('has login link', () => {
-            cy.get('a[href="#/login"]').should('exist');
-        })
+            })
 
-        it('has NO admin button', () => {
-            cy.contains('button', 'Administration').should('not.exist');
-        })
+            users.forEach(([contextName, before], i) => {
 
-        it('has NO account button', () => {
-            cy.contains('button', 'Profil').should('not.exist');
-        })
+                context(contextName, () => {
+                    beforeEach(() => {
+                        before();
+                        cy.visit('/');
+                        afterOpenPage();
+                    })
 
-        it('has language selector', () => {
-            cy.contains('#language-selector', 'Dansk');
+                    links.forEach(([name, selector, ...exist]) => {
+                        it(`${name}: ${exist[i]}`, () => {
+                            cy.get(selector).should(exist[i] ? 'exist' : 'not.exist')
+                        })
+                    })
+
+                    buttons.forEach(([name, selector, text, skipViewports, ...exist]) => {
+                        if (!skipViewports.includes(viewport)) {
+                            it(`${name}: ${exist[i]}`, () => {
+                                cy.contains(selector, text).should(exist[i] ? 'exist' : 'not.exist')
+                            })
+                        }
+                    })
+                })
+            })
+
         })
     })
+    // context('as anonymous user', () => {
+    //     beforeEach(() => {
 
-    context('as basic user', () => {
-        beforeEach(() => {
-            cy.login();
-            cy.visit('/');
-        })
-        it('has home link', () => {
-            cy.get('a[href="#/"]').should('exist');
-        })
+    //     })
 
-        it('has gallery link', () => {
-            cy.get('a[href="#/gallery"]').should('exist');
-        })
+    //     it('has NO account button', () => {
+    //         cy.contains('button', 'Profil').should('not.exist');
+    //     })
 
-        it('has NO login link', () => {
-            cy.get('a[href="#/login"]').should('not.exist');
-        })
+    //     it('has language selector', () => {
+    //         cy.contains('#language-selector', 'Dansk');
+    //     })
+    // })
 
-        it('has account button', () => {
-            cy.contains('button', 'Profil');
-        })
+    // context('as basic user', () => {
+    //     beforeEach(() => {
 
-        it('has NO admin button', () => {
-            cy.contains('button', 'Administration').should('not.exist');
-        })
+    //     })
+    //     it('has home link', () => {
+    //         cy.get('a[href="#/"]').should('exist');
+    //     })
 
-        it('has language selector', () => {
-            cy.contains('#language-selector', 'Dansk');
-        })
-    })
+    //     it('has gallery link', () => {
+    //         cy.get('a[href="#/gallery"]').should('exist');
+    //     })
 
-    context('as admin user', () => {
-        beforeEach(() => {
-            cy.login(Cypress.env('admin_email'), Cypress.env('admin_password'));
-            cy.visit('/');
-        })
-        it('has home link', () => {
-            cy.get('a[href="#/"]').should('exist');
-        })
+    //     it('has NO login link', () => {
+    //         cy.get('a[href="#/login"]').should('not.exist');
+    //     })
 
-        it('has gallery link', () => {
-            cy.get('a[href="#/gallery"]').should('exist');
-        })
+    //     it('has account button', () => {
+    //         cy.contains('button', 'Profil');
+    //     })
 
-        it('has NO login link', () => {
-            cy.get('a[href="#/login"]').should('not.exist');
-        })
+    //     it('has NO admin button', () => {
+    //         cy.get('a[href="#/admin"]').should('not.exist');
+    //     })
 
-        it('has admin button', () => {
-            cy.contains('button', 'Administration');
-        })
+    //     it('has language selector', () => {
+    //         cy.contains('#language-selector', 'Dansk');
+    //     })
+    // })
 
-        it('has account button', () => {
-            cy.contains('button', 'Profil');
-        })
+    // context('as admin user', () => {
+    //     beforeEach(() => {
 
-        it('has language selector', () => {
-            cy.contains('#language-selector', 'Dansk');
-        })
-    })
+    //         cy.visit('/');
+    //     })
+    //     it('has home link', () => {
+    //         cy.get('a[href="#/"]').should('exist');
+    //     })
+
+    //     it('has gallery link', () => {
+    //         cy.get('a[href="#/gallery"]').should('exist');
+    //     })
+
+    //     it('has NO login link', () => {
+    //         cy.get('a[href="#/login"]').should('not.exist');
+    //     })
+
+    //     it('has admin button', () => {
+    //         cy.get('a[href="#/admin"]').should('exist');
+    //     })
+
+    //     it('has account button', () => {
+    //         cy.contains('button', 'Profil');
+    //     })
+
+    //     it('has language selector', () => {
+    //         cy.contains('#language-selector', 'Dansk');
+    //     })
+    // })
 })

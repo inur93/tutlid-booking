@@ -1,13 +1,13 @@
 import { Button, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Gallery } from '../../components/gallery/Gallery';
-import { ButtonContainer } from '../../components/shared/ButtonContainer';
-import Panel from '../../components/shared/Panel';
-import { Spacer } from '../../components/shared/Spacer';
-import MyBookings from '../../components/user/MyBookings';
-import { useAuthUser } from '../../hooks/useAuthUser';
-import { SlimPage, WidePage } from '../BasePage';
+import { Gallery } from '../components/gallery/Gallery';
+import { ButtonContainer } from '../components/shared/ButtonContainer';
+import Panel from '../components/shared/Panel';
+import { Spacer } from '../components/shared/Spacer';
+import MyBookings from '../components/user/MyBookings';
+import { useAuthUser } from '../hooks/useAuthUser';
+import { SlimPage, WidePage } from './shared/BasePage';
 
 export function HomePage() {
     const [user] = useAuthUser();

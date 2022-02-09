@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
-import { Gallery } from "../../components/gallery/Gallery";
-import { UltraWidePage } from "../BasePage";
+import { Gallery } from "../components/gallery/Gallery";
+import { UltraWidePage } from "./shared/BasePage";
 
 export function GalleryPage() {
     return <UltraWidePage>

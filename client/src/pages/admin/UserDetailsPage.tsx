@@ -1,6 +1,6 @@
 import { match } from 'react-router-dom';
 import { UserDetails } from '../../components/admin/user/UserDetails';
-import { SlimPage } from '../BasePage';
+import { SlimPage } from '../shared/BasePage';
 
 type Props = {
     match: match<{ id: string }>

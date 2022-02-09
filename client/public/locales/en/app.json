@@ -114,13 +114,13 @@
     "users": "Users",
     "usersAction": "{{count}} users require your action",
     "usersAction_plural": "{{count}} users require your action",
-    "usersAction_zero": "No action required",
     "bookings": "Bookings",
     "bookingsAction": "{{count}} bookings require your action",
     "bookingsAction_plural": "{{count}} bookings require your action",
-    "bookingsAction_zero": "No action required",
     "finances": "Finances",
-    "title": "Administration"
+    "title": "Administration",
+    "usersAction_zero": "No action required",
+    "bookingsAction_zero": "No action required"
   },
   "bookingsPage": {
     "title": "Bookings",

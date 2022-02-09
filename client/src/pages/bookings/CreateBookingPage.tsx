@@ -3,7 +3,7 @@ import { Role } from "../../api";
 import { CreateBooking } from "../../components/calendar/CreateBooking";
 import Panel from "../../components/shared/Panel";
 import ProtectedComponent from "../../components/shared/ProtectedComponent";
-import { SlimPage } from "../BasePage";
+import { SlimPage } from "../shared/BasePage";
 
 export function CreateBookingPage() {
     const router = useHistory();

@@ -10,7 +10,7 @@ import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
 import { useBookings } from '../../hooks/useBookings';
 import { useData } from '../../hooks/useData';
-import { SlimPage } from '../BasePage';
+import { SlimPage } from '../shared/BasePage';
 
 export default function BookingsPage() {
     const [{ bookings }, { load: loadBookings }] = useBookings(false, BookingStatus.reserved);
