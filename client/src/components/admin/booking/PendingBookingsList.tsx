@@ -1,4 +1,4 @@
-import { Grid, List } from '@material-ui/core';
+import { Grid, List } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Booking, BookingStatus } from '../../../api';

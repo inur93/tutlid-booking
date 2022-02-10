@@ -1,13 +1,13 @@
-import { createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { green } from '@mui/material/colors';
 import React, { useEffect, useRef, useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import api from './api';
 import { Navigation } from './components/navigation/Navigation';
 import UserContext, { AuthUser } from './contexts/UserContext';
-import { Routes } from './pages/Routes';
-
-const theme = createMuiTheme({
+import Routes from './pages/Routes';
+import { StyledEngineProvider } from '@mui/material/styles';
+const theme = createTheme({
   typography: {
     h1: {
       fontSize: '2.25rem',
@@ -17,24 +17,30 @@ const theme = createMuiTheme({
       fontSize: '1.75rem'
     }
   },
-  overrides: {
+  components: {
     MuiTextField: {
-      root: {
-        marginBottom: '0.75rem'
+      styleOverrides: {
+        root: {
+          marginBottom: '0.75rem'
+        }
       }
+
     },
     MuiCssBaseline: {
-      '@global': {
-        a: {
-          color: green[500],
-          'text-decoration': 'none'
-        },
+      styleOverrides: {
+        'html': {
+          a: {
+            color: green[600],
+            'text-decoration': 'none'
+          },
+        }
       }
     }
   },
+
   palette: {
     primary: {
-      main: green[500],
+      main: green[600],
       contrastText: "#fff"
     }
   }
@@ -58,13 +64,16 @@ function App() {
   }, [])
   return (
     <HashRouter>
-      <UserContext.Provider value={[user, setUser]}>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <Navigation />
-          <Routes />
-        </MuiThemeProvider>
-      </UserContext.Provider>
+      <StyledEngineProvider injectFirst>
+        <UserContext.Provider value={[user, setUser]}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline >
+              <Navigation />
+              <Routes />
+            </CssBaseline>
+          </ThemeProvider>
+        </UserContext.Provider>
+      </StyledEngineProvider>
     </HashRouter>
   );
 }

@@ -1,11 +1,11 @@
-import FinanceIcon from '@material-ui/icons/AccountBalance';
-import BookingsIcon from '@material-ui/icons/Event';
-import HomeIcon from '@material-ui/icons/HomeRounded';
-import ImageIcon from '@material-ui/icons/Image';
-import LoginIcon from '@material-ui/icons/LockOpen';
-import LogoutIcon from '@material-ui/icons/MeetingRoom';
-import UsersIcon from '@material-ui/icons/People';
-import AdminIcon from '@material-ui/icons/Settings';
+import FinanceIcon from '@mui/icons-material/AccountBalance';
+import BookingsIcon from '@mui/icons-material/Event';
+import HomeIcon from '@mui/icons-material/HomeRounded';
+import ImageIcon from '@mui/icons-material/Image';
+import LoginIcon from '@mui/icons-material/LockOpen';
+import LogoutIcon from '@mui/icons-material/MeetingRoom';
+import UsersIcon from '@mui/icons-material/People';
+import AdminIcon from '@mui/icons-material/Settings';
 
 export {
     FinanceIcon,

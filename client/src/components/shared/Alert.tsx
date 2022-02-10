@@ -1,7 +1,5 @@
-import { Alert as MuiAlert } from '@material-ui/lab';
+import { Alert as MuiAlert } from '@mui/material';
 import React from 'react';
-
-
 
 type AlertProps = {
     children: React.ReactNode,

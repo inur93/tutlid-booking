@@ -37,9 +37,11 @@
     "header": "Booking information"
   },
   "bookingReceipt": {
+    "details_one": "Din booking for én gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
+    "details_other": "",
+    "title": "Kvittering",
     "details": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "title": "Kvittering"
+    "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
   },
   "calendar": {
     "todayLabel": "I dag",
@@ -112,23 +114,29 @@
   },
   "adminPage": {
     "users": "Brugere",
-    "usersAction": "{{count}} brugere afventer godkendelse",
-    "usersAction_plural": "{{count}} brugere afventer godkendelse",
+    "usersAction_one": "",
+    "usersAction_other": "",
     "bookings": "Bookinger",
-    "bookingsAction": "{{count}} bookinger afventer godkendelse",
-    "bookingsAction_plural": "{{count}} bookinger afventer godkendelse",
+    "bookingsAction_one": "",
+    "bookingsAction_other": "",
     "finances": "Økonomi",
     "title": "Administration",
+    "usersAction": "{{count}} brugere afventer godkendelse",
+    "usersAction_plural": "{{count}} brugere afventer godkendelse",
+    "bookingsAction": "{{count}} bookinger afventer godkendelse",
+    "bookingsAction_plural": "{{count}} bookinger afventer godkendelse",
     "usersAction_zero": "Ingen handling nødvendig",
     "bookingsAction_zero": "Ingen handling nødvendig"
   },
   "bookingsPage": {
     "title": "Bookinger",
     "pendingBookingsHeader": "Bookinger som afventer godkendelse",
-    "upcomingBookingsHeader": "Næste booking",
-    "upcomingBookingsHeader_plural": "De næste {{count}} bookinger",
+    "upcomingBookingsHeader_one": "",
+    "upcomingBookingsHeader_other": "",
     "noUpcomingBookingsLabel": "Der er p.t. ingen planlagte bookinger",
-    "loadMore": "Indlæs flere"
+    "loadMore": "Indlæs flere",
+    "upcomingBookingsHeader": "Næste booking",
+    "upcomingBookingsHeader_plural": "De næste {{count}} bookinger"
   },
   "newUserPanel": {
     "header": "Nye brugere som afventer bekræftelse"

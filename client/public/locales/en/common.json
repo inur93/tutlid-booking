@@ -1,8 +1,10 @@
 {
   "labels": {
+    "days_one": "",
+    "days_other": "",
+    "occupied": "Booked",
     "days": "{{count}} night",
-    "days_plural": "{{count}} nights",
-    "occupied": "Booked"
+    "days_plural": "{{count}} nights"
   },
   "button": {
     "cancel": "Cancel",

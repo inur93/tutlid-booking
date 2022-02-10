@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Role } from '../../api';
@@ -21,7 +21,7 @@ export default function ProtectedComponent({ requiredRoles, children }: Props) {
         return children;
     }
 
-    return (<Grid container justify='center'>
+    return (<Grid container justifyContent='center'>
         <Grid item>
             <Typography variant="h1">{t('AccessDenied.header')}</Typography>
             {user.isLoggedIn && <Typography data-cy="protected-component-label" variant="body1">

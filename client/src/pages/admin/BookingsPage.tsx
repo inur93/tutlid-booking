@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -44,7 +44,7 @@ export default function BookingsPage() {
                     {(!loadingUpcomingBookings && upcomingBookings && !upcomingBookings.length) &&
                         <Typography variant='body1'>{t('app:bookingsPage.noUpcomingBookingsLabel')}</Typography>}
                     <BookingList bookings={upcomingBookings || []} />
-                    <Grid container justify='center'>
+                    <Grid container justifyContent='center'>
                         {numBookings <= (upcomingBookings?.length || 0) &&
                             <Button color='primary' variant='outlined' onClick={() => setNumBookings((c) => c + 5)} >
                                 {t('app:bookingsPage.loadMore')}

@@ -1,4 +1,5 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import {  Theme } from '@mui/material';
+import {makeStyles} from 'tss-react/mui';
 import { useEffect, useRef, useState } from 'react';
 import { Booking } from '../../api';
 import { useBookings } from '../../hooks/useBookings';
@@ -7,8 +8,8 @@ import { BookingInfoModal } from './BookingInfoModal';
 import { Calendar, Range } from './Calendar';
 import { CreateBookingModal } from './CreateBookingModal';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles()((theme: Theme) =>
+    ({
         root: {
             marginLeft: theme.spacing(2),
             marginRight: theme.spacing(2),
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export function BookingCalendar() {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [{ bookings }, { setRange, load }, error] = useBookings();
     const [current, setCurrent] = useState<Booking>();
     const [showCreate, setShowCreate] = useState(false);

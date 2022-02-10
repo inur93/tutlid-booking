@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent } from '@mui/material';
 import { CreateBooking } from './CreateBooking';
 import { CreateBookingProps } from './CreateBookingForm';
 

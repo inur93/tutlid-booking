@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogTitle } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import BookingInfo, { BookingInfoProps } from './BookingInfo';
 

@@ -1,8 +1,8 @@
-import { Chip, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Chip, Theme } from "@mui/material";
+import { makeStyles } from 'tss-react/mui';
 import { Role } from "../../../api";
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles()((theme: Theme) =>
+    ({
         root: {
             display: 'flex',
             justifyContent: 'center',
@@ -18,7 +18,7 @@ type Props = {
     roles: Role[]
 }
 export default function ({ roles }: Props) {
-    const classes = useStyles();
+    const {classes} = useStyles();
 
     const handleDelete = () => {
         console.info('You clicked the delete icon.');

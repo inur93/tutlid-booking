@@ -1,4 +1,4 @@
-import { Button, Card, CardContent } from '@material-ui/core';
+import { Button, Card, CardContent } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import api, { Booking } from '../../api';
@@ -28,7 +28,7 @@ export default function BookingInfo({ onClose, booking }: BookingInfoProps) {
             setError('');
             const response = await api.BookingApi.delete(booking._id);
             onClose();
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message);
         }
         setLoading(false);

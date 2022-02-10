@@ -1,14 +1,14 @@
-import { IconButton, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Theme, useMediaQuery, useTheme } from '@material-ui/core';
-import { green, red } from '@material-ui/core/colors';
-import ApproveIcon from '@material-ui/icons/CheckCircleOutlineRounded';
-import RejectIcon from '@material-ui/icons/HighlightOffRounded';
-import classNames from 'classnames';
+import ApproveIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import RejectIcon from '@mui/icons-material/HighlightOffRounded';
+import { IconButton, ListItem, ListItemSecondaryAction, ListItemText, Theme, useMediaQuery, useTheme } from '@mui/material';
+import { green, red } from '@mui/material/colors';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { makeStyles } from 'tss-react/mui';
 import { Booking, BookingStatus } from '../../../api';
 import { formatDate } from '../../../utils/dateFunctions';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles()((theme: Theme) =>
 ({
     compactActions: {
         right: '4px'
@@ -29,9 +29,8 @@ type Props = {
     onClick: (id: string, status: BookingStatus) => Promise<void>
 }
 
-
 export function PendingBookingListItem({ booking, onClick }: Props) {
-    const classes = useStyles();
+    const {classes, cx} = useStyles();
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const handleAction = (status: BookingStatus) => () => onClick(booking._id, status);
@@ -44,11 +43,11 @@ export function PendingBookingListItem({ booking, onClick }: Props) {
 
     return <ListItem>
         <ListItemText primary={primary} secondary={secondary} />
-        <ListItemSecondaryAction className={classNames(isSmall && classes.compactActions)}>
-            <IconButton className={classNames(isSmall && classes.compactIcon)} edge='end' aria-label='approve' onClick={handleAction(BookingStatus.accepted)}>
+        <ListItemSecondaryAction className={cx(isSmall && classes.compactActions)}>
+            <IconButton className={cx(isSmall && classes.compactIcon)} edge='end' aria-label='approve' onClick={handleAction(BookingStatus.accepted)}>
                 <ApproveIcon className={classes.approve} />
             </IconButton>
-            <IconButton className={classNames(isSmall && classes.compactIcon)} edge='end' aria-label='reject' onClick={handleAction(BookingStatus.declined)}>
+            <IconButton className={cx(isSmall && classes.compactIcon)} edge='end' aria-label='reject' onClick={handleAction(BookingStatus.declined)}>
                 <RejectIcon className={classes.reject} />
             </IconButton>
         </ListItemSecondaryAction>

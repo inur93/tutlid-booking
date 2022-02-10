@@ -37,9 +37,11 @@
     "header": "Booking Information"
   },
   "bookingReceipt": {
+    "details_one": "Your booking for one overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
+    "details_other": "",
+    "title": "Receipt",
     "details": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "title": "Receipt"
+    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
   },
   "calendar": {
     "todayLabel": "Today",
@@ -112,23 +114,29 @@
   },
   "adminPage": {
     "users": "Users",
-    "usersAction": "{{count}} users require your action",
-    "usersAction_plural": "{{count}} users require your action",
+    "usersAction_one": "",
+    "usersAction_other": "",
     "bookings": "Bookings",
-    "bookingsAction": "{{count}} bookings require your action",
-    "bookingsAction_plural": "{{count}} bookings require your action",
+    "bookingsAction_one": "",
+    "bookingsAction_other": "",
     "finances": "Finances",
     "title": "Administration",
+    "usersAction": "{{count}} users require your action",
+    "usersAction_plural": "{{count}} users require your action",
+    "bookingsAction": "{{count}} bookings require your action",
+    "bookingsAction_plural": "{{count}} bookings require your action",
     "usersAction_zero": "No action required",
     "bookingsAction_zero": "No action required"
   },
   "bookingsPage": {
     "title": "Bookings",
     "pendingBookingsHeader": "Bookings await approval",
-    "upcomingBookingsHeader": "The next booking",
-    "upcomingBookingsHeader_plural": "The next {{count}} bookings",
+    "upcomingBookingsHeader_one": "",
+    "upcomingBookingsHeader_other": "",
     "noUpcomingBookingsLabel": "There are currently no planned bookings",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "upcomingBookingsHeader": "The next booking",
+    "upcomingBookingsHeader_plural": "The next {{count}} bookings"
   },
   "newUserPanel": {
     "header": "New Users awaiting confirmation"

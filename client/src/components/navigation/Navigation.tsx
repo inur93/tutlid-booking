@@ -1,30 +1,30 @@
-import { AppBar, IconButton, Toolbar as MuiToolbar, Typography, useMediaQuery } from "@material-ui/core";
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import classNames from "classnames";
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, IconButton, Toolbar as MuiToolbar, Typography, useMediaQuery } from "@mui/material";
+import { Theme, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
+import { makeStyles } from 'tss-react/mui';
 import { Drawer } from "./Drawer";
 import { NavigationMenu } from "./NavigationMenu";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            flexGrow: 1,
-        },
-        menuButton: {
-            marginRight: theme.spacing(2),
-        },
-        title: {
-            flexGrow: 1,
-        },
-        hide: {
-            display: 'none'
-        }
-    }),
+const useStyles = makeStyles()((theme: Theme) =>
+({
+    root: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+    },
+    hide: {
+        display: 'none'
+    }
+}),
 );
 
 export function Navigation() {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const [showDrawer, setShowDrawer] = useState(false);
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
@@ -39,7 +39,7 @@ export function Navigation() {
                     color='inherit'
                     aria-label='open drawer'
                     edge='end'
-                    className={classNames(showDrawer && classes.hide)}
+                    className={cx(showDrawer && classes.hide)}
                     onClick={() => setShowDrawer(true)}>
                     <MenuIcon />
                 </IconButton>}

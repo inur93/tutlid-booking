@@ -1,4 +1,4 @@
-import { Button, Fade, TextField, Typography } from '@material-ui/core';
+import { Button, Fade, TextField, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 import { TFunction, useTranslation } from 'react-i18next';

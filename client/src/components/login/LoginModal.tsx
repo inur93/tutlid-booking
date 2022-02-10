@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, Typography } from "@material-ui/core";
+import { Dialog, DialogTitle, Typography } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { Login } from "./Login";
 

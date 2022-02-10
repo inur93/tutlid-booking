@@ -1,20 +1,19 @@
 
 
-import { Button, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
-import { LockOpen } from '@material-ui/icons';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { LockOpen } from '@mui/icons-material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Button, Menu, MenuItem, Theme } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { makeStyles } from 'tss-react/mui';
 import { Role } from '../../api';
 import { useAuthUser } from '../../hooks/useAuthUser';
 import LanguageSelector from '../shared/LanguageSelect';
 import { AdminMenuItem, CalendarMenuItem, GalleryMenuItem, HomeMenuItem } from './MenuItems';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles()((theme: Theme) =>
 ({
-    'root': {
-    },
     icon: {
         color: 'white'
     }
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type Props = {}
 export function NavigationMenu({ }: Props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [user] = useAuthUser();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

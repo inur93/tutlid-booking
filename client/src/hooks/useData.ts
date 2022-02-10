@@ -24,7 +24,7 @@ export function useData<T>(loader: () => Promise<Response>): [DataType<T>, DataA
         try {
             const response = await loader();
             setData(response.body);
-        } catch (e) {
+        } catch (e: any) {
             console.log('error', e);
             setError(e.message);
         }

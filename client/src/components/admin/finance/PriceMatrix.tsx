@@ -1,4 +1,4 @@
-import { Button, Collapse, createStyles, Grid, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
+import { Button, Collapse, Grid, Tab, Tabs, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreatePriceMatrix as CreatePriceMatrixModel } from '../../../api';

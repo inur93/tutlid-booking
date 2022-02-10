@@ -1,4 +1,4 @@
-import { Grid, List } from '@material-ui/core';
+import { Grid, List } from '@mui/material';
 import React from 'react';
 import { User } from '../../../api';
 import { UserStatus } from '../../../api/index';

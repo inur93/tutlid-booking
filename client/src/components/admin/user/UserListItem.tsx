@@ -1,4 +1,4 @@
-import { ListItem, ListItemSecondaryAction, ListItemText } from "@material-ui/core";
+import { ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import { User } from "../../../api";
 import UserRoles from "./UserRoles";
