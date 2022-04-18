@@ -2,7 +2,6 @@ import { useCallback, useContext, useState } from "react";
 import api, { LoginData } from "../api";
 import UserContext, { AuthUser } from "../contexts/UserContext";
 
-
 type UseAuthUserType = [
     AuthUser,
     {
@@ -11,7 +10,6 @@ type UseAuthUserType = [
     },
     string | undefined //error
 ]
-
 
 export function useAuthUser(): UseAuthUserType {
     const [user, setUser] = useContext(UserContext);
@@ -23,7 +21,7 @@ export function useAuthUser(): UseAuthUserType {
             const response = await api.AuthApi.login(loginInfo);
             setUser(new AuthUser(response.body));
             return true;
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message);
             return false;
         }

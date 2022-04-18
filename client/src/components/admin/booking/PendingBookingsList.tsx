@@ -1,4 +1,4 @@
-import { Grid, List } from '@material-ui/core';
+import { Grid, List, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Booking, BookingStatus } from '../../../api';
@@ -32,12 +32,13 @@ export default function PendingBookingsList({ bookings, changeStatus }: PendingB
     const onCancel = () => {
         setDetails(undefined);
     }
-    if (!bookings.length) return null;
+    if (!bookings.length) return <Typography variant="body1">{t('app:pendingBookingsPanel.noPendingBookings')}</Typography>;
 
     return (<Grid>
         <List dense>
             {bookings.map(x => <PendingBookingListItem key={x._id} booking={x} onClick={handleAction} />)}
         </List>
+
         {details && <MessageModal
             onClose={onCancel}
             onAccept={onAccept}

@@ -6,7 +6,8 @@
     "confirmationMsgHeader": "Confirm booking",
     "declineMsgHeader": "Reject booking",
     "confirmationMsgLabel": "Send a message along with the confirmation",
-    "declineMsgLabel": "Send a reason for the rejection"
+    "declineMsgLabel": "Send a reason for the rejection",
+    "noPendingBookings": "No booking is awaiting your action"
   },
   "bankInformation": {
     "regNoLabel": "reg. no.",
@@ -37,9 +38,11 @@
     "header": "Booking Information"
   },
   "bookingReceipt": {
+    "details_one": "Your booking for one overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
+    "details_other": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
+    "title": "Receipt",
     "details": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "title": "Receipt"
+    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
   },
   "calendar": {
     "todayLabel": "Today",
@@ -112,23 +115,29 @@
   },
   "adminPage": {
     "users": "Users",
-    "usersAction": "{{count}} users require your action",
-    "usersAction_plural": "{{count}} users require your action",
+    "usersAction_one": "One user requires your action",
+    "usersAction_other": "{{count}} users require your action",
     "bookings": "Bookings",
-    "bookingsAction": "{{count}} bookings require your action",
-    "bookingsAction_plural": "{{count}} bookings require your action",
+    "bookingsAction_one": "One booking requires your action",
+    "bookingsAction_other": "{{count}} bookings require your action",
     "finances": "Finances",
     "title": "Administration",
+    "usersAction": "{{count}} users require your action",
+    "usersAction_plural": "{{count}} users require your action",
+    "bookingsAction": "{{count}} bookings require your action",
+    "bookingsAction_plural": "{{count}} bookings require your action",
     "usersAction_zero": "No action required",
     "bookingsAction_zero": "No action required"
   },
   "bookingsPage": {
     "title": "Bookings",
     "pendingBookingsHeader": "Bookings await approval",
-    "upcomingBookingsHeader": "The next booking",
-    "upcomingBookingsHeader_plural": "The next {{count}} bookings",
+    "upcomingBookingsHeader_one": "One upcoming booking",
+    "upcomingBookingsHeader_other": "{{count}} upcoming bookings",
     "noUpcomingBookingsLabel": "There are currently no planned bookings",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "upcomingBookingsHeader": "The next booking",
+    "upcomingBookingsHeader_plural": "The next {{count}} bookings"
   },
   "newUserPanel": {
     "header": "New Users awaiting confirmation"

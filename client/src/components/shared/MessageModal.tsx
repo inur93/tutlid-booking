@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 type MessageModalProps = {
@@ -16,7 +16,6 @@ export default function MessageModal({ header, fieldLabel, cancelLabel, submitLa
     const handleAccept = async () => {
         setLoading(true);
         await onAccept(comment);
-        setLoading(false);
     }
     return (<Dialog onClose={onClose} aria-labelledby="message-modal" open={true} fullWidth={true} maxWidth='sm'>
         {header && <DialogTitle id="message-modal">{header}</DialogTitle>}

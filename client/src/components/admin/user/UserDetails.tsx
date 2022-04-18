@@ -1,11 +1,12 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import { Avatar, Card, CardActions, CardContent, CardHeader, Theme, Typography } from '@mui/material';
+import { red } from '@mui/material/colors';
+import { makeStyles } from 'tss-react/mui';
 import api, { User } from '../../../api';
 import { useData } from '../../../hooks/useData';
 import UserRoles from './UserRoles';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles()((theme: Theme) =>
+    ({
         root: {
             maxWidth: 345,
         },
@@ -40,7 +41,7 @@ function getInitials(name: string) {
     return `${parts[0][0].toUpperCase()}${parts[parts.length - 1][0].toUpperCase()}`;
 }
 export function UserDetails({ userId }: Props) {
-    const classes = useStyles();
+    const {classes} = useStyles();
     const [{ data: user }] = useData<User>(() => api.AdminApi.getUser(userId));
     const initials = getInitials(user?.fullName || '');
 

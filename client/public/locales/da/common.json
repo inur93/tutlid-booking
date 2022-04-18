@@ -1,8 +1,10 @@
 {
   "labels": {
+    "days_one": "",
+    "days_other": "",
+    "occupied": "Optaget",
     "days": "{{count}} nætter",
-    "days_plural": "{{count}} nætter",
-    "occupied": "Optaget"
+    "days_plural": "{{count}} nætter"
   },
   "button": {
     "cancel": "Annuller",

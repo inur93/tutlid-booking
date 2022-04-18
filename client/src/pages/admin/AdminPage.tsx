@@ -1,5 +1,5 @@
-import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@material-ui/core';
-import { ChevronRight } from '@material-ui/icons';
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from '@mui/material';
+import { ChevronRight } from '@mui/icons-material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,7 @@ export default function AdminPage() {
             to: '/admin/bookings',
             icon: <BookingsIcon />,
             primary: t("app:adminPage.bookings"),
-            secondary: t("app:adminPage.bookingsAction", { count: bookings.length })
+            secondary: t("app:adminPage.bookingsAction", { count: bookings?.length ?? 0 })
         },
         {
             to: '/admin/finances',
@@ -41,7 +41,7 @@ export default function AdminPage() {
                     <Typography variant='h1'>{t('app:adminPage.title')}</Typography>
                     <List>
                         {menus.map(({ to, icon, primary, secondary }) => (
-                            <ListItem button component={Link} to={to}>
+                            <ListItem key={to} button component={Link} to={to}>
                                 <ListItemAvatar>
                                     <Avatar>
                                         {icon}

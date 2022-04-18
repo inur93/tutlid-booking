@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@mui/material';
 import { startOfToday } from 'date-fns';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

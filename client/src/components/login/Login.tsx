@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Button, TextField, Typography } from "@mui/material";
 import { Form, Formik, FormikHelpers } from 'formik';
 import { TFunction, Trans, useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";

@@ -1,7 +1,7 @@
 
 
-import { Button, IconButton, InputAdornment, TextField, Typography } from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Form, Formik, FormikHelpers } from 'formik';
 import queryString from 'query-string';
 import { useState } from "react";
@@ -129,7 +129,7 @@ export default function IResetPassword() {
         try {
             await api.AuthApi.resetPassword(values.email);
             setComplete(true);
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message);
         }
         helpers.setSubmitting(false);
@@ -142,7 +142,7 @@ export default function IResetPassword() {
                 token: token as string
             });
             setComplete(true);
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message);
         }
         helpers.setSubmitting(false);

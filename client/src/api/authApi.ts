@@ -1,3 +1,4 @@
+import { ResponseError } from "superagent";
 import { LoginData, UpdatePasswordData } from ".";
 import { BaseApi } from "./baseApi";
 import { RegisterData } from './index';
@@ -11,7 +12,7 @@ export class AuthApi extends BaseApi {
     async login(loginData: LoginData) {
         try {
             return await super.post('/auth/login', loginData);
-        } catch (e) {
+        } catch (e: any) {
             const { status } = e.response.body;
             switch (status) {
                 case 401:

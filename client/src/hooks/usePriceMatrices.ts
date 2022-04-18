@@ -27,7 +27,7 @@ export function usePriceMatrices(): UsePriceMatricesProps {
         try {
             const res = await api.PriceMatrixApi.getAll(from);
             setPriceMatrices(res.body || []);
-        } catch (e) {
+        } catch (e: any) {
             console.log('could not load pricematrices', e);
             setError(e.message);
         }

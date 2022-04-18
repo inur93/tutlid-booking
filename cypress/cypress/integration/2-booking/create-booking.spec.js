@@ -29,7 +29,7 @@ describe('Create Bookings as normal user', () => {
 
         cy.contains('h1', 'Kvittering');
         cy.get('[data-cy=receipt-message]')
-            .should('contain.text', 'Din booking for 1 gæst')
+            .should('contain.text', 'Din booking for én gæst')
             .and('contain.text', `perioden ${format(startOfToday(), 'd')}`)
             .and('contain.text', `til ${format(startOfTomorrow(), 'd')}`)
     })

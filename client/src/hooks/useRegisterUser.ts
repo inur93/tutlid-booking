@@ -18,7 +18,7 @@ export function useRegisterUser(): UseRegisterUserType {
             setError('');
             const response = await api.AuthApi.register(userData);
             setUser(new AuthUser(response.body));
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message);
         }
     }, [user]);

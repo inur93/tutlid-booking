@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import AdminPage from './admin/AdminPage';
 import BookingsPage from './admin/BookingsPage';
 import { FinancePage } from './admin/FinancePage';
@@ -13,20 +13,20 @@ import { GalleryPage } from './GalleryPage';
 import { HomePage } from './HomePage';
 import { RegisterPage } from './RegisterPage';
 
-export function Routes() {
-    return (<Switch>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/logout" component={LogoutPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/calendar" component={CalendarPage} />
-        <Route path="/bookings/create" component={CreateBookingPage} />
-        <Route path="/admin/users/:id" component={UserDetailsPage} />
-        <Route path="/admin/users" component={UsersPage} />
-        <Route path="/admin/bookings" component={BookingsPage} />
-        <Route path="/admin/finances" component={FinancePage} />
-        <Route path='/admin' component={AdminPage} />
-        <Route path="/reset-password" component={ResetPasswordPage} />
-        <Route path="/gallery" component={GalleryPage} />
-        <Route path="/" component={HomePage} />
-    </Switch>)
+export default function () {
+    return (<Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/bookings/create" element={<CreateBookingPage />} />
+        <Route path="/admin/users/:id" element={<UserDetailsPage />} />
+        <Route path="/admin/users" element={<UsersPage />} />
+        <Route path="/admin/bookings" element={<BookingsPage />} />
+        <Route path="/admin/finances" element={<FinancePage />} />
+        <Route path='/admin' element={<AdminPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/" element={<HomePage />} />
+    </Routes>)
 }

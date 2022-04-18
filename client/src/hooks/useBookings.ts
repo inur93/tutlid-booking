@@ -31,7 +31,7 @@ export function useBookings(useRange: boolean = true, status?: BookingStatus): U
             }
             const response = await api.BookingApi.getBookings(query)
             setBookings(response.body);
-        } catch (e) {
+        } catch (e: any) {
             setError(e.message);
         }
         setLoading(false);

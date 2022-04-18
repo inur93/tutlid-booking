@@ -15,7 +15,7 @@ export class BookingApi extends BaseApi {
             const to = toDate ? format(toDate, 'yyyy-MM-dd') : undefined;
 
             return await super.get('/bookings').query({ from, to, status });
-        } catch (e) {
+        } catch (e: any) {
             if (!e.response.body) throw e;
             const { message, status } = e.response.body;
             if (status >= 400 && status < 500)
@@ -27,7 +27,7 @@ export class BookingApi extends BaseApi {
     async create(booking: CreateBooking) {
         try {
             return await super.post('/bookings', booking);
-        } catch (e) {
+        } catch (e: any) {
             if (!e.response.body) throw e;
             const { message, status } = e.response.body;
             if (status >= 400 && status < 500)
@@ -39,7 +39,7 @@ export class BookingApi extends BaseApi {
     async update({ _id, ...booking }: UpdateBooking) {
         try {
             return await super.put(`/bookings/${_id}`, booking);
-        } catch (e) {
+        } catch (e: any) {
             if (!e.response.body) throw e;
             const { message, status } = e.response.body;
             if (status >= 401)
@@ -51,7 +51,7 @@ export class BookingApi extends BaseApi {
     async delete(id: string) {
         try {
             return await super.del(`/bookings/${id}`);
-        } catch (e) {
+        } catch (e: any) {
             if (!e.response.body) throw e;
             const { message, status } = e.response.body;
             if (status === 401)

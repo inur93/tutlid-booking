@@ -1,12 +1,14 @@
-import { match } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { UserDetails } from '../../components/admin/user/UserDetails';
 import { SlimPage } from '../shared/BasePage';
 
-type Props = {
-    match: match<{ id: string }>
-}
-export function UserDetailsPage({ match }: Props) {
+
+export function UserDetailsPage() {
+    const params = useParams<{ id: string }>();
+    if (!params.id) {
+        return null;
+    }
     return (<SlimPage>
-        <UserDetails userId={match.params.id} />
+        <UserDetails userId={params.id} />
     </SlimPage>)
 }

@@ -1,31 +1,32 @@
 
-import { createStyles, Divider, Drawer as MUIDrawer, IconButton, List, makeStyles } from '@material-ui/core';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Divider, Drawer as MUIDrawer, IconButton, List, Theme } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import { Role } from '../../api';
 import { useAuthUser } from '../../hooks/useAuthUser';
 import LanguageSelector from '../shared/LanguageSelect';
 import { AdminMenuItem, CalendarMenuItem, GalleryMenuItem, HomeMenuItem, LoginMenuItem, LogoutMenuItem } from './MenuItems';
-const useStyles = makeStyles((theme) =>
-    createStyles({
-        drawerHeader: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: theme.spacing(0, 1),
-            // necessary for content to be below app bar
-            ...theme.mixins.toolbar,
-            justifyContent: 'flex-start',
-        },
-        drawerPaper: {
-            width: 300,
-        },
-    }));
+
+const useStyles = makeStyles()((theme: Theme) =>
+({
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        justifyContent: 'flex-start',
+    },
+    drawerPaper: {
+        width: 300,
+    },
+}));
 
 type Props = {
     open: boolean,
     handleClose: () => void
 }
 export function Drawer({ open, handleClose }: Props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [user] = useAuthUser();
 
     const isAdmin = user.hasRole(Role.admin);

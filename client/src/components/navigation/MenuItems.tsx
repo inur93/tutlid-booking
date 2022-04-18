@@ -1,12 +1,12 @@
-import { Button, ListItem, ListItemIcon, ListItemText, makeStyles, Theme } from "@material-ui/core";
-import { CalendarToday } from "@material-ui/icons";
-import classNames from "classnames";
+import { CalendarToday } from "@mui/icons-material";
+import { Button, ListItem, ListItemIcon, ListItemText, Theme } from "@mui/material";
 import React, { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { makeStyles } from 'tss-react/mui';
 import { AdminIcon, HomeIcon, ImageIcon, LoginIcon, LogoutIcon } from "../shared/Icons";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles()((theme: Theme) =>
 ({
     icon: {
         color: 'white'
@@ -26,10 +26,10 @@ type Props = {
 }
 
 function MenuItem({ onClick, listItem, text, link, icon, nested }: Props) {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     if (listItem) {
         return (
-            <ListItem className={classNames(nested && classes.nested)} button component={Link} to={link} onClick={onClick}>
+            <ListItem className={cx(nested && classes.nested)} button component={Link} to={link} onClick={onClick}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
             </ListItem>

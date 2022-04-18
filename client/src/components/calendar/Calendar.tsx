@@ -1,10 +1,10 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import classNames from 'classnames';
+import { Theme } from '@mui/material';
 import { endOfYesterday, format, getDay, parse, startOfWeek } from 'date-fns';
 import { da, enGB } from 'date-fns/locale';
 import { Calendar as BaseCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useTranslation } from 'react-i18next';
+import { makeStyles } from 'tss-react/mui';
 import { Booking } from '../../api';
 import { bookingCalendarTitle } from '../../utils/bookingFunctions';
 const locales = {
@@ -19,23 +19,23 @@ const localizer = dateFnsLocalizer({
     locales
 });
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            height: '100%'
-        },
-        invalidDate: {
-            background: `repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #DDD 10px, #DDD 20px)`,
-            opacity: 0.6
-        },
-        event: {
-            backgroundColor: '#1ece44',
-            opacity: 0.8
-        },
-        validDate: {
-            opacity: 0.6
-        }
-    }),
+const useStyles = makeStyles()((theme: Theme) =>
+({
+    root: {
+        height: '100%'
+    },
+    invalidDate: {
+        background: `repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #DDD 10px, #DDD 20px)`,
+        opacity: 0.6
+    },
+    event: {
+        backgroundColor: '#1ece44',
+        opacity: 0.8
+    },
+    validDate: {
+        opacity: 0.6
+    }
+}),
 );
 
 export type Range = {
@@ -49,8 +49,8 @@ type CalendarProps = {
     events: Booking[]
 }
 export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }: CalendarProps) {
-    const classes = useStyles();
-    const {t, i18n} = useTranslation(['app', 'common']);
+    const { classes, cx } = useStyles();
+    const { t, i18n } = useTranslation(['app', 'common']);
     const handleRangeChange = (range: any) => {
         if (onRangeChange) {
             onRangeChange({
@@ -86,11 +86,11 @@ export function Calendar({ onRangeChange, onSelectEvent, onSelectSlot, events }:
 
         dayPropGetter={(date, resource) => {
             if (date < endOfYesterday()) return { className: classes.invalidDate };
-            return {className: classes.validDate};
+            return { className: classes.validDate };
         }}
         eventPropGetter={(event, start, end, selected) => {
             return {
-                className: classNames(classes.event, selected ? 'selected' : '')
+                className: cx(classes.event, selected ? 'selected' : '')
             }
         }}
 
