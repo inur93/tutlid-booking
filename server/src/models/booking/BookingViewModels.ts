@@ -10,7 +10,7 @@ export class CreateBookingDto {
 
     @IsInt()
     @Min(0) @IsNotEmpty()
-    public pplCount!: number;
+    public guests!: number;
 
     @IsInt()
     @Min(0) @IsNotEmpty()

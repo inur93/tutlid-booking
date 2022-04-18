@@ -3,11 +3,11 @@
     "label": "{{name}} ({{count}} personer)"
   },
   "pendingBookingsPanel": {
+    "noPendingBookings": "Ingen booking afventer din godkendelse",
     "confirmationMsgHeader": "Bekræft booking",
     "declineMsgHeader": "Afvis booking",
     "confirmationMsgLabel": "Send en hilsen med bekræftelsen",
-    "declineMsgLabel": "Giv en årsag til afvisningen",
-    "noPendingBookings": "Ingen booking afventer din godkendelse"
+    "declineMsgLabel": "Giv en årsag til afvisningen"
   },
   "bankInformation": {
     "regNoLabel": "reg. nr.",
@@ -18,31 +18,29 @@
   },
   "createPriceMatrix": {
     "validFromLabel": "Gyldig fra",
-    "priceLabel": "Pris / person / overnatning",
-    "tubPriceLabel": "Varm pot pris / person"
+    "priceLabel": "Pris / overnatning",
+    "tubPriceLabel": "Varm pot pris pr gang"
   },
   "priceMatrix": {
     "emptyDescription": "Der findes ingen priser i øjeblikket. Klik på 'Tilføj' for at oprette.",
     "currentPriceMatrixTabLabel": "Nuværende",
-    "tablePriceLabel": "Pris / Person / Nat",
+    "tablePriceLabel": "Pris / Nat",
     "tableValidFromLabel": "Gyldig fra",
     "tableValidToLabel": "Udløber den",
     "header": "Prismatrice",
-    "tablePriceTubLabel": "Pris for varm pot / Person"
+    "tablePriceTubLabel": "Pris for varm pot per gang"
   },
   "bookingInfo": {
-    "description1": "Overnattende gæster: {{pplCount}}",
-    "description2": "Pladser til varm pot: {{tubCount}}"
+    "description1": "Overnattende gæster: {{guests}}",
+    "description2": "Antal brug af varm pot: {{tubCount}}"
   },
   "bookingInfoModal": {
     "header": "Booking information"
   },
   "bookingReceipt": {
     "details_one": "Din booking for én gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "details_other": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "title": "Kvittering",
-    "details": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
+    "details_other": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
+    "title": "Kvittering"
   },
   "calendar": {
     "todayLabel": "I dag",
@@ -53,12 +51,12 @@
     "title": "Ny booking",
     "fromLabel": "Fra",
     "toLabel": "Til",
-    "pplCountLabel": "Antal personer",
-    "pplCountPlaceholder": "Antal personer",
-    "commentLabel": "Besked til ejerne",
-    "commentPlaceholder": "Besked til ejerne",
-    "tubCountLabel": "Pladser til den varme pot",
-    "tubCountPlaceholder": "Pladser til den varme pot"
+    "guestsLabel": "Antal personer",
+    "guestsPlaceholder": "Antal personer",
+    "commentLabel": "Besked til udlejer",
+    "commentPlaceholder": "Skriv fx en besked til udlejeren om hvem kommer og hvad I ønsker at bruge sommerhuset til",
+    "tubCountLabel": "Antal brug af varm pot",
+    "tubCountPlaceholder": "Antal brug af varm pot"
   },
   "priceTable": {
     "descriptionLabel": "Beskrivelse",
@@ -122,22 +120,16 @@
     "bookingsAction_other": "{{count}} bookinger afventer godkendelse",
     "finances": "Økonomi",
     "title": "Administration",
-    "usersAction": "{{count}} brugere afventer godkendelse",
-    "usersAction_plural": "{{count}} brugere afventer godkendelse",
-    "bookingsAction": "{{count}} bookinger afventer godkendelse",
-    "bookingsAction_plural": "{{count}} bookinger afventer godkendelse",
     "usersAction_zero": "Ingen handling nødvendig",
     "bookingsAction_zero": "Ingen handling nødvendig"
   },
   "bookingsPage": {
-    "title": "Bookinger",
     "pendingBookingsHeader": "Bookinger som afventer godkendelse",
     "upcomingBookingsHeader_one": "Én kommende booking",
     "upcomingBookingsHeader_other": "{{count}} kommende bookinger",
     "noUpcomingBookingsLabel": "Der er p.t. ingen planlagte bookinger",
     "loadMore": "Indlæs flere",
-    "upcomingBookingsHeader": "Næste booking",
-    "upcomingBookingsHeader_plural": "De næste {{count}} bookinger"
+    "title": "Bookinger"
   },
   "newUserPanel": {
     "header": "Nye brugere som afventer bekræftelse"

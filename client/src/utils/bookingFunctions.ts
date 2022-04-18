@@ -10,5 +10,5 @@ export function bookingCalendarTitle(booking: Booking, t: TFunction): string {
     if (isAnonymous(booking)) {
         return t('common:labels.occupied');
     }
-    return `${booking.bookedBy.fullName} (${booking.pplCount || booking.tubCount})`;
+    return `${booking.bookedBy.fullName} (${booking.guests || booking.tubCount})`;
 }

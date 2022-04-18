@@ -18,7 +18,7 @@ export function usePrice(): ReturnType {
         //avoid unecessary calculations
         if (current?.from && isSameDay(booking.from, current.from)
             && current?.to && isSameDay(booking.to, current.to)
-            && booking.pplCount === current?.pplCount
+            && booking.guests === current?.guests
             && booking.tubCount === current?.tubCount) {
             return;
         }

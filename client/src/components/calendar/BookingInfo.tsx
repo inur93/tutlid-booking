@@ -26,7 +26,7 @@ export default function BookingInfo({ onClose, booking }: BookingInfoProps) {
         try {
             setLoading(true);
             setError('');
-            const response = await api.BookingApi.delete(booking._id);
+            await api.BookingApi.delete(booking._id);
             onClose();
         } catch (e: any) {
             setError(e.message);
@@ -37,7 +37,7 @@ export default function BookingInfo({ onClose, booking }: BookingInfoProps) {
         <CardContent>
             <p>{booking.bookedBy.fullName}</p>
             <p>{from} - {to}</p>
-            <p>{t('app:bookingInfo.description1', { pplCount: booking.pplCount })}</p>
+            <p>{t('app:bookingInfo.description1', { guests: booking.guests })}</p>
             <p>{t('app:bookingInfo.description2', { tubCount: booking.tubCount })}</p>
             <Button variant='outlined'
                 color='primary'

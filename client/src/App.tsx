@@ -18,6 +18,14 @@ const theme = createTheme({
     }
   },
   components: {
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          paddingLeft: '1rem',
+          paddingRight: '1rem'
+        }
+      }
+    },
     MuiTextField: {
       styleOverrides: {
         root: {

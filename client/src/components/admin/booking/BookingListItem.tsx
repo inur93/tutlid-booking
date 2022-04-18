@@ -21,7 +21,7 @@ type Props = {
 }
 
 export function BookingListItem({ booking }: Props) {
-    const {classes} = useStyles();
+    const { classes } = useStyles();
     const { i18n, t } = useTranslation();
     const from = formatDate(booking.from, i18n.language);
     const to = formatDate(booking.to, i18n.language);
@@ -34,7 +34,11 @@ export function BookingListItem({ booking }: Props) {
     return <ListItem>
         <ListItemText primary={primary} secondary={secondary} />
         <ListItemSecondaryAction >
-            <Badge anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} className={classes.badge} badgeContent={booking.pplCount} color='primary'>
+            <Badge
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                className={classes.badge}
+                badgeContent={booking.guests}
+                color='primary'>
                 <PeopleIcon />
             </Badge>
             <Badge anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} badgeContent={booking.tubCount} color='primary'>

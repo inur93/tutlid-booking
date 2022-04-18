@@ -31,11 +31,12 @@ class PriceMatrixController {
         const days = Math.abs(differenceInCalendarDays(to, from));
 
         return {
-            days,
+            days: days || 1, //pay minimum for one day
+            tubCount: booking.tubCount,
             price: priceMatrix?.price || 350,
-            tubPrice: priceMatrix?.tubPrice || 50,
-            priceTotal: (priceMatrix?.price || 350) * (booking.pplCount || 0) * (days || 0),
-            tubPriceTotal: (priceMatrix?.tubPrice || 50) * (booking.tubCount || 0)
+            tubPrice: priceMatrix?.tubPrice || 500,
+            priceTotal: (priceMatrix?.price || 1000) * (days || 1),
+            tubPriceTotal: (priceMatrix?.tubPrice || 500) * (booking.tubCount || 0)
         }
     }
 
@@ -49,7 +50,7 @@ class PriceMatrixController {
 
     public async delete(_id: Types.ObjectId): Promise<void> {
         const toDelete = await this.priceMatrixRepository.findOne({ _id });
-        if(!toDelete){
+        if (!toDelete) {
             throw new Error(`No price matrix with id ${_id} exists.`);
         }
         const toUpdate = await this.priceMatrixRepository.findOne({ validTo: toDelete.validFrom });

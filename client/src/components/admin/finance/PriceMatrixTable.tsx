@@ -23,6 +23,14 @@ export function PriceMatrixTable({ priceMatrix }: Props) {
             <TableRow>
                 <TableCell>
                     <b>
+                        {t('app:priceMatrix.tablePriceTubLabel')}
+                    </b>
+                </TableCell>
+                <TableCell align="right">{priceMatrix.tubPrice} DKK</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <b>
                         {t('app:priceMatrix.tableValidFromLabel')}
                     </b>
                 </TableCell>

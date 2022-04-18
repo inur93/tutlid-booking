@@ -81,11 +81,11 @@ describe('booking.controller', () => {
     describe('create', () => {
 
         it('as basic user', async () => {
-            const { from, to, pplCount, tubCount, comment } = TestData.booking();
+            const { from, to, guests, tubCount, comment } = TestData.booking();
             const created = await controller.create({
                 from: format(from, dateFormat),
                 to: format(to, dateFormat),
-                pplCount,
+                guests,
                 tubCount,
                 comment
             }, userBasic);
@@ -95,11 +95,11 @@ describe('booking.controller', () => {
         })
 
         it('as admin', async () => {
-            const { from, to, pplCount, tubCount, comment } = TestData.booking();
+            const { from, to, guests, tubCount, comment } = TestData.booking();
             const created = await controller.create({
                 from: format(from, dateFormat),
                 to: format(to, dateFormat),
-                pplCount,
+                guests,
                 tubCount,
                 comment
             }, userAdmin);
@@ -149,7 +149,7 @@ describe('booking.controller', () => {
                 expect(x).to.not.have.property('bookedBy');
                 expect(x).to.not.have.property('status');
                 expect(x).to.not.have.property('tubCount');
-                expect(x).to.not.have.property('pplCount');
+                expect(x).to.not.have.property('guests');
             })
         })
 
@@ -159,7 +159,7 @@ describe('booking.controller', () => {
                 expect(x).to.not.have.property('bookedBy');
                 expect(x).to.not.have.property('status');
                 expect(x).to.not.have.property('tubCount');
-                expect(x).to.not.have.property('pplCount');
+                expect(x).to.not.have.property('guests');
             })
         })
 
@@ -169,7 +169,7 @@ describe('booking.controller', () => {
                 expect(x).to.have.property('bookedBy');
                 expect(x).to.have.property('status');
                 expect(x).to.have.property('tubCount');
-                expect(x).to.have.property('pplCount');
+                expect(x).to.have.property('guests');
             })
         })
     })

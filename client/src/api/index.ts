@@ -52,7 +52,7 @@ export type User = {
 }
 
 export type CreateBooking = {
-    pplCount: number,
+    guests: number,
     tubCount: number,
     from: Date,
     to: Date,
@@ -61,6 +61,7 @@ export type CreateBooking = {
 
 export type BookingPriceInfo = CreateBooking & {
     days: number,
+    tubCount: number,
     price: number,
     priceTotal: number,
     tubPrice: number,
@@ -69,7 +70,7 @@ export type BookingPriceInfo = CreateBooking & {
 
 export type UpdateBooking = {
     _id: string,
-    pplCount: number,
+    guests: number,
     tubCount: number,
     from: Date,
     to: Date,

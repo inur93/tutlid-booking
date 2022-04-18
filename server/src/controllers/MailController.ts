@@ -50,10 +50,10 @@ export default class MailController implements IMailController {
             from,
             to,
             period: `${from} - ${to}`,
-            pplCount: `${booking.pplCount}`,
+            pplCount: `${booking.guests}`,
             tubCount: `${booking.tubCount}`,
             comment: `${booking.comment || ''}`,
-            price: `${(booking.pricePpl || 0) + (booking.priceTub || 0)}`,
+            price: `${(booking.priceGuests || 0) + (booking.priceTub || 0)}`,
             messageFromAdmin: `${booking.messageFromAdmin ? 'Besked fra udlåner:' : ''} ${booking.messageFromAdmin}`
         }
     }

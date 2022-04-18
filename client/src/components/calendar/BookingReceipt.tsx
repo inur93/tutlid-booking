@@ -16,7 +16,7 @@ export default function BookingReceipt({ onClose, booking }: BookingReceiptProps
     return (<div>
         <Typography data-cy='receipt-message' variant='body1'>
             {t('app:bookingReceipt.details', {
-                count: booking.pplCount,
+                count: booking.guests,
                 from, to,
             })}
         </Typography>

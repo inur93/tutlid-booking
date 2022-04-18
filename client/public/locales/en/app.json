@@ -3,11 +3,11 @@
     "label": "{{name}} ({{count}} people)"
   },
   "pendingBookingsPanel": {
+    "noPendingBookings": "No booking is awaiting your action",
     "confirmationMsgHeader": "Confirm booking",
     "declineMsgHeader": "Reject booking",
     "confirmationMsgLabel": "Send a message along with the confirmation",
-    "declineMsgLabel": "Send a reason for the rejection",
-    "noPendingBookings": "No booking is awaiting your action"
+    "declineMsgLabel": "Send a reason for the rejection"
   },
   "bankInformation": {
     "regNoLabel": "reg. no.",
@@ -18,21 +18,21 @@
   },
   "createPriceMatrix": {
     "validFromLabel": "Valid From",
-    "priceLabel": "Price / person / night",
-    "tubPriceLabel": "Hot tub price / person"
+    "priceLabel": "Price / night",
+    "tubPriceLabel": "Hot tub price / usage"
   },
   "priceMatrix": {
     "emptyDescription": "There is currently no price configured. Click on the button below the setup a pricematrix. The configured price will be used when users are creating a booking as well as being part of the confirmation email.",
     "currentPriceMatrixTabLabel": "Current",
-    "tablePriceLabel": "Price / Person / Night",
+    "tablePriceLabel": "Price / Night",
     "tableValidFromLabel": "Valid From",
     "tableValidToLabel": "Expires at",
     "header": "Price Matrix",
-    "tablePriceTubLabel": "Hot Tub Price / Person"
+    "tablePriceTubLabel": "Hot Tub Price per time"
   },
   "bookingInfo": {
-    "description1": "Overnight guests: {{pplCount}}",
-    "description2": "Hot tub spots: {{tubCount}}"
+    "description1": "Overnight guests: {{guests}}",
+    "description2": "Hot tub usages: {{tubCount}}"
   },
   "bookingInfoModal": {
     "header": "Booking Information"
@@ -40,9 +40,7 @@
   "bookingReceipt": {
     "details_one": "Your booking for one overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
     "details_other": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "title": "Receipt",
-    "details": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
+    "title": "Receipt"
   },
   "calendar": {
     "todayLabel": "Today",
@@ -53,12 +51,12 @@
     "title": "New Booking",
     "fromLabel": "From",
     "toLabel": "To",
-    "pplCountLabel": "Number of people",
-    "pplCountPlaceholder": "Number of people",
-    "commentLabel": "Message for the owners",
-    "commentPlaceholder": "Message for the owners",
-    "tubCountLabel": "Number of people using hot tub",
-    "tubCountPlaceholder": "Number of people using hot tub"
+    "guestsLabel": "Number of people",
+    "guestsPlaceholder": "Number of people",
+    "commentLabel": "Message for the landlord",
+    "commentPlaceholder": "Send a a message for the landlord. Fx who is coming and what you are planning to use the sommerhouse for",
+    "tubCountLabel": "Number of usages of hot tub",
+    "tubCountPlaceholder": "Number of usages of hot tub"
   },
   "priceTable": {
     "descriptionLabel": "Description",
@@ -122,22 +120,16 @@
     "bookingsAction_other": "{{count}} bookings require your action",
     "finances": "Finances",
     "title": "Administration",
-    "usersAction": "{{count}} users require your action",
-    "usersAction_plural": "{{count}} users require your action",
-    "bookingsAction": "{{count}} bookings require your action",
-    "bookingsAction_plural": "{{count}} bookings require your action",
     "usersAction_zero": "No action required",
     "bookingsAction_zero": "No action required"
   },
   "bookingsPage": {
-    "title": "Bookings",
     "pendingBookingsHeader": "Bookings await approval",
     "upcomingBookingsHeader_one": "One upcoming booking",
     "upcomingBookingsHeader_other": "{{count}} upcoming bookings",
     "noUpcomingBookingsLabel": "There are currently no planned bookings",
     "loadMore": "Load more",
-    "upcomingBookingsHeader": "The next booking",
-    "upcomingBookingsHeader_plural": "The next {{count}} bookings"
+    "title": "Bookings"
   },
   "newUserPanel": {
     "header": "New Users awaiting confirmation"

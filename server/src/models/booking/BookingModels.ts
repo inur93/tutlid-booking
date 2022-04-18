@@ -11,9 +11,9 @@ export interface Booking {
     _id: Types.ObjectId,
     from: Date;
     to: Date;
-    pplCount: number;
+    guests: number;
     tubCount: number;
-    pricePpl: number;
+    priceGuests: number;
     priceTub: number;
     paid: boolean;
     status: string;
@@ -23,14 +23,15 @@ export interface Booking {
 }
 
 export type BookingQuery = Partial<Pick<Booking, 'from' | 'to' | 'status'>> & { count?: number, user?: string }
-export type CreateBooking = Pick<Booking, 'from' | 'to' | 'pplCount' | 'tubCount' | 'comment' | 'messageFromAdmin' | 'pricePpl' | 'priceTub' | 'status'> & { bookedBy: Types.ObjectId }
+export type CreateBooking = Pick<Booking, 'from' | 'to' | 'guests' | 'tubCount' | 'comment' | 'messageFromAdmin' | 'priceGuests' | 'priceTub' | 'status'> & { bookedBy: Types.ObjectId }
 export type UpdateBooking = Partial<Omit<CreateBooking, 'bookedBy'>>
-export type BasicBooking = Pick<Booking, '_id' | 'from' | 'to' | 'pplCount' | 'tubCount' | 'status' | 'bookedBy'>
+export type BasicBooking = Pick<Booking, '_id' | 'from' | 'to' | 'guests' | 'tubCount' | 'status' | 'bookedBy'>
 export type AnonymousBooking = Pick<Booking, '_id' | 'from' | 'to'>
-export type DetailedBooking = BasicBooking & Pick<Booking, 'pricePpl' | 'priceTub' | 'paid'>
+export type DetailedBooking = BasicBooking & Pick<Booking, 'priceGuests' | 'priceTub' | 'paid'>
 
 export type BookingWithPrice = {
     days: number;
+    tubCount: number;
     price: number;
     priceTotal: number;
     tubPrice: number;
@@ -45,7 +46,7 @@ const BookingSchemaFields: Record<keyof Omit<Booking, '_id'>, any> = {
         type: Date,
         required: true
     },
-    pplCount: {
+    guests: {
         type: Number,
         default: 0
     },
@@ -53,7 +54,7 @@ const BookingSchemaFields: Record<keyof Omit<Booking, '_id'>, any> = {
         type: Number,
         default: 0
     },
-    pricePpl: {
+    priceGuests: {
         type: Number,
         default: 0
     },

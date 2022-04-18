@@ -65,11 +65,11 @@ export default class BookingController implements IBookingController {
             {
                 from: new Date(dto.from),
                 to: new Date(dto.to),
-                pplCount: dto.pplCount,
+                guests: dto.guests,
                 tubCount: dto.tubCount,
                 comment: dto.comment,
                 bookedBy: user._id,
-                pricePpl: priceDetails.priceTotal,
+                priceGuests: priceDetails.priceTotal,
                 priceTub: priceDetails.tubPriceTotal,
                 status: user.roles.includes(UserRole.admin) ? BookingStatus.accepted : BookingStatus.reserved
             }

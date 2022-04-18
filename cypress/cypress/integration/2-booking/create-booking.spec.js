@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-const { startOfToday, startOfTomorrow, format} = require('date-fns')
+const { startOfToday, startOfTomorrow, format } = require('date-fns')
 // Welcome to Cypress!
 //
 // This spec file contains a variety of sample tests
@@ -19,7 +19,8 @@ describe('Create Bookings as normal user', () => {
     it('create normal booking single person', () => {
         cy.get('input[name=from]').typeDate(startOfToday());
         cy.get('input[name=to]').typeDate(startOfTomorrow());
-        cy.get('input[name=pplCount]').type(1);
+        cy.get('input[name=guests]').type(1);
+        cy.get('input[name=tubCount]').type(3);
         cy.get('[name=comment]').type('This is a test from cypress');
 
         cy.intercept('POST', '/bookings').as('createBooking');

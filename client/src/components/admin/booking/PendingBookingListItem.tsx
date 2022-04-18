@@ -30,15 +30,21 @@ type Props = {
 }
 
 export function PendingBookingListItem({ booking, onClick }: Props) {
-    const {classes, cx} = useStyles();
+    const { classes, cx } = useStyles();
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+    
     const handleAction = (status: BookingStatus) => () => onClick(booking._id, status);
     const { t, i18n } = useTranslation('app');
     const from = formatDate(booking.from, i18n.language);
     const to = formatDate(booking.to, i18n.language);
 
-    const primary = t('app:pendingBookings.label', { replace: { name: booking.bookedBy.fullName, count: booking.pplCount || booking.tubCount } });
+    const primary = t('app:pendingBookings.label', {
+        replace: {
+            name: booking.bookedBy.fullName,
+            count: booking.guests || booking.tubCount
+        }
+    });
     const secondary = `${from} - ${to}`;
 
     return <ListItem>

@@ -18,7 +18,6 @@ export default function CreatePriceMatrix({ onCancel, onCreate }: CreatePriceMat
     const submit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
         const data = {
             ...values,
-            tubPrice: 0,
             validFrom: new Date(values.validFrom)
         }
         await onCreate(data);
@@ -27,11 +26,12 @@ export default function CreatePriceMatrix({ onCancel, onCreate }: CreatePriceMat
     return (<Formik
         initialValues={{
             validFrom: formatFormDate(startOfToday()),
-            price: undefined
+            price: undefined,
+            tubPrice: undefined
         }}
         validationSchema={schema}
         onSubmit={submit}>
-        {({ isSubmitting, errors, touched, handleChange, values: { validFrom, price } }) => (
+        {({ isSubmitting, errors, touched, handleChange, values: { validFrom, price, tubPrice } }) => (
             <Form>
                 <TextField type="date"
                     fullWidth
@@ -54,6 +54,17 @@ export default function CreatePriceMatrix({ onCancel, onCreate }: CreatePriceMat
                     onChange={handleChange}
                     value={price}
                     helperText={errors.price ? errors.price : ''} />
+                <TextField type="number"
+                    fullWidth
+                    name="tubPrice"
+                    label={t('app:createPriceMatrix.tubPriceLabel')}
+                    variant="outlined"
+                    required
+                    error={Boolean(errors.tubPrice)}
+                    onChange={handleChange}
+                    value={tubPrice}
+                    helperText={errors.tubPrice ? errors.tubPrice : ''} />
+
                 <Button variant={"text"} color="primary" onClick={onCancel}>
                     {t('common:button.cancel')}
                 </Button>
