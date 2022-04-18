@@ -31,7 +31,7 @@ const theme = createTheme({
         'html': {
           a: {
             color: green[600],
-            'text-decoration': 'none'
+            'textDecoration': 'none'
           },
         }
       }

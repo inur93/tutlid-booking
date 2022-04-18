@@ -6,7 +6,8 @@
     "confirmationMsgHeader": "Confirm booking",
     "declineMsgHeader": "Reject booking",
     "confirmationMsgLabel": "Send a message along with the confirmation",
-    "declineMsgLabel": "Send a reason for the rejection"
+    "declineMsgLabel": "Send a reason for the rejection",
+    "noPendingBookings": "No booking is awaiting your action"
   },
   "bankInformation": {
     "regNoLabel": "reg. no.",
@@ -38,7 +39,7 @@
   },
   "bookingReceipt": {
     "details_one": "Your booking for one overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
-    "details_other": "",
+    "details_other": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
     "title": "Receipt",
     "details": "Your booking for {{count}} overnight guest in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information.",
     "details_plural": "Your booking for {{count}} overnight guests in the period {{from}} to {{to}} has been reserved. You have received a receipt by email.When the booking is confirmed you will get another mail with confirmation and payment information."
@@ -114,11 +115,11 @@
   },
   "adminPage": {
     "users": "Users",
-    "usersAction_one": "",
-    "usersAction_other": "",
+    "usersAction_one": "One user requires your action",
+    "usersAction_other": "{{count}} users require your action",
     "bookings": "Bookings",
-    "bookingsAction_one": "",
-    "bookingsAction_other": "",
+    "bookingsAction_one": "One booking requires your action",
+    "bookingsAction_other": "{{count}} bookings require your action",
     "finances": "Finances",
     "title": "Administration",
     "usersAction": "{{count}} users require your action",
@@ -131,8 +132,8 @@
   "bookingsPage": {
     "title": "Bookings",
     "pendingBookingsHeader": "Bookings await approval",
-    "upcomingBookingsHeader_one": "",
-    "upcomingBookingsHeader_other": "",
+    "upcomingBookingsHeader_one": "One upcoming booking",
+    "upcomingBookingsHeader_other": "{{count}} upcoming bookings",
     "noUpcomingBookingsLabel": "There are currently no planned bookings",
     "loadMore": "Load more",
     "upcomingBookingsHeader": "The next booking",

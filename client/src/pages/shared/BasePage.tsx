@@ -7,13 +7,16 @@ const useStyles = makeStyles()((theme: Theme) =>
     root: {
         height: '100vh',
         overflow: 'hidden',
-        paddingBottom: theme.spacing(2)
     },
     container: {
-        marginTop: theme.spacing(10),
-        maxHeight: `calc(100% - ${theme.spacing(10)}px)`,
+        paddingTop: theme.spacing(2),
+        maxHeight: `calc(100vh - 56px)`,
+        paddingBottom: theme.spacing(2),
         overflowY: 'auto',
-        overflowX: 'hidden'
+        overflowX: 'hidden',
+        [theme.breakpoints.up(600)]: {
+            maxHeight: `calc(100vh - 64px)`,
+        }
     },
     card: {
         marginTop: theme.spacing(2),

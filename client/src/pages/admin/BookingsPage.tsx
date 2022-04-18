@@ -8,6 +8,7 @@ import PendingBookingsList from '../../components/admin/booking/PendingBookingsL
 import { ButtonContainer } from '../../components/shared/ButtonContainer';
 import Panel from '../../components/shared/Panel';
 import ProtectedComponent from '../../components/shared/ProtectedComponent';
+import { Spacer } from '../../components/shared/Spacer';
 import { useBookings } from '../../hooks/useBookings';
 import { useData } from '../../hooks/useData';
 import { SlimPage } from '../shared/BasePage';
@@ -36,14 +37,17 @@ export default function BookingsPage() {
         <SlimPage>
             <ProtectedComponent requiredRoles={[Role.admin]}>
                 <Panel>
-                    <Typography variant='h1'>{t('app:bookingsPage.title')}</Typography>
-                    <Typography variant='h2'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>
+                    <Typography variant='h1'>{t('app:bookingsPage.pendingBookingsHeader')}</Typography>
                     <PendingBookingsList bookings={bookings} changeStatus={changeBookingStatus} />
 
+                    <Spacer />
                     <Typography variant='h2'>{t('app:bookingsPage.upcomingBookingsHeader', { count })}</Typography>
+
                     {(!loadingUpcomingBookings && upcomingBookings && !upcomingBookings.length) &&
                         <Typography variant='body1'>{t('app:bookingsPage.noUpcomingBookingsLabel')}</Typography>}
+
                     <BookingList bookings={upcomingBookings || []} />
+
                     <Grid container justifyContent='center'>
                         {numBookings <= (upcomingBookings?.length || 0) &&
                             <Button color='primary' variant='outlined' onClick={() => setNumBookings((c) => c + 5)} >

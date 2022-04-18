@@ -27,9 +27,9 @@ export function Navigation() {
     const { classes, cx } = useStyles();
     const [showDrawer, setShowDrawer] = useState(false);
     const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+    const isSmall = useMediaQuery(theme.breakpoints.down('md'));
 
-    return (<AppBar position="fixed" className={classes.root}>
+    return (<AppBar position="sticky" className={classes.root}>
         <MuiToolbar>
             <Typography variant="h6" className={classes.title}>
                 Tutlið

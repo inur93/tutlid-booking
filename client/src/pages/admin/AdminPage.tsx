@@ -25,7 +25,7 @@ export default function AdminPage() {
             to: '/admin/bookings',
             icon: <BookingsIcon />,
             primary: t("app:adminPage.bookings"),
-            secondary: t("app:adminPage.bookingsAction", { count: bookings.length })
+            secondary: t("app:adminPage.bookingsAction", { count: bookings?.length ?? 0 })
         },
         {
             to: '/admin/finances',
@@ -41,7 +41,7 @@ export default function AdminPage() {
                     <Typography variant='h1'>{t('app:adminPage.title')}</Typography>
                     <List>
                         {menus.map(({ to, icon, primary, secondary }) => (
-                            <ListItem button component={Link} to={to}>
+                            <ListItem key={to} button component={Link} to={to}>
                                 <ListItemAvatar>
                                     <Avatar>
                                         {icon}

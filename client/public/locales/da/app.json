@@ -6,7 +6,8 @@
     "confirmationMsgHeader": "Bekræft booking",
     "declineMsgHeader": "Afvis booking",
     "confirmationMsgLabel": "Send en hilsen med bekræftelsen",
-    "declineMsgLabel": "Giv en årsag til afvisningen"
+    "declineMsgLabel": "Giv en årsag til afvisningen",
+    "noPendingBookings": "Ingen booking afventer din godkendelse"
   },
   "bankInformation": {
     "regNoLabel": "reg. nr.",
@@ -38,7 +39,7 @@
   },
   "bookingReceipt": {
     "details_one": "Din booking for én gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
-    "details_other": "",
+    "details_other": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
     "title": "Kvittering",
     "details": "Din booking for {{count}} gæst i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation.",
     "details_plural": "Din booking for {{count}} gæster i perioden {{from}} til {{to}} er blevet reserveret. Du har modtaget en kvittering på mail. Når bookingen er blevet bekræftet vil du modtage endnu en mail med bekræftelse og betalingsinformation."
@@ -114,11 +115,11 @@
   },
   "adminPage": {
     "users": "Brugere",
-    "usersAction_one": "",
-    "usersAction_other": "",
+    "usersAction_one": "1 bruger afventer godkendelse",
+    "usersAction_other": "{{count}} brugere afventer godkendelse",
     "bookings": "Bookinger",
-    "bookingsAction_one": "",
-    "bookingsAction_other": "",
+    "bookingsAction_one": "1 booking afventer godkendelse",
+    "bookingsAction_other": "{{count}} bookinger afventer godkendelse",
     "finances": "Økonomi",
     "title": "Administration",
     "usersAction": "{{count}} brugere afventer godkendelse",
@@ -131,8 +132,8 @@
   "bookingsPage": {
     "title": "Bookinger",
     "pendingBookingsHeader": "Bookinger som afventer godkendelse",
-    "upcomingBookingsHeader_one": "",
-    "upcomingBookingsHeader_other": "",
+    "upcomingBookingsHeader_one": "Én kommende booking",
+    "upcomingBookingsHeader_other": "{{count}} kommende bookinger",
     "noUpcomingBookingsLabel": "Der er p.t. ingen planlagte bookinger",
     "loadMore": "Indlæs flere",
     "upcomingBookingsHeader": "Næste booking",
