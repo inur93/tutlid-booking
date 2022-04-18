@@ -1,4 +1,4 @@
-FROM node:14.9.0-alpine as client
+FROM node:16-alpine as client
 
 WORKDIR /client
 
@@ -10,7 +10,7 @@ COPY ./client .
 
 RUN yarn build
 
-FROM node:14.9.0-alpine as server
+FROM node:16-alpine as server
 
 WORKDIR /server
 
@@ -22,7 +22,7 @@ COPY ./server .
 
 RUN yarn run build
 
-FROM node:14.9.0-alpine as production
+FROM node:16-alpine as production
 
 RUN mkdir -p /home/node && chown -R node:node /home/node
 
